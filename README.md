@@ -1,5 +1,5 @@
 > [!WARNING]
-> This repository is archived as I decided to move to other technologies, and wanted to start fresh. All the pages should remain the same, both looks, and content wise.
+> I am going to rewrite this entire repository and rename it. It will contain several repositories at once namely the frontend, backend, redirection, and asset server. This is low on my priority listm but keep your eyes peeled.
 
 # Tygo-van-den-Hurk.com
 > This reposositry holds the source code for [my website (`tygo-van-den-hurk.com`)](https://tygo-van-den-hurk.com/). 
