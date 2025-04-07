@@ -1,8 +1,0 @@
-@import url(/assets/code/base-kit/content.css);
-main {
-  max-width: none !important;
-}
-
-#redirect-image-container > img {
-  max-width: 5em;
-}

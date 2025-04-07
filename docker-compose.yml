@@ -1,14 +1,80 @@
+# This docker compose file contains all you need to get the stack up and running.
+---
+
+x-common:
+  NODE_MODE: &node_mode production
+  urls: &urls
+    TVDH_FRONTEND_URL:        "https://tygo.van.den.hurk.dev:443/"
+    TVDH_BACKEND_SERVER_URL:  "https://api.tygo.van.den.hurk.dev:443/"
+    TVDH_ASSET_SERVER_URL:    "https://assets.tygo.van.den.hurk.dev:443/"
+    TVDH_REDIRECT_SERVER_URL: "https://redirects.tygo.van.den.hurk.dev:443/"
+
 services:
-  apache:
-    container_name: 'tygo-van-den-hurk.com-apache-container'
-    image: httpd:alpine
-    restart: always
+
+  frontend:
+    container_name: tvdh-frontend
+    hostname: tvdh-frontend
+    build: 
+      context: ./frontend/
+      dockerfile: dockerfile
+    restart: unless-stopped
+    environment:
+      <<: 
+        - *node_mode
+        - *urls
     networks:
-      - 'proxymesh'
-      - 'default'
+      - proxymesh
+      - default
+
+  backend:
+    container_name: tvdh-backend
+    hostname: tvdh-backend
+    build: 
+      context: ./backend/
+      dockerfile: dockerfile
+    restart: unless-stopped
+    environment:
+      <<: 
+        - *node_mode
+        - *urls
+    networks:
+      - proxymesh
+      - default
+  
+  assets:
+    container_name: tvdh-assets
+    hostname: tvdh-assets
+    image: httpd:alpine
+    restart: unless-stopped
+    environment:
+      <<: 
+        - *node_mode
+        - *urls
+    networks:
+      - proxymesh
+      - default
     volumes:
-      - "${PWD}/html/:/usr/local/apache2/htdocs/"
-      - "${PWD}/config/httpd.conf:/usr/local/apache2/conf/httpd.conf"
+      - ./assets/public/:/usr/local/apache2/htdocs/:ro
+      - ./assets/config/httpd.conf:/usr/local/apache2/conf/httpd.conf:ro
+
+  redirects:
+    container_name: tvdh-redirects
+    hostname: tvdh-redirects
+    build: 
+      context: ./redirects/
+      dockerfile: dockerfile
+    restart: unless-stopped
+    environment:
+      <<: 
+        - *node_mode
+        - *urls
+    networks:
+      - proxymesh
+      - default
+
+
 networks:
   proxymesh:
     external: true
+  default:
+    name: tvdh-internal

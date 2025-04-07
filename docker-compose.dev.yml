@@ -1,0 +1,49 @@
+# Overwrites the default docker-compose.yml with some development settings.
+---
+
+x-common: 
+  NODE_MODE: &node_mode development 
+  urls: &urls
+    TVDH_FRONTEND_URL:        "http://localhost:8080/"
+    TVDH_BACKEND_SERVER_URL:  "http://localhost:8081/"
+    TVDH_ASSET_SERVER_URL:    "http://localhost:8082/"
+    TVDH_REDIRECT_SERVER_URL: "http://localhost:8083/"
+
+services:
+  
+  frontend:
+    environment:
+      <<: 
+        - *node_mode
+        - *urls
+    ports:
+      - 8080:80
+
+  backend:
+    environment:
+      <<: 
+        - *node_mode
+        - *urls
+    ports:
+      - 8081:80
+  
+  assets:
+    environment:
+      <<: 
+        - *node_mode
+        - *urls
+    ports:
+      - 8082:80
+
+  redirects:
+    environment:
+      <<: 
+        - *node_mode
+        - *urls
+    ports:
+      - 8083:80
+
+
+networks:
+  proxymesh:
+    external: false

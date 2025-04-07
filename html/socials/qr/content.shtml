@@ -1,5 +1,0 @@
-<section id="qr-code-section">
-    <a href="/socials/" id="qr-code-a">
-        <img id="qr-code-img" src="./qr-code.jpg" alt="The QR-Code to my social media">
-    </a>
-</section>
