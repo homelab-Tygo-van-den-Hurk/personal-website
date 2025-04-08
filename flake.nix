@@ -65,7 +65,7 @@
         #` Backend
           
         backend-bin = pkgs.writeShellScriptBin "backend" ''
-            ${pkgs.nodejs_23} ${self.packages.${system}.backend-npm-package}/dist/index.js
+            ${pkgs.nodejs_23}/bin/node ${self.packages.${system}.backend-npm-package}/dist/index.js $@
           '';
 
         backend-npm-package = pkgs.buildNpmPackage {
@@ -110,7 +110,7 @@
         #` Frontend
 
         frontend-bin = pkgs.writeShellScriptBin "frontend" ''
-          ${pkgs.nodejs_23} ${self.packages.${system}.frontend-npm-package}/dist/index.js
+          ${pkgs.nodejs_23}/bin/node ${self.packages.${system}.frontend-npm-package}/dist/index.js $@
         '';
 
         frontend-npm-package = pkgs.buildNpmPackage {
@@ -155,7 +155,7 @@
         #` Redirects
         
         redirects-bin = pkgs.writeShellScriptBin "redirects" ''
-          ${pkgs.nodejs_23} ${self.packages.${system}.redirects-npm-package}/dist/index.js
+          ${pkgs.nodejs_23}/bin/node ${self.packages.${system}.redirects-npm-package}/dist/index.js $@
         '';
 
         redirects-npm-package = pkgs.buildNpmPackage {
