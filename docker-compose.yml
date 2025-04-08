@@ -11,31 +11,14 @@ x-common:
 services:
 
 
-  # frontend:
-  #   container_name: tvdh-frontend
-  #   hostname: tvdh-frontend
-  #   build: 
-  #     context: ./frontend/
-  #     dockerfile: dockerfile
-  #     target: *NODE_ENV
-  #   restart: unless-stopped
-  #   environment:
-  #     NODE_ENV:                 *NODE_ENV
-  #     TVDH_FRONTEND_URL:        *frontend_server_url
-  #     TVDH_BACKEND_SERVER_URL:  *backend_server_url 
-  #     TVDH_ASSET_SERVER_URL:    *asset_server_url   
-  #     TVDH_REDIRECT_SERVER_URL: *redirect_server_url
-  #   networks:
-  #     - proxymesh
-  #     - default
-
-
-  backend:
-    container_name: tvdh-backend
-    hostname: tvdh-backend
+  frontend:
+    container_name: tvdh-frontend
+    hostname: tvdh-frontend
     build: 
-      context: ./
-      dockerfile: ./backend/dockerfile
+      context: ./.
+      args:
+        module: frontend
+      dockerfile: dockerfile
       target: *NODE_ENV
     restart: unless-stopped
     environment:
@@ -47,7 +30,28 @@ services:
     networks:
       - proxymesh
       - default
-  
+    command: /bin/frontend
+
+  backend:
+    container_name: tvdh-backend
+    hostname: tvdh-backend
+    build: 
+      context: ./.
+      args:
+        module: backend
+      dockerfile: dockerfile
+      target: *NODE_ENV
+    restart: unless-stopped
+    environment:
+      NODE_ENV:                 *NODE_ENV
+      TVDH_FRONTEND_URL:        *frontend_server_url
+      TVDH_BACKEND_SERVER_URL:  *backend_server_url 
+      TVDH_ASSET_SERVER_URL:    *asset_server_url   
+      TVDH_REDIRECT_SERVER_URL: *redirect_server_url
+    networks:
+      - proxymesh
+      - default
+    command: /bin/backend
 
   assets:
     container_name: tvdh-assets
@@ -72,8 +76,11 @@ services:
     container_name: tvdh-redirects
     hostname: tvdh-redirects
     build: 
-      context: ./
-      dockerfile: ./redirects/dockerfile
+      context: ./.
+      args:
+        module: redirects
+        bin_name: redirects
+      dockerfile: dockerfile
       target: *NODE_ENV
     restart: unless-stopped
     environment:
@@ -85,7 +92,7 @@ services:
     networks:
       - proxymesh
       - default
-
+    command: /bin/redirects
 
 networks:
   proxymesh:

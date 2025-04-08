@@ -4,7 +4,7 @@ const port = process.env.PORT || 80;
 const app = express();
 
 app.get("/", (request: Request, responds: Response) => {
-  responds.json({ message: "backend operational!" });
+  responds.json({ message: "backend operational" });
 });
 
 app.listen(port, () => console.log(`Running on port ${port}`));

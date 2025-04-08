@@ -21,7 +21,6 @@
       #| ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Nix Develop ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ |#
 
       devShells.default = pkgs.mkShell {
-        PS1="(DEV)\$ ";
         buildInputs = with pkgs; [ 
           nodejs_23                  # Run the JavaScript manually.
           nodemon                    # Watches files and redstarts node if needed.
@@ -48,18 +47,15 @@
           installPhase = ''
             runHook preInstall
             
-            mkdir --parents $out
+            mkdir --parents $out/bin
+            cp --recursive ${self.packages.${system}.backend-bin}/bin/* $out/bin
+            cp --recursive ${self.packages.${system}.frontend-bin}/bin/* $out/bin
+            cp --recursive ${self.packages.${system}.redirects-bin}/bin/* $out/bin
             
-            mkdir --parents $out/backend/package
-            cp --recursive ${self.packages.${system}.backend-npm-package}/* $out/backend/package
-            cp --recursive ${self.packages.${system}.backend-docker-image} $out/backend/container
-            
-            mkdir --parents $out/frontend/package
-            # TODO: build frontend
-
-            mkdir --parents $out/redirects/package
-            cp --recursive ${self.packages.${system}.redirects-npm-package}/* $out/redirects/package
-            cp --recursive ${self.packages.${system}.redirects-docker-image} $out/redirects/container
+            mkdir --parents $out/images
+            cp --recursive ${self.packages.${system}.backend-docker-image} $out/images/backend
+            cp --recursive ${self.packages.${system}.frontend-docker-image} $out/images/frontend
+            cp --recursive ${self.packages.${system}.redirects-docker-image} $out/images/redirects
              
             runHook postInstall
           '';
@@ -67,9 +63,13 @@
 
 
         #` Backend
+          
+        backend-bin = pkgs.writeShellScriptBin "backend" ''
+            ${pkgs.nodejs_23} ${self.packages.${system}.backend-npm-package}/dist/index.js
+          '';
 
         backend-npm-package = pkgs.buildNpmPackage {
-          
+        
           pname = backendPackageJson.name;
           version = backendPackageJson.version;
           
@@ -94,23 +94,24 @@
             runHook postInstall
           '';
         };
-            
-        backend-docker-image = pkgs.dockerTools.buildImage {
           
+        backend-docker-image = pkgs.dockerTools.buildImage {
+        
           name = backendPackageJson.name;
           tag = backendPackageJson.version;
           created = builtins.substring 0 8 self.lastModifiedDate;
 
           config = {
-            Cmd = [ 
-              "${pkgsLinux.nodejs_23}/bin/node" 
-              "${self.packages.x86_64-linux.backend-npm-package}/dist/index.js"
-            ];
+            Cmd = [ "${self.packages.x86_64-linux.backend-bin}/bin/backend" ];
           };
         };
 
 
         #` Frontend
+
+        frontend-bin = pkgs.writeShellScriptBin "frontend" ''
+          ${pkgs.nodejs_23} ${self.packages.${system}.frontend-npm-package}/dist/index.js
+        '';
 
         frontend-npm-package = pkgs.buildNpmPackage {
           
@@ -118,7 +119,7 @@
           version = frontendPackageJson.version;
           
           src = ./frontend;
-          npmDepsHash = "sha256-lLWAkgrHbVDKI9BQCHTbm9ZWpHaW3QOXWbFc2QnlOR4=";
+          npmDepsHash = "sha256-Rja5P9yOrW6dqnghQIVx77VnbsN5whN9oBdj4QK5tfc=";
 
           buildPhase = ''
             runHook preBuild
@@ -138,7 +139,7 @@
             runHook postInstall
           '';
         };
-            
+              
         frontend-docker-image = pkgs.dockerTools.buildImage {
           
           name = frontendPackageJson.name;
@@ -146,16 +147,17 @@
           created = builtins.substring 0 8 self.lastModifiedDate;
           
           config = {
-            Cmd = [ 
-              "${pkgsLinux.nodejs_23}/bin/node" 
-              "${self.packages.x86_64-linux.frontend-npm-package}/dist/index.js"
-            ];
+            Cmd = [ "${self.packages.x86_64-linux.frontend-bin}/bin/frontend"];
           };
         };
 
 
         #` Redirects
         
+        redirects-bin = pkgs.writeShellScriptBin "redirects" ''
+          ${pkgs.nodejs_23} ${self.packages.${system}.redirects-npm-package}/dist/index.js
+        '';
+
         redirects-npm-package = pkgs.buildNpmPackage {
           
           pname = redirectsPackageJson.name;
@@ -190,10 +192,7 @@
           created = builtins.substring 0 8 self.lastModifiedDate;
 
           config = {
-            Cmd = [ 
-              "${pkgsLinux.nodejs_23}/bin/node" 
-              "${self.packages.x86_64-linux.redirects-npm-package}/dist/index.js"
-            ];
+            Cmd = [ "${self.packages.x86_64-linux.redirects-bin}/bin/redirects" ];
           };
         };
 
