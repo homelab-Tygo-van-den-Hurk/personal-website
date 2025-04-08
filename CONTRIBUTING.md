@@ -8,6 +8,7 @@
     - [Loading the docker image](#loading-the-docker-image)
   - [Doing stuff manually](#doing-stuff-manually)
   - [Continuous Integration \& Continuous Delivery (CI/CD)](#continuous-integration--continuous-delivery-cicd)
+  - [External Resources](#external-resources)
 
 # How to Develop
 
@@ -87,3 +88,13 @@ act --platform ubuntu-24.04=catthehacker/ubuntu:act-latest
 ```
 
 The platform flag shouldn't be needed, however thats what worked for me. Try running it with or without the tag to see what works for you. You shouldn't have to run this often though, only when changing or adding GitHub workflows. 
+
+## External Resources
+
+There are several resources on building docker images with nix. Here are a few:
+
+| description                                                  | Link                                                                    |
+| ------------------------------------------------------------ | ----------------------------------------------------------------------- |
+| A guide on how to make containers using nix and docker files | https://mitchellh.com/writing/nix-with-dockerfiles                      |
+| Documentation on how to build docker images using nix        | https://nix.dev/tutorials/nixos/building-and-running-docker-images.html |
+| The official nix wiki on docker and building with docker      | https://nixos.wiki/wiki/Docker                                          |
