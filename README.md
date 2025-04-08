@@ -62,7 +62,6 @@
 - [Personal Website](#personal-website)
   - [Overview](#overview)
   - [How do Develop](#how-do-develop)
-  - [Running in Production](#running-in-production)
 
 ## Overview 
 
@@ -75,16 +74,4 @@ I own the [`hurk.dev`](https://hurk.dev) domain, and this repository holds the s
 
 ## How do Develop
 
-To get the containers up and running in dev mode run the following command:
-
-```BASH
-docker compose --file ./docker-compose.yml --file ./docker-compose.dev.yml up --force-recreate --build --abort-on-container-exit
-```
-
-## Running in Production
-
-To get the containers up and running in production mode run the following command:
-
-```BASH
-docker compose --file ./docker-compose.yml up --detach --force-recreate --build
-```
+See [CONTRIBUTING.md](./CONTRIBUTING.md#how-to-develop) for more information.
