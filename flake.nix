@@ -26,6 +26,7 @@
           nodemon                    # Watches files and redstarts node if needed.
           typescript                 # Compile the TypeScript code manually.
           typescript-language-server # The language server IDEs use.
+          nodePackages.tailwindcss   # a component solution to writing CSS.
           act                        # Run GitHub Actions locally.
         ];
       };
@@ -61,6 +62,28 @@
           '';
         };
 
+        tailwindcss = pkgs.stdenv.mkDerivation rec {
+          name = "css";
+          src = ./.;
+
+          buildPhase = ''
+            runHook preBuild
+            
+            ${pkgs.tailwindcss}/bin/tailwindcss --minify --output ./tailwind.output.css
+             
+            runHook postBuild
+          '';
+
+
+          installPhase = ''
+            runHook preInstall
+            
+            mkdir --parents $out
+            mv ./tailwind.output.css $out
+             
+            runHook postInstall
+          '';
+        };
 
         #` Backend
           

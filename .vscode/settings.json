@@ -4,6 +4,7 @@
         "nixpkgs",
         "nodemon",
         "proxymesh",
+        "tailwindcss",
         "tvdh",
         "tygo"
     ]
