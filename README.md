@@ -3,8 +3,14 @@
 
 <br>
 <div align="center">
+    <a href="https://nixos.org">
+        <img src="https://img.shields.io/badge/Built_With-Nix-5277C3.svg?style=flat&logo=nixos" alt="Built with Nix"/>
+    </a>
     <a href="https://www.docker.com">
         <img src="https://img.shields.io/badge/Built_With-Docker-0290E6.svg?logo=docker&labelColor=#0290E6" alt="Built with Docker"/>
+    </a>
+    <a href="https://containers.dev/">
+        <img src="https://img.shields.io/badge/devcontainer-provided-green?style=flat" alt="devcontainer provided"/>
     </a>
     <!--~ Repository CI/CD ~-->
     <a href="https://github.com/homelab-Tygo-van-den-Hurk/personal-websites/actions/workflows/deploy-github-pages.yml">
@@ -12,6 +18,9 @@
     </a>
     <a href="https://github.com/homelab-Tygo-van-den-Hurk/personal-websites/actions/workflows/dependabot-automerge.yml">
         <img src="https://github.com/homelab-Tygo-van-den-Hurk/personal-websites/workflows/Dependabot%20Automerge/badge.svg?style=flat" alt="GitHub dependabot automerge status" />
+    </a>
+    <a href="https://github.com/homelab-Tygo-van-den-Hurk/personal-websites/actions/workflows/nix-flake-checks.yml">
+        <img src="https://github.com/homelab-Tygo-van-den-Hurk/personal-websites/workflows/Nix%20Flake%20Checks/badge.svg?style=flat" alt="Nix flake Check status" />
     </a>
     <!--~ Repository Statistics ~-->
     <a href="https://github.com/homelab-Tygo-van-den-Hurk/personal-websites/graphs/contributors">
