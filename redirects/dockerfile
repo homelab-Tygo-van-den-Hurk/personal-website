@@ -1,4 +1,0 @@
-FROM node:21 AS build
-
-
-FROM node:21 AS production

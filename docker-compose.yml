@@ -2,54 +2,64 @@
 ---
 
 x-common:
-  NODE_MODE: &node_mode production
-  urls: &urls
-    TVDH_FRONTEND_URL:        "https://tygo.van.den.hurk.dev:443/"
-    TVDH_BACKEND_SERVER_URL:  "https://api.tygo.van.den.hurk.dev:443/"
-    TVDH_ASSET_SERVER_URL:    "https://assets.tygo.van.den.hurk.dev:443/"
-    TVDH_REDIRECT_SERVER_URL: "https://redirects.tygo.van.den.hurk.dev:443/"
+  NODE_ENV:                  &NODE_ENV             production
+  TVDH_FRONTEND_URL:         &frontend_server_url  ${TVDH_FRONTEND_URL}
+  TVDH_BACKEND_SERVER_URL:   &backend_server_url   ${TVDH_BACKEND_SERVER_URL}
+  TVDH_ASSET_SERVER_URL:     &asset_server_url     ${TVDH_ASSET_SERVER_URL}
+  TVDH_REDIRECT_SERVER_URL:  &redirect_server_url  ${TVDH_REDIRECT_SERVER_URL}
 
 services:
 
-  frontend:
-    container_name: tvdh-frontend
-    hostname: tvdh-frontend
-    build: 
-      context: ./frontend/
-      dockerfile: dockerfile
-    restart: unless-stopped
-    environment:
-      <<: 
-        - *node_mode
-        - *urls
-    networks:
-      - proxymesh
-      - default
+
+  # frontend:
+  #   container_name: tvdh-frontend
+  #   hostname: tvdh-frontend
+  #   build: 
+  #     context: ./frontend/
+  #     dockerfile: dockerfile
+  #     target: *NODE_ENV
+  #   restart: unless-stopped
+  #   environment:
+  #     NODE_ENV:                 *NODE_ENV
+  #     TVDH_FRONTEND_URL:        *frontend_server_url
+  #     TVDH_BACKEND_SERVER_URL:  *backend_server_url 
+  #     TVDH_ASSET_SERVER_URL:    *asset_server_url   
+  #     TVDH_REDIRECT_SERVER_URL: *redirect_server_url
+  #   networks:
+  #     - proxymesh
+  #     - default
+
 
   backend:
     container_name: tvdh-backend
     hostname: tvdh-backend
     build: 
-      context: ./backend/
-      dockerfile: dockerfile
+      context: ./
+      dockerfile: ./backend/dockerfile
+      target: *NODE_ENV
     restart: unless-stopped
     environment:
-      <<: 
-        - *node_mode
-        - *urls
+      NODE_ENV:                 *NODE_ENV
+      TVDH_FRONTEND_URL:        *frontend_server_url
+      TVDH_BACKEND_SERVER_URL:  *backend_server_url 
+      TVDH_ASSET_SERVER_URL:    *asset_server_url   
+      TVDH_REDIRECT_SERVER_URL: *redirect_server_url
     networks:
       - proxymesh
       - default
   
+
   assets:
     container_name: tvdh-assets
     hostname: tvdh-assets
-    image: httpd:alpine
+    image: httpd:2-alpine
     restart: unless-stopped
     environment:
-      <<: 
-        - *node_mode
-        - *urls
+      NODE_ENV:                 *NODE_ENV
+      TVDH_FRONTEND_URL:        *frontend_server_url
+      TVDH_BACKEND_SERVER_URL:  *backend_server_url 
+      TVDH_ASSET_SERVER_URL:    *asset_server_url   
+      TVDH_REDIRECT_SERVER_URL: *redirect_server_url
     networks:
       - proxymesh
       - default
@@ -57,17 +67,21 @@ services:
       - ./assets/public/:/usr/local/apache2/htdocs/:ro
       - ./assets/config/httpd.conf:/usr/local/apache2/conf/httpd.conf:ro
 
+
   redirects:
     container_name: tvdh-redirects
     hostname: tvdh-redirects
     build: 
-      context: ./redirects/
-      dockerfile: dockerfile
+      context: ./
+      dockerfile: ./redirects/dockerfile
+      target: *NODE_ENV
     restart: unless-stopped
     environment:
-      <<: 
-        - *node_mode
-        - *urls
+      NODE_ENV:                 *NODE_ENV
+      TVDH_FRONTEND_URL:        *frontend_server_url
+      TVDH_BACKEND_SERVER_URL:  *backend_server_url 
+      TVDH_ASSET_SERVER_URL:    *asset_server_url   
+      TVDH_REDIRECT_SERVER_URL: *redirect_server_url
     networks:
       - proxymesh
       - default

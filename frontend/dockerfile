@@ -1,4 +1,4 @@
-FROM node:21 AS build
+FROM node:23-alpine AS build
 
 
-FROM node:21 AS production
+FROM node:23-alpine AS production

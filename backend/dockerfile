@@ -1,4 +1,18 @@
-FROM node:21 AS build
+# Development image
+FROM node:23-alpine AS development
+WORKDIR /src
+COPY tsconfig.base.json .
+WORKDIR /src/app
+COPY backend/package* .
+RUN npm clean-install
+COPY ./backend/* .
+RUN npm run build
+ENTRYPOINT  ["npm", "run", "dev"]
 
 
-FROM node:21 AS production
+# Production image
+FROM node:23-alpine AS production 
+WORKDIR /src
+COPY --from=development /src/backend/node_modules node_modules
+COPY --from=development /src/backend/dist dist
+ENTRYPOINT [ "node", "dist/index.js" ]

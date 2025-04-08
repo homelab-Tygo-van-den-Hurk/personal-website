@@ -69,7 +69,7 @@ I own the [`hurk.dev`](https://hurk.dev) domain, and this repository holds the s
 To get the containers up and running in dev mode run the following command:
 
 ```BASH
-docker compose --file ./docker-compose.yml --file ./docker-compose.dev.yml up --force-recreate --build
+docker compose --file ./docker-compose.yml --file ./docker-compose.dev.yml up --force-recreate --build --abort-on-container-exit
 ```
 
 ## Running in Production
