@@ -1,5 +1,5 @@
 {
     "ext": "**/*.ts",
     "verbose": true,
-    "exec": "npm run build && npm run start"
+    "exec": "npm run build && npm run start || exit 1"
 }
