@@ -6,6 +6,7 @@
   - [Compiling Typescript](#compiling-typescript)
   - [Building the docker image](#building-the-docker-image)
     - [Loading the docker image](#loading-the-docker-image)
+    - [Using `docker compose`](#using-docker-compose)
   - [Doing stuff manually](#doing-stuff-manually)
   - [Continuous Integration \& Continuous Delivery (CI/CD)](#continuous-integration--continuous-delivery-cicd)
   - [External Resources](#external-resources)
@@ -60,6 +61,21 @@ docker load < ./result
 
 where result is the file Nix created.
 
+### Using `docker compose`
+
+There is also a docker compose file available that uses nix and the same packages as the rest of the project uses to make minimalistic dev images. To make the production images run the following:
+
+```BASH
+docker compose --file ./docker-compose.yml up --force-recreate --build --detach
+```
+
+There are also dev images available in the [`dockerfile`](./dockerfile), simply run the following command to use those instead and change the environment to dev mode:
+
+```BASH
+docker compose --file ./docker-compose.yml --file ./docker-compose.dev.yml up --force-recreate --build --abort-on-container-exit
+```
+
+There are some environment variables you might want to change, that being the urls of the services. See the docker compose files for more information.
 
 ## Doing stuff manually
 

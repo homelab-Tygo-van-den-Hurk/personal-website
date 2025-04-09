@@ -2,9 +2,9 @@
   "name": "tvdh-backend",
   "version": "v1.0.0",
   "scripts": {
-    "dev": "nodemon src/index.ts",
-    "build": "tsc",
-    "start": "node dist/index.js"
+    "dev": "nodemon",
+    "build": "env tsc",
+    "start": "env node dist/index.js"
   },
   "dependencies": {
     "express": "^5.1.0"

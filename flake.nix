@@ -41,6 +41,11 @@
         
       in {
 
+        dev-bundle = pkgs.buildEnv {
+          name = "dev-bundle";
+          paths = with pkgs; [ toybox bash nodemon nodejs_23 nodePackages.tailwindcss typescript ];
+        };
+
         default = pkgs.stdenv.mkDerivation rec {
           name = "tvdh-personal-websites";
           src = ./.;

@@ -13,8 +13,6 @@ services:
   
   frontend:
     build: 
-      args:
-        module: frontend-nodemon
       target: *NODE_ENV
     environment:
       NODE_ENV:                 *NODE_ENV
@@ -26,12 +24,15 @@ services:
       - default
     ports:
       - 6980:80
+    volumes:
+      - ./frontend/dist:/app/dist
+      - ./frontend:/app:ro
+    working_dir: /app
+    command: /bin/nodemon --config /app/nodemon.json --watch /app
 
 
   backend:
     build: 
-      args:
-        module: backend-nodemon
       target: *NODE_ENV
     environment:
       NODE_ENV:                 *NODE_ENV
@@ -44,7 +45,10 @@ services:
     ports:
       - 6981:80
     volumes:
-      - ./backend/src/:/src/app/:ro
+      - ./backend/dist:/app/dist
+      - ./backend:/app:ro
+    working_dir: /app
+    command: /bin/nodemon --config /app/nodemon.json --watch /app
 
 
   assets:
@@ -56,8 +60,6 @@ services:
 
   redirects:
     build: 
-      args:
-        module: redirects-nodemon
       target: *NODE_ENV
     environment:
       NODE_ENV:                 *NODE_ENV
@@ -70,8 +72,10 @@ services:
     ports:
       - 6983:80
     volumes:
-      - ./redirects/src/:/src/app/:ro
-
+      - ./redirects/dist:/app/dist
+      - ./redirects:/app:ro
+    working_dir: /app
+    command: /bin/nodemon --config /app/nodemon.json --watch /app
 
 networks:
   proxymesh:
