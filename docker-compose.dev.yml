@@ -3,6 +3,12 @@
 
 x-common: 
   NODE_ENV: &NODE_ENV "development"
+  external_urls:
+    TVDH_FRONTEND_URL_EXTERNAL:        &external_frontend_url      ${TVDH_FRONTEND_URL_EXTERNAL:-http://localhost:6980/}
+    TVDH_BACKEND_SERVER_URL_EXTERNAL:  &external_backend_url       ${TVDH_BACKEND_SERVER_URL_EXTERNAL:-https://localhost:6981/}
+    TVDH_ASSET_SERVER_URL_EXTERNAL:    &external_asset_server_url  ${TVDH_ASSET_SERVER_URL_EXTERNAL:-https://localhost:6982/}
+    TVDH_REDIRECT_SERVER_URL_EXTERNAL: &external_redirects_url     ${TVDH_REDIRECT_SERVER_URL_EXTERNAL:-https://localhost:6983/}
+
 
 services:
   
@@ -12,6 +18,10 @@ services:
       target: *NODE_ENV
     environment:
       NODE_ENV: *NODE_ENV
+      TVDH_FRONTEND_URL_EXTERNAL:        *external_frontend_url
+      TVDH_BACKEND_SERVER_URL_EXTERNAL:  *external_backend_url
+      TVDH_ASSET_SERVER_URL_EXTERNAL:    *external_asset_server_url
+      TVDH_REDIRECT_SERVER_URL_EXTERNAL: *external_redirects_url
     networks:
       - default
     ports:
@@ -28,6 +38,10 @@ services:
       target: *NODE_ENV
     environment:
       NODE_ENV: *NODE_ENV
+      TVDH_FRONTEND_URL_EXTERNAL:        *external_frontend_url
+      TVDH_BACKEND_SERVER_URL_EXTERNAL:  *external_backend_url
+      TVDH_ASSET_SERVER_URL_EXTERNAL:    *external_asset_server_url
+      TVDH_REDIRECT_SERVER_URL_EXTERNAL: *external_redirects_url
     networks:
       - default
     ports:
@@ -51,6 +65,10 @@ services:
       target: *NODE_ENV
     environment:
       NODE_ENV: *NODE_ENV
+      TVDH_FRONTEND_URL_EXTERNAL:        *external_frontend_url
+      TVDH_BACKEND_SERVER_URL_EXTERNAL:  *external_backend_url
+      TVDH_ASSET_SERVER_URL_EXTERNAL:    *external_asset_server_url
+      TVDH_REDIRECT_SERVER_URL_EXTERNAL: *external_redirects_url
     networks:
       - default
     ports:
