@@ -2,11 +2,24 @@
 ---
 
 x-common:
-  NODE_ENV:                  &NODE_ENV             production
-  TVDH_FRONTEND_URL:         &frontend_server_url  ${TVDH_FRONTEND_URL}
-  TVDH_BACKEND_SERVER_URL:   &backend_server_url   ${TVDH_BACKEND_SERVER_URL}
-  TVDH_ASSET_SERVER_URL:     &asset_server_url     ${TVDH_ASSET_SERVER_URL}
-  TVDH_REDIRECT_SERVER_URL:  &redirect_server_url  ${TVDH_REDIRECT_SERVER_URL}
+  NODE_ENV: &NODE_ENV production
+  settings:
+    deployment: # false == 0 and true == 1
+      DEPLOY_FRONTEND:                   &deploy_frontend            ${DEPLOY_FRONTEND:-1}
+      DEPLOY_BACKEND:                    &deploy_backend             ${DEPLOY_BACKEND:-1}
+      DEPLOY_ASSETS:                     &deploy_asset_server        ${DEPLOY_ASSETS:-1}
+      DEPLOY_REDIRECTS:                  &deploy_redirects           ${DEPLOY_REDIRECTS:-1}
+      DEPLOY_CLOUDFLARE_TUNNEL:          &deploy_cloudflare_tunnel   ${DEPLOY_CLOUDFLARE_TUNNEL:-0}
+    external_urls:
+      TVDH_FRONTEND_URL_EXTERNAL:        &external_frontend_url      ${TVDH_FRONTEND_URL_EXTERNAL:-https://tygo.van.den.hurk.dev:443/}
+      TVDH_BACKEND_SERVER_URL_EXTERNAL:  &external_backend_url       ${TVDH_BACKEND_SERVER_URL_EXTERNAL:-https://api.tygo.van.den.hurk.dev:443/}
+      TVDH_ASSET_SERVER_URL_EXTERNAL:    &external_asset_server_url  ${TVDH_ASSET_SERVER_URL_EXTERNAL:-https://assets.tygo.van.den.hurk.dev:443/}
+      TVDH_REDIRECT_SERVER_URL_EXTERNAL: &external_redirects_url     ${TVDH_REDIRECT_SERVER_URL_EXTERNAL:-https://redirects.tygo.van.den.hurk.dev:443/}
+    internal_urls:
+      TVDH_FRONTEND_URL_INTERNAL:        &internal_frontend_url      ${TVDH_FRONTEND_URL_internal:-http://tvdh-frontend:80}
+      TVDH_BACKEND_SERVER_URL_INTERNAL:  &internal_backend_url       ${TVDH_BACKEND_SERVER_URL_internal:-http://tvdh-backend:80}
+      TVDH_ASSET_SERVER_URL_INTERNAL:    &internal_asset_server_url  ${TVDH_ASSET_SERVER_URL_internal:-http://tvdh-assets:80}
+      TVDH_REDIRECT_SERVER_URL_INTERNAL: &internal_redirects_url     ${TVDH_REDIRECT_SERVER_URL_internal:-http://tvdh-redirects:80}
 
 services:
 
@@ -22,15 +35,22 @@ services:
       target: *NODE_ENV
     restart: unless-stopped
     environment:
-      NODE_ENV:                 *NODE_ENV
-      TVDH_FRONTEND_URL:        *frontend_server_url
-      TVDH_BACKEND_SERVER_URL:  *backend_server_url 
-      TVDH_ASSET_SERVER_URL:    *asset_server_url   
-      TVDH_REDIRECT_SERVER_URL: *redirect_server_url
+      NODE_ENV: *NODE_ENV
+      TVDH_FRONTEND_URL_EXTERNAL:        *external_frontend_url
+      TVDH_BACKEND_SERVER_URL_EXTERNAL:  *external_backend_url
+      TVDH_ASSET_SERVER_URL_EXTERNAL:    *external_asset_server_url
+      TVDH_REDIRECT_SERVER_URL_EXTERNAL: *external_redirects_url
+      TVDH_FRONTEND_URL_INTERNAL:        *internal_frontend_url
+      TVDH_BACKEND_SERVER_URL_INTERNAL:  *internal_backend_url 
+      TVDH_ASSET_SERVER_URL_INTERNAL:    *internal_asset_server_url   
+      TVDH_REDIRECT_SERVER_URL_INTERNAL: *internal_redirects_url
     networks:
       - proxymesh
       - default
     command: /bin/frontend
+    deploy:
+      replicas: *deploy_frontend
+
 
   backend:
     container_name: tvdh-backend
@@ -43,33 +63,36 @@ services:
       target: *NODE_ENV
     restart: unless-stopped
     environment:
-      NODE_ENV:                 *NODE_ENV
-      TVDH_FRONTEND_URL:        *frontend_server_url
-      TVDH_BACKEND_SERVER_URL:  *backend_server_url 
-      TVDH_ASSET_SERVER_URL:    *asset_server_url   
-      TVDH_REDIRECT_SERVER_URL: *redirect_server_url
+      NODE_ENV: *NODE_ENV
+      TVDH_FRONTEND_URL_EXTERNAL:        *external_frontend_url
+      TVDH_BACKEND_SERVER_URL_EXTERNAL:  *external_backend_url
+      TVDH_ASSET_SERVER_URL_EXTERNAL:    *external_asset_server_url
+      TVDH_REDIRECT_SERVER_URL_EXTERNAL: *external_redirects_url
+      TVDH_FRONTEND_URL_INTERNAL:        *internal_frontend_url
+      TVDH_BACKEND_SERVER_URL_INTERNAL:  *internal_backend_url 
+      TVDH_ASSET_SERVER_URL_INTERNAL:    *internal_asset_server_url   
+      TVDH_REDIRECT_SERVER_URL_INTERNAL: *internal_redirects_url
     networks:
       - proxymesh
       - default
     command: /bin/backend
+    deploy:
+      replicas: *deploy_backend
+
 
   assets:
     container_name: tvdh-assets
     hostname: tvdh-assets
     image: httpd:2-alpine
     restart: unless-stopped
-    environment:
-      NODE_ENV:                 *NODE_ENV
-      TVDH_FRONTEND_URL:        *frontend_server_url
-      TVDH_BACKEND_SERVER_URL:  *backend_server_url 
-      TVDH_ASSET_SERVER_URL:    *asset_server_url   
-      TVDH_REDIRECT_SERVER_URL: *redirect_server_url
     networks:
       - proxymesh
       - default
     volumes:
       - ./assets/public/:/usr/local/apache2/htdocs/:ro
       - ./assets/config/httpd.conf:/usr/local/apache2/conf/httpd.conf:ro
+    deploy:
+      replicas: *deploy_asset_server
 
 
   redirects:
@@ -84,15 +107,36 @@ services:
       target: *NODE_ENV
     restart: unless-stopped
     environment:
-      NODE_ENV:                 *NODE_ENV
-      TVDH_FRONTEND_URL:        *frontend_server_url
-      TVDH_BACKEND_SERVER_URL:  *backend_server_url 
-      TVDH_ASSET_SERVER_URL:    *asset_server_url   
-      TVDH_REDIRECT_SERVER_URL: *redirect_server_url
+      NODE_ENV: *NODE_ENV
+      TVDH_FRONTEND_URL_EXTERNAL:        *external_frontend_url
+      TVDH_BACKEND_SERVER_URL_EXTERNAL:  *external_backend_url
+      TVDH_ASSET_SERVER_URL_EXTERNAL:    *external_asset_server_url
+      TVDH_REDIRECT_SERVER_URL_EXTERNAL: *external_redirects_url
+      TVDH_FRONTEND_URL_INTERNAL:        *internal_frontend_url
+      TVDH_BACKEND_SERVER_URL_INTERNAL:  *internal_backend_url 
+      TVDH_ASSET_SERVER_URL_INTERNAL:    *internal_asset_server_url   
+      TVDH_REDIRECT_SERVER_URL_INTERNAL: *internal_redirects_url
     networks:
       - proxymesh
       - default
     command: /bin/redirects
+    deploy:
+      replicas: *deploy_redirects
+
+
+  tunnel:
+    container_name: tvdh-tunnel
+    hostname: tvdh-tunnel
+    image: cloudflare/cloudflared
+    restart: unless-stopped
+    environment:
+      TUNNEL_TOKEN: ${TUNNEL_TOKEN}
+    networks:
+      - default
+    command:  tunnel --no-autoupdate run --token ${TUNNEL_TOKEN}
+    deploy:
+      replicas: *deploy_cloudflare_tunnel
+
 
 networks:
   proxymesh:

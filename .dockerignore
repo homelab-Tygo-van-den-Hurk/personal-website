@@ -9,6 +9,7 @@
 
 # directories
 **/.assets
+**/appdata
 
 # File types
 **/*.md

@@ -2,11 +2,7 @@
 ---
 
 x-common: 
-  NODE_ENV:                  &NODE_ENV             "development"
-  TVDH_FRONTEND_URL:         &frontend_server_url  ${TVDH_FRONTEND_URL:-http://localhost:6980/}
-  TVDH_BACKEND_SERVER_URL:   &backend_server_url   ${TVDH_BACKEND_SERVER_URL:-http://localhost:6981/}
-  TVDH_ASSET_SERVER_URL:     &asset_server_url     ${TVDH_ASSET_SERVER_URL:-http://localhost:6982/}
-  TVDH_REDIRECT_SERVER_URL:  &redirect_server_url  ${TVDH_REDIRECT_SERVER_URL:-http://localhost:6983/}
+  NODE_ENV: &NODE_ENV "development"
 
 services:
   
@@ -15,11 +11,7 @@ services:
     build: 
       target: *NODE_ENV
     environment:
-      NODE_ENV:                 *NODE_ENV
-      TVDH_FRONTEND_URL:        *frontend_server_url
-      TVDH_BACKEND_SERVER_URL:  *backend_server_url 
-      TVDH_ASSET_SERVER_URL:    *asset_server_url   
-      TVDH_REDIRECT_SERVER_URL: *redirect_server_url
+      NODE_ENV: *NODE_ENV
     networks:
       - default
     ports:
@@ -35,11 +27,7 @@ services:
     build: 
       target: *NODE_ENV
     environment:
-      NODE_ENV:                 *NODE_ENV
-      TVDH_FRONTEND_URL:        *frontend_server_url
-      TVDH_BACKEND_SERVER_URL:  *backend_server_url 
-      TVDH_ASSET_SERVER_URL:    *asset_server_url   
-      TVDH_REDIRECT_SERVER_URL: *redirect_server_url
+      NODE_ENV: *NODE_ENV
     networks:
       - default
     ports:
@@ -62,11 +50,7 @@ services:
     build: 
       target: *NODE_ENV
     environment:
-      NODE_ENV:                 *NODE_ENV
-      TVDH_FRONTEND_URL:        *frontend_server_url
-      TVDH_BACKEND_SERVER_URL:  *backend_server_url 
-      TVDH_ASSET_SERVER_URL:    *asset_server_url   
-      TVDH_REDIRECT_SERVER_URL: *redirect_server_url
+      NODE_ENV: *NODE_ENV
     networks:
       - default
     ports:
@@ -76,6 +60,12 @@ services:
       - ./redirects:/app:ro
     working_dir: /app
     command: /bin/nodemon --config /app/nodemon.json --watch /app
+
+
+  tunnel:
+    deploy:
+      replicas: 0
+
 
 networks:
   proxymesh:
