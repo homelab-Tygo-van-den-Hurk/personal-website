@@ -64,6 +64,7 @@ services:
     restart: unless-stopped
     environment:
       NODE_ENV: *NODE_ENV
+      GITHUB_TOKEN: ${GITHUB_TOKEN}
       TVDH_FRONTEND_URL_EXTERNAL:        *external_frontend_url
       TVDH_BACKEND_SERVER_URL_EXTERNAL:  *external_backend_url
       TVDH_ASSET_SERVER_URL_EXTERNAL:    *external_asset_server_url
