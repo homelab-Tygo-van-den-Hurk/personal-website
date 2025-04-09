@@ -1,12 +1,11 @@
-module.exports = {
-  content: [
-    "./assets/**/*.{html,js}",
-    "./backend/**/*.{html,js}",
-    "./frontend/**/*.{html,js}",
-    "./redirects/**/*.{html,js}",
-  ],
-  theme: {
-    extend: {},
+const extensions = ["html", "ts", "tsx", ];
+const sourceDirectories = ["assets", "backend", "frontend", "redirects" ];
+
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: sourceDirectories.map(directory => `./${directory}/**/*.{${extensions.join(',')}}`),
+  theme: { 
+    extend: { }
   },
-  plugins: [],
+  plugins: [ ],
 }
