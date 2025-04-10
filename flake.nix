@@ -74,19 +74,15 @@
 
           buildPhase = ''
             runHook preBuild
-            
             ${pkgs.tailwindcss}/bin/tailwindcss --input ./tailwind.input.css --output ./tailwind.output.css --minify
-             
             runHook postBuild
           '';
 
 
           installPhase = ''
             runHook preInstall
-            
             mkdir --parents $out
             mv ./tailwind.output.css $out
-             
             runHook postInstall
           '';
         };
@@ -94,7 +90,7 @@
         #` Backend
           
         backend-bin = pkgs.writeShellScriptBin "backend" ''
-            ${pkgs.nodejs_23}/bin/node ${self.packages.${system}.backend-npm-package}/dist/index.js $@
+            ${pkgs.nodejs_23}/bin/node ${self.packages.${system}.backend-npm-package}/dist/index.js "$@"
           '';
 
         backend-npm-package = pkgs.buildNpmPackage {
@@ -107,9 +103,7 @@
 
           buildPhase = ''
             runHook preBuild
-            
-            ${pkgs.typescript}/bin/tsc
-
+            npm run build
             runHook postBuild
           '';
 
@@ -139,7 +133,7 @@
         #` Frontend
 
         frontend-bin = pkgs.writeShellScriptBin "frontend" ''
-          ${pkgs.nodejs_23}/bin/node ${self.packages.${system}.frontend-npm-package}/dist/index.js $@
+          ${pkgs.nodejs_23}/bin/node ${self.packages.${system}.frontend-npm-package}/dist/index.js "$@"
         '';
 
         frontend-npm-package = pkgs.buildNpmPackage {
@@ -152,9 +146,7 @@
 
           buildPhase = ''
             runHook preBuild
-            
-            ${pkgs.typescript}/bin/tsc
-
+            npm run build
             runHook postBuild
           '';
 
@@ -184,7 +176,7 @@
         #` Redirects
         
         redirects-bin = pkgs.writeShellScriptBin "redirects" ''
-          ${pkgs.nodejs_23}/bin/node ${self.packages.${system}.redirects-npm-package}/dist/index.js $@
+          ${pkgs.nodejs_23}/bin/node ${self.packages.${system}.redirects-npm-package}/dist/index.js "$@"
         '';
 
         redirects-npm-package = pkgs.buildNpmPackage {
@@ -193,13 +185,18 @@
           version = redirectsPackageJson.version;
           
           src = ./redirects;
-          npmDepsHash = "sha256-+g1Qu0bA3vJQ/FLTmRtes9mP3iDhDwqBrgrXACLHmGg=";
+          npmDepsHash = "sha256-67rBh2rINDYP6bsTG5/sIowYPU/e7J2D4Lv73iakY00=";
+
+          checkPhase = ''
+            runHook preCheck
+            npm run test
+            runHook postCheck
+          '';
 
           buildPhase = ''
             runHook preBuild
-            
-            ${pkgs.typescript}/bin/tsc
-
+            echo "$pwd:"
+            npm run build
             runHook postBuild
           '';
 

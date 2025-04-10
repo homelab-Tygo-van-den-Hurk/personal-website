@@ -1,6 +1,9 @@
 {
   "name": "tvdh-frontend",
   "version": "v1.0.0",
+  "imports": { 
+    "#source/*": "./dist/*.js"
+  },
   "scripts": {
     "dev": "nodemon",
     "build": "env tsc",

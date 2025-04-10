@@ -69,6 +69,9 @@ services:
       TVDH_BACKEND_SERVER_URL_EXTERNAL:  *external_backend_url
       TVDH_ASSET_SERVER_URL_EXTERNAL:    *external_asset_server_url
       TVDH_REDIRECT_SERVER_URL_EXTERNAL: *external_redirects_url
+      SIGNAL_URL:   ${SIGNAL_URL}
+      TELEGRAM_URL: ${TELEGRAM_URL}
+      WHATSAPP_URL: ${WHATSAPP_URL}
     networks:
       - default
     ports:

@@ -1,9 +1,12 @@
 {
   "name": "tvdh-backend",
   "version": "v1.0.0",
+  "imports": { 
+    "#source/*": "./dist/*.js"
+  },
   "scripts": {
-    "dev": "nodemon",
-    "build": "env tsc",
+    "dev": "env nodemon",
+    "build": "env tsc --project ./tsconfig.json",
     "start": "env node dist/index.js"
   },
   "dependencies": {
