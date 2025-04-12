@@ -97,6 +97,27 @@ services:
     command: /bin/nodemon --config /app/nodemon.json --watch /app
 
 
+  css-builder:
+    container_name: tvdh-dev-css-builder
+    hostname: tvdh-dev-css-builder
+    build: 
+      context: ./.
+      dockerfile: dockerfile
+      target: *NODE_ENV
+    restart: unless-stopped
+    volumes:
+      - ./assets/public/style/css/:/out
+      - ./:/src/:ro
+    working_dir: /src
+    command: |
+      /bin/nodemon \
+        --watch "/src" \
+        --ext "*.{ts,tsx,html}" \
+        --ignore "*.{js,jsx}" \
+        --exec "/bin/tailwindcss --input /src/tailwind.input.css --output /out/tailwind.output.css --config /src/tailwind.config.ts"
+    deploy:
+      replicas: *deploy_css_builder
+
   tunnel:
     deploy:
       replicas: 0
