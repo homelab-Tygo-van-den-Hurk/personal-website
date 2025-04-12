@@ -3,17 +3,27 @@
 
 x-common: 
   NODE_ENV: &NODE_ENV "development"
-  external_urls:
-    TVDH_FRONTEND_URL_EXTERNAL:        &external_frontend_url      ${TVDH_FRONTEND_URL_EXTERNAL:-http://localhost:6980/}
-    TVDH_BACKEND_SERVER_URL_EXTERNAL:  &external_backend_url       ${TVDH_BACKEND_SERVER_URL_EXTERNAL:-https://localhost:6981/}
-    TVDH_ASSET_SERVER_URL_EXTERNAL:    &external_asset_server_url  ${TVDH_ASSET_SERVER_URL_EXTERNAL:-https://localhost:6982/}
-    TVDH_REDIRECT_SERVER_URL_EXTERNAL: &external_redirects_url     ${TVDH_REDIRECT_SERVER_URL_EXTERNAL:-https://localhost:6983/}
+  settings:
+    deployment:
+      DEPLOY_CSS_BUILDER:                &deploy_css_builder         ${DEPLOY_CSS_BUILDER:-1}
+    external_urls:
+      TVDH_FRONTEND_URL_EXTERNAL:        &external_frontend_url      ${TVDH_FRONTEND_URL_EXTERNAL:-http://localhost:6980/}
+      TVDH_BACKEND_SERVER_URL_EXTERNAL:  &external_backend_url       ${TVDH_BACKEND_SERVER_URL_EXTERNAL:-http://localhost:6981/}
+      TVDH_ASSET_SERVER_URL_EXTERNAL:    &external_asset_server_url  ${TVDH_ASSET_SERVER_URL_EXTERNAL:-http://localhost:6982/}
+      TVDH_REDIRECT_SERVER_URL_EXTERNAL: &external_redirects_url     ${TVDH_REDIRECT_SERVER_URL_EXTERNAL:-http://localhost:6983/}
+    internal_urls:
+      TVDH_FRONTEND_URL_INTERNAL:        &internal_frontend_url      ${TVDH_FRONTEND_URL_internal:-http://tvdh-dev-frontend:80}
+      TVDH_BACKEND_SERVER_URL_INTERNAL:  &internal_backend_url       ${TVDH_BACKEND_SERVER_URL_internal:-http://tvdh-dev-backend:80}
+      TVDH_ASSET_SERVER_URL_INTERNAL:    &internal_asset_server_url  ${TVDH_ASSET_SERVER_URL_internal:-http://tvdh-dev-assets:80}
+      TVDH_REDIRECT_SERVER_URL_INTERNAL: &internal_redirects_url     ${TVDH_REDIRECT_SERVER_URL_internal:-http://tvdh-dev-redirects:80}
 
 
 services:
   
   
   frontend:
+    container_name: tvdh-dev-frontend
+    hostname: tvdh-dev-frontend
     build: 
       target: *NODE_ENV
     environment:
@@ -34,6 +44,8 @@ services:
 
 
   backend:
+    container_name: tvdh-dev-backend
+    hostname: tvdh-dev-backend
     build: 
       target: *NODE_ENV
     environment:
@@ -61,6 +73,8 @@ services:
 
 
   redirects:
+    container_name: tvdh-dev-redirects
+    hostname: tvdh-dev-redirects
     build: 
       target: *NODE_ENV
     environment:
