@@ -7,6 +7,8 @@ if (process.env.NODE_ENV === "development") {
 
 const app = express();
 
+app.use(express.static("public"));
+
 app.get("/api/v1/github/pinned-repositories", async (request: Request, responds: Response) => {
   try { 
     const pinnedRepositories = await getPinnedRepositories()
