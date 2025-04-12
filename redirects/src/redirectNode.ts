@@ -60,8 +60,6 @@ export abstract class RedirectNode {
   public toHtml(): string {
     if (this.hidden) return nothing;
     
-    const id = this.name.toLowerCase().replace(' ', '-');
-
     if (this instanceof RedirectNodeHub) {
       
       let childrenAsHtml: string[] = [];
@@ -69,7 +67,7 @@ export abstract class RedirectNode {
         Object.keys(this.children).forEach( key => {
           if (this.children[key].hidden) return;
           else childrenAsHtml.push(/*html*/`
-            <li>
+            <li class="mx-2">
               <a href="./${key}/">${this.children[key].name}</a>
             </li>`
           );
@@ -77,13 +75,15 @@ export abstract class RedirectNode {
       }
 
       const goBackLink = (this.name === "root" ? nothing : /*html*/`
-        <li>
+        <li class="p-3">
           <a href="..">Go back...</a>
         </li>`
       );
 
+      const id = this.name.toLowerCase().replace(' ', '-');
+
       return (/*html*/`
-        <div class="redirection-hub-node" id="${id}">
+        <div id="redirection-hub-node-${id}">
           <ul>
             ${goBackLink}
             ${childrenAsHtml.join('\n')}  
