@@ -1,9 +1,7 @@
 import express, { Request, Response } from 'express';
 import { getPinnedRepositories } from "./github-interactions";
 
-if (process.env.NODE_ENV === "development") {
-  process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
-}
+if (! process.env.TVDH_FRONTEND_URL_EXTERNAL) console.warn("env var TVDH_FRONTEND_URL_EXTERNAL is not set.");
 
 const app = express();
 
@@ -12,6 +10,9 @@ app.use(express.static("public"));
 app.get("/api/v1/github/pinned-repositories", async (request: Request, responds: Response) => {
   try { 
     const pinnedRepositories = await getPinnedRepositories()
+    const frontendURL = process.env.TVDH_FRONTEND_URL_EXTERNAL;
+    if (frontendURL) responds.setHeader("Access-Control-Allow-Origin", new URL(frontendURL).origin);
+    else responds.setHeader("Access-Control-Allow-Origin", "*");
     responds.json(pinnedRepositories); 
   } 
 

@@ -47,6 +47,8 @@ services:
     networks:
       - proxymesh
       - default
+    volumes:
+      - /etc/ssl/:/etc/ssl/:ro
     command: /bin/frontend
     deploy:
       replicas: *deploy_frontend
@@ -76,6 +78,8 @@ services:
     networks:
       - proxymesh
       - default
+    volumes:
+      - /etc/ssl/:/etc/ssl/:ro
     command: /bin/backend
     deploy:
       replicas: *deploy_backend
@@ -120,6 +124,8 @@ services:
     networks:
       - proxymesh
       - default
+    volumes:
+      - /etc/ssl/:/etc/ssl/:ro
     command: /bin/redirects
     deploy:
       replicas: *deploy_redirects
