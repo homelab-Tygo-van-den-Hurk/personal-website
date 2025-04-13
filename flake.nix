@@ -11,7 +11,8 @@
 
       pkgs = import nixpkgs { inherit system; };
       pkgsLinux = import nixpkgs { system = "x86_64-linux"; };
-      
+      lib = nixpkgs.lib;
+
     in rec {
 
       #| ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Nix Flake Check ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ |#
@@ -29,23 +30,13 @@
           # nodePackages.postcss-cli   # compile tailwind using an input file #! Does not compile
           nodePackages.tailwindcss   # a component solution to writing CSS.
           act                        # Run GitHub Actions locally.
+          eslint                     # Run linting on source files.
         ];
       };
 
       #| ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Nix Build ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ |#
 
-      packages = let 
-          
-        backendPackageJson = (nixpkgs.lib.importJSON ./backend/package.json);
-        frontendPackageJson = (nixpkgs.lib.importJSON ./frontend/package.json);
-        redirectsPackageJson = (nixpkgs.lib.importJSON ./redirects/package.json);
-        
-      in {
-
-        dev-bundle = pkgs.buildEnv {
-          name = "dev-bundle";
-          paths = with pkgs; [ toybox bash nodemon nodejs_23 nodePackages.tailwindcss typescript ];
-        };
+      packages = {
 
         default = pkgs.stdenv.mkDerivation rec {
           name = "tvdh-personal-websites";
@@ -59,16 +50,112 @@
             cp --recursive ${self.packages.${system}.frontend-bin}/bin/* $out/bin
             cp --recursive ${self.packages.${system}.redirects-bin}/bin/* $out/bin
             
-            mkdir --parents $out/images
-            cp --recursive ${self.packages.${system}.backend-docker-image} $out/images/backend
-            cp --recursive ${self.packages.${system}.frontend-docker-image} $out/images/frontend
-            cp --recursive ${self.packages.${system}.redirects-docker-image} $out/images/redirects
+            mkdir --parents $out/docker
+            cp --recursive ${self.packages.${system}.backend-docker} $out/docker/backend
+            cp --recursive ${self.packages.${system}.frontend-docker} $out/docker/frontend
+            cp --recursive ${self.packages.${system}.redirects-docker} $out/docker/redirects
              
             runHook postInstall
           '';
         };
 
-        tailwindcss = pkgs.stdenv.mkDerivation rec {
+
+        #` Backend
+        
+        backend-lib = pkgs.callPackage ./backend/nix/packages/lib {
+          inherit lib;
+          self = { 
+            path = ./backend;
+            lib = self.packages.${system}.backend-lib;
+            bin = self.packages.${system}.backend-bin;
+          };
+        };
+
+        backend-bin = pkgs.callPackage ./backend/nix/packages/bin {
+          node = pkgs.nodejs_23;
+          self = { 
+            path = ./backend;
+            lib = self.packages.${system}.backend-lib;
+            bin = self.packages.${system}.backend-bin;
+          };
+        };  
+
+        backend-docker = pkgs.callPackage ./backend/nix/packages/docker {
+          lastModifiedDate = self.lastModifiedDate;
+          node = pkgsLinux.nodejs_23;
+          self = { 
+            path = ./backend;
+            lib = self.packages.${system}.backend-lib;
+            bin = self.packages.${system}.backend-bin;
+          };
+        };
+
+
+        #` Frontend
+        
+        frontend-lib = pkgs.callPackage ./frontend/nix/packages/lib {
+          inherit lib;
+          self = { 
+            path = ./frontend;
+            lib = self.packages.${system}.frontend-lib;
+            bin = self.packages.${system}.frontend-bin;
+          };
+        };
+
+        frontend-bin = pkgs.callPackage ./frontend/nix/packages/bin {
+          node = pkgs.nodejs_23;
+          self = { 
+            path = ./frontend;
+            lib = self.packages.${system}.frontend-lib;
+            bin = self.packages.${system}.frontend-bin;
+          };
+        };  
+
+        frontend-docker = pkgs.callPackage ./frontend/nix/packages/docker {
+          lastModifiedDate = self.lastModifiedDate;
+          node = pkgsLinux.nodejs_23;
+          self = { 
+            path = ./frontend;
+            lib = self.packages.${system}.frontend-lib;
+            bin = self.packages.${system}.frontend-bin;
+          };
+        };
+
+
+        #` Redirects
+        
+        redirects-lib = pkgs.callPackage ./redirects/nix/packages/lib {
+          inherit lib;
+          self = { 
+            path = ./redirects;
+            lib = self.packages.${system}.redirects-lib;
+            bin = self.packages.${system}.redirects-bin;
+          };
+        };
+
+        redirects-bin = pkgs.callPackage ./redirects/nix/packages/bin {
+          node = pkgs.nodejs_23;
+          self = { 
+            path = ./redirects;
+            lib = self.packages.${system}.redirects-lib;
+            bin = self.packages.${system}.redirects-bin;
+          };
+        };  
+
+        redirects-docker = pkgs.callPackage ./redirects/nix/packages/docker {
+          lastModifiedDate = self.lastModifiedDate;
+          node = pkgsLinux.nodejs_23;
+          self = { 
+            path = ./redirects;
+            lib = self.packages.${system}.redirects-lib;
+            bin = self.packages.${system}.redirects-bin;
+          };
+        };
+
+
+        #` Miscellaneous 
+
+        css = pkgs.stdenv.mkDerivation rec {
           name = "css";
           src = ./.;
 
@@ -87,139 +174,17 @@
           '';
         };
 
-        #` Backend
-          
-        backend-bin = pkgs.writeShellScriptBin "backend" ''
-            ${pkgs.nodejs_23}/bin/node ${self.packages.${system}.backend-npm-package}/dist/index.js "$@"
-          '';
-
-        backend-npm-package = pkgs.buildNpmPackage {
-        
-          pname = backendPackageJson.name;
-          version = backendPackageJson.version;
-          
-          src = ./backend;
-          npmDepsHash = "sha256-lLWAkgrHbVDKI9BQCHTbm9ZWpHaW3QOXWbFc2QnlOR4=";
-
-          buildPhase = ''
-            runHook preBuild
-            npm run build
-            runHook postBuild
-          '';
-
-          installPhase = ''
-            runHook preInstall
-            
-            mkdir --parents $out
-            mv node_modules $out
-            mv dist $out
-
-            runHook postInstall
-          '';
-        };
-          
-        backend-docker-image = pkgs.dockerTools.buildImage {
-        
-          name = backendPackageJson.name;
-          tag = backendPackageJson.version;
-          created = builtins.substring 0 8 self.lastModifiedDate;
-
-          config = {
-            Cmd = [ "${self.packages.x86_64-linux.backend-bin}/bin/backend" ];
-          };
-        };
-
-
-        #` Frontend
-
-        frontend-bin = pkgs.writeShellScriptBin "frontend" ''
-          ${pkgs.nodejs_23}/bin/node ${self.packages.${system}.frontend-npm-package}/dist/index.js "$@"
-        '';
-
-        frontend-npm-package = pkgs.buildNpmPackage {
-          
-          pname = frontendPackageJson.name;
-          version = frontendPackageJson.version;
-          
-          src = ./frontend;
-          npmDepsHash = "sha256-Rja5P9yOrW6dqnghQIVx77VnbsN5whN9oBdj4QK5tfc=";
-
-          buildPhase = ''
-            runHook preBuild
-            npm run build
-            runHook postBuild
-          '';
-
-          installPhase = ''
-            runHook preInstall
-            
-            mkdir --parents $out
-            mv node_modules $out
-            mv dist $out
-
-            runHook postInstall
-          '';
-        };
-              
-        frontend-docker-image = pkgs.dockerTools.buildImage {
-          
-          name = frontendPackageJson.name;
-          tag = frontendPackageJson.version;
-          created = builtins.substring 0 8 self.lastModifiedDate;
-          
-          config = {
-            Cmd = [ "${self.packages.x86_64-linux.frontend-bin}/bin/frontend"];
-          };
-        };
-
-
-        #` Redirects
-        
-        redirects-bin = pkgs.writeShellScriptBin "redirects" ''
-          ${pkgs.nodejs_23}/bin/node ${self.packages.${system}.redirects-npm-package}/dist/index.js "$@"
-        '';
-
-        redirects-npm-package = pkgs.buildNpmPackage {
-          
-          pname = redirectsPackageJson.name;
-          version = redirectsPackageJson.version;
-          
-          src = ./redirects;
-          npmDepsHash = "sha256-67rBh2rINDYP6bsTG5/sIowYPU/e7J2D4Lv73iakY00=";
-
-          checkPhase = ''
-            runHook preCheck
-            npm run test
-            runHook postCheck
-          '';
-
-          buildPhase = ''
-            runHook preBuild
-            echo "$pwd:"
-            npm run build
-            runHook postBuild
-          '';
-
-          installPhase = ''
-            runHook preInstall
-            
-            mkdir --parents $out
-            mv node_modules $out
-            mv dist $out
-
-            runHook postInstall
-          '';
-        };
-            
-        redirects-docker-image = pkgs.dockerTools.buildImage {
-          
-          name = redirectsPackageJson.name;
-          tag = redirectsPackageJson.version;
-          created = builtins.substring 0 8 self.lastModifiedDate;
-
-          config = {
-            Cmd = [ "${self.packages.x86_64-linux.redirects-bin}/bin/redirects" ];
-          };
+        dev-bundle = pkgs.buildEnv {
+          name = "dev-bundle";
+          paths = with pkgs; [ 
+            toybox 
+            bash 
+            nodemon 
+            nodejs_23 
+            nodePackages.tailwindcss 
+            typescript
+            eslint
+          ];
         };
 
       };
