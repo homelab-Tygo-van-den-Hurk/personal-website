@@ -1,4 +1,4 @@
-import { RedirectNodeHub, RedirectNodeLeaf } from "#source/redirectNode";
+import { RedirectNodeHub, RedirectNodeLeaf } from "#source/redirectNode.js";
 
 
 /** The URL to my personal gitLab account. */

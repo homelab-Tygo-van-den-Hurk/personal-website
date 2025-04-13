@@ -1,4 +1,4 @@
-import { RedirectNode } from "#source/redirectNode";
+import { RedirectNode } from "#source/redirectNode.js";
 
 const SUPPORTS_DARK_MODE = false;
 const AUTHOR = "Tygo van den Hurk";

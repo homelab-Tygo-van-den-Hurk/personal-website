@@ -1,4 +1,4 @@
-import { RedirectNodeHub, RedirectNodeLeaf } from "#source/redirectNode";
+import { RedirectNodeHub, RedirectNodeLeaf } from "#source/redirectNode.js";
 import { describe, it, expect } from "vitest";
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Designing Test Input ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
@@ -13,25 +13,33 @@ const endNode7 = new RedirectNodeLeaf({ name: "endNode7", hidden: false, url: ne
 
 //| Hub nodes
 
+const hubNode0 = new RedirectNodeHub({
+  name: "hubNode0", hidden: false, children: {
+    "endNode1": endNode1, 
+    "endNode3": endNode3,
+  },
+});
+
 const hubNode1 = new RedirectNodeHub({
   name: "hubNode1", hidden: false, children: {
     "endNode6": endNode6, 
     "endNode7": endNode7,
-  }
+  },
 });
 
 const hubNode2 = new RedirectNodeHub({
   name: "hubNode2", hidden: false, children: {
     "endNode4": endNode4, 
     "endNode5": endNode5,
-  }
+    "hubNode0" : hubNode0,
+  },
 });
 
 const hubNode3 = new RedirectNodeHub({
   name: "hubNode3", hidden: false, children: {
     "endNode2": endNode2, 
-    "hubNode2": hubNode2
-  }
+    "hubNode2": hubNode2,
+  },
 });
 
 /**
@@ -44,6 +52,9 @@ const hubNode3 = new RedirectNodeHub({
  *     hubNode2:
  *       endNode4
  *       endNode5
+ *       hubNode0:
+ *         endNode1
+ *         endNode3
  *   hubNode1:
  *     endNode6
  *     endNode7
@@ -54,23 +65,22 @@ const root = new RedirectNodeHub({
   name: "hubNode4", hidden: false, children: {
     "hubNode3": hubNode3, 
     "hubNode1": hubNode1,
-    "endNode7": endNode7
-  }
+    "endNode7": endNode7,
+  },
 });
-
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Testing Recursion ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 
 describe("recursion-depth-1-defined-hub", () => {
   it("we test if recursion on a depth of 1 works when the path exists.", () => {
-    const path = [ "hubNode3" ];
+    const path = ["hubNode3"];
     expect(root.recurse(path)).toBe(hubNode3);
   });
 });
 
 describe("recursion-depth-1-defined-endpoint", () => {
   it("we test if recursion on a depth of 1 works when the path exists.", () => {
-    const path = [ "endNode7" ];
+    const path = ["endNode7"];
     expect(root.recurse(path)).toBe(endNode7);
   });
 });
@@ -107,7 +117,7 @@ describe("recursion-depth-2-undefined", () => {
 
 describe("recursion-depth-3-defined-endpoint", () => {
   it("we test if recursion on a depth of 3 works when the path exists, and ends at a endpoint.", () => {
-    const path = ["hubNode3", "hubNode2", "endNode4" ];
+    const path = ["hubNode3", "hubNode2", "endNode4"];
     expect(root.recurse(path)).toBe(endNode4);
   });
 });
@@ -115,7 +125,14 @@ describe("recursion-depth-3-defined-endpoint", () => {
 describe("recursion-depth-4-undefined", () => {
   it("we test if recursion on a depth of 4 works when the path does not exist, because we recurse on an endpoint.",
     () => {
-    const path = ["hubNode3", "hubNode2", "endNode4" ];
-    expect(root.recurse(path)).toBe(endNode4);
+      const path = ["hubNode3", "hubNode2", "endNode4", "undefined"];
+      expect(root.recurse(path)).toBe(undefined);
+    });
+});
+
+describe("recursion-depth-4-defined-endpoint", () => {
+  it("we test if recursion on a depth of 4 works when the path exists, and ends at a endpoint.", () => {
+    const path = ["hubNode3", "hubNode2", "hubNode0", "endNode1"];
+    expect(root.recurse(path)).toBe(endNode1);
   });
 });

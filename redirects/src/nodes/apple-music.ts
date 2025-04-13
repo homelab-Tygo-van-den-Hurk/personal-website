@@ -1,4 +1,4 @@
-import { RedirectNodeLeaf } from "#source/redirectNode";
+import { RedirectNodeLeaf } from "#source/redirectNode.js";
 
 /** The URL to redirect to my apple music account. */
 const appleMusicRedirectNode = new RedirectNodeLeaf({

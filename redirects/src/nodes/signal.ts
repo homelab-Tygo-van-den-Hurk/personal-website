@@ -1,4 +1,4 @@
-import { RedirectNodeLeaf } from "#source/redirectNode";
+import { RedirectNodeLeaf } from "#source/redirectNode.js";
 
 const signalUrl = process.env.SIGNAL_URL;
 if (! signalUrl) throw new Error("signal url is undefined.");

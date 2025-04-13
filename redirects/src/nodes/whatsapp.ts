@@ -1,4 +1,4 @@
-import { RedirectNodeLeaf } from "#source/redirectNode";
+import { RedirectNodeLeaf } from "#source/redirectNode.js";
 
 const whatsappUrl = process.env.WHATSAPP_URL;
 if (! whatsappUrl) throw new Error("Whatsapp url is undefined.");

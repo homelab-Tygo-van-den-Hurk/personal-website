@@ -62,9 +62,9 @@ export abstract class RedirectNode {
     
     if (this instanceof RedirectNodeHub) {
       
-      let childrenAsHtml: string[] = [];
-      /* Coverting all children of this node to HTML */ {
-        Object.keys(this.children).forEach( key => {
+      const childrenAsHtml: string[] = [];
+      /* Converting all children of this node to HTML */ {
+        Object.keys(this.children).forEach(key => {
           if (this.children[key].hidden) return;
           else childrenAsHtml.push(/*html*/`
             <li class="mx-2">
@@ -133,7 +133,7 @@ export class RedirectNodeHub extends RedirectNode {
   constructor(arg: RedirectNodeHubConstructorArguments) { 
 
     const minimum = 2 as unknown;
-    if ( Object.keys(arg.children).length < (minimum as number) ) throw new Error(
+    if (Object.keys(arg.children).length < (minimum as number)) throw new Error(
       `Must have at least ${minimum} ${minimum===1?"child":"children"}.`
     );
 

@@ -3,5 +3,5 @@
     "ignore": "**/*.js",
     "watch": "src",
     "verbose": true,
-    "exec": "npm run build && npm run start || exit 1"
+    "exec": "npm run test && npm run lint && npm run build && npm run start || exit 1"
 }

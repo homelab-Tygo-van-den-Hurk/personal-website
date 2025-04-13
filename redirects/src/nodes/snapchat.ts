@@ -1,4 +1,4 @@
-import { RedirectNodeLeaf } from "#source/redirectNode";
+import { RedirectNodeLeaf } from "#source/redirectNode.js";
 
 /** The URL to redirect to my snapchat account. */
 const snapchatRedirectionNode = new RedirectNodeLeaf({

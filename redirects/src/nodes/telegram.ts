@@ -1,4 +1,4 @@
-import { RedirectNodeLeaf } from "#source/redirectNode";
+import { RedirectNodeLeaf } from "#source/redirectNode.js";
 
 const telegramUrl = process.env.TELEGRAM_URL;
 if (! telegramUrl) throw new Error("telegram url is undefined.");

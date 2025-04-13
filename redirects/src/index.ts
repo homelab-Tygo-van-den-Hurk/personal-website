@@ -1,8 +1,9 @@
 import express, { Request, Response } from "express";
-import rootRedirectionNodes from "#source/redirectRoot";
 import { ReasonPhrases, StatusCodes } from "http-status-codes";
-import { RedirectNodeHub, RedirectNodeLeaf } from "#source/redirectNode";
-import htmlPage from "#source/html-document";
+
+import rootRedirectionNodes from "#source/redirectRoot.js";
+import { RedirectNodeHub, RedirectNodeLeaf } from "#source/redirectNode.js";
+import htmlPage from "#source/html-document.js";
 
 const app = express();
 
@@ -17,16 +18,16 @@ app.use(express.static("public"));
       
       const path = request.path.split("/");
 
-      let pieces: string[] = [];
+      const pieces: string[] = [];
       /** Parsing the path */ {
         for (let index = 0; index < path.length; index += 1) {
-          switch(path[index]) {
-            case "":  continue;
-            case ".": continue;
-            case "..":
-              pieces.pop();
-              continue;
-            default: pieces.push(path[index]);
+          switch (path[index]) {
+          case "":  continue;
+          case ".": continue;
+          case "..":
+            pieces.pop();
+            continue;
+          default: pieces.push(path[index]);
           }
         }
       }
@@ -45,7 +46,7 @@ app.use(express.static("public"));
         const wrongPassword = passwordRequired !== request.query?.password;
         if (node.hidden && passwordRequired && wrongPassword) {
           responds.status(StatusCodes.NOT_FOUND)
-          .send(`${StatusCodes.NOT_FOUND}: ${ReasonPhrases.NOT_FOUND}`);
+            .send(`${StatusCodes.NOT_FOUND}: ${ReasonPhrases.NOT_FOUND}`);
           return;
         } 
       }
@@ -59,9 +60,12 @@ app.use(express.static("public"));
 
       /* Sending an HTML document if a selection can still be made */ {
         if (node instanceof RedirectNodeHub) {
-          const title = ( path[path.length-1] === "" 
-            ? "Redirection Station" 
-            : `Redirection Station - ${path[path.length-1]}`);
+          const title = ( 
+            path[path.length-1] === "" 
+              ? "Redirection Station" 
+              : `Redirection Station - ${path[path.length-1]}`
+          );
+          
           responds.status(StatusCodes.OK).send(htmlPage(title, node));  
           return;
         }
@@ -70,7 +74,9 @@ app.use(express.static("public"));
       // Since we can't enforce case extensive matching. Should never happen.
       throw new Error("Unhandled case in: \"app.get()\"");
 
-    } catch (occurred_error) {
+    } 
+    
+    catch (occurred_error) {
       console.error(occurred_error);
       responds.status(StatusCodes.INTERNAL_SERVER_ERROR).send(
         `${StatusCodes.INTERNAL_SERVER_ERROR}: ${ReasonPhrases.INTERNAL_SERVER_ERROR}`
