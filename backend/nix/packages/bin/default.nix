@@ -5,5 +5,5 @@
 }:
 
 pkgs.writeShellScriptBin "backend" ''
-  ${node}/bin/node ${self.lib}/dist/src/index.js "$@"
+  ${node}/bin/node ${self.lib}/dist/index.js "$@"
 ''
