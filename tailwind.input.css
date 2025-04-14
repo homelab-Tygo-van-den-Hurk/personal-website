@@ -19,16 +19,16 @@
     }
 
     body { @apply min-h-screen flex flex-col }
-    main { @apply flex-1; }
+    main { @apply flex-1 p-6; }
     header, footer { @apply p-6; }
 
     /*          font family  font size   font weight     top margin   bottom margin */
     h1 { @apply font-serif4  text-5xl    font-bold       mt-6         mb-4; }
     h2 { @apply font-serif4  text-4xl    font-semibold   mt-5         mb-3; }
-    h3 { @apply font-serif4  text-3xl    font-semibold   mt-4         mb-2; }
-    h4 { @apply font-serif4  text-2xl    font-medium     mt-3         mb-2; }
-    h5 { @apply font-serif4  text-xl     font-medium     mt-2         mb-1; }
-    h6 { @apply font-serif4  text-lg     font-normal     mt-1         mb-1; }
+    h3 { @apply font-serif4  text-2xl    font-semibold   mt-4         mb-2; }
+    h4 { @apply font-serif4  text-xl     font-medium     mt-3         mb-2; }
+    h5 { @apply font-serif4  text-lg     font-medium     mt-2         mb-1; }
+    h6 { @apply font-serif4  text-base   font-normal     mt-1         mb-1; }
     p { @apply  font-oswald  text-base                   mt-2         mb-4 leading-relaxed; }
 
 
@@ -37,13 +37,13 @@
     blockquote { @apply border-l-4 border-gray-300 pl-4 italic text-gray-600 my-4; }
     code { @apply font-mono bg-gray-100 px-1 py-0.5 rounded text-sm; }
 
-    ul { @apply list-disc pl-6; }
+    /* ul { @apply list-disc pl-6; }
     ul ul { @apply list-circle pl-6; }
     ul ul ul { @apply list-square pl-6; }
     
     ol { @apply list-decimal pl-6; }
     ol ol { @apply list-[lower-alpha] pl-6; }
-    ol ol ol { @apply list-[lower-roman] pl-6; }
+    ol ol ol { @apply list-[lower-roman] pl-6; } */
       
 }
 

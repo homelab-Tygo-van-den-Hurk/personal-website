@@ -27,7 +27,6 @@
           nodemon                    # Watches files and redstarts node if needed.
           typescript                 # Compile the TypeScript code manually.
           typescript-language-server # The language server IDEs use.
-          # nodePackages.postcss-cli   # compile tailwind using an input file #! Does not compile
           nodePackages.tailwindcss   # a component solution to writing CSS.
           act                        # Run GitHub Actions locally.
           eslint                     # Run linting on source files.

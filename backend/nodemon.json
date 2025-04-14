@@ -1,7 +1,0 @@
-{
-    "ext": "**/*.ts",
-    "ignore": "**/*.js",
-    "watch": "src",
-    "verbose": true,
-    "exec": "npm run build && npm run start || exit 1"
-}

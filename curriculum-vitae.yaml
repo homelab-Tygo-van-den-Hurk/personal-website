@@ -1,0 +1,79 @@
+version: 1.0
+
+personal_information:
+
+  # Used where ever your name is used.
+  name:
+    first: Tygo
+    middle: van den
+    last: Hurk
+
+  # the job title 
+  job_title: Studying Computer Science and Software Engineering at TU/e
+  
+  # Used to calculate your age. Must be of the form: "YYYY-MM-DDTHH:mm:ss.xyzZ".
+  date_of_birth: 2003-02-25T00:00:00.000Z
+
+  # A piece of text that describes you.
+  about: | 
+    When I was six years old, I bought my own iPod, I had saved all my money from my allowance and my birthday. That is when my love, passion, and interest in tech was born. Ever since, it has only grown. Today I’m a student at the TU/e, studying Computer Science and Engineering, learning about and handling what I love most: technology.
+  # The location you reside at. `Optional<City>, Country`
+  location: Eindhoven, The Netherlands
+
+
+career:
+
+  jobs: # work jobs you've done.
+    
+    - name: Areo Team Eindhoven
+      description: External Affairs
+      start_date:  2023-04-01T00:00:00.000Z
+      end_date:    2024-06-31T00:00:00.000Z
+      location:    Eindhoven, the Netherlands
+
+    - name: Amac
+      description: Junior Sales Associate
+      start_date:  2022-06-01T00:00:00.000Z
+      end_date:    2023-04-30T00:00:00.000Z
+      location:    Oss, the Netherlands
+
+    - name: Jumbo
+      description: Casier
+      start_date:  2020-02-01T00:00:00.000Z
+      end_date:    2022-05-30T00:00:00.000Z
+      location:    Heesch, the Netherlands
+
+  education: # education you've followed.
+    
+    - name: Technical University Eindhoven
+      description: Bachelor in Computer Science
+      start_date:  2021-09-01T00:00:00.000Z
+      location:    Eindhoven, the Netherlands
+
+    - name: Titus Brandsma Lyceum
+      description: High School
+      start_date:  2015-09-01T00:00:00.000Z
+      end_date:    2021-06-30T00:00:00.000Z
+      location:    Oss, the Netherlands
+
+    - name: Emmaus
+      description: Primary School
+      start_date:  2007-02-14T00:00:00.000Z
+      end_date:    2015-06-30T00:00:00.000Z
+      location:    Heesch, the Netherlands
+      
+  charity: # Any charity work you've done.
+    
+    - name: Queerhoven
+      description: Story Telling Facilitator
+      start_date: 2024-02-25T00:00:00.000Z
+      location: Eindhoven, the Netherlands
+
+skills:
+  - name: String
+    description: Text
+
+settings:
+
+links:
+

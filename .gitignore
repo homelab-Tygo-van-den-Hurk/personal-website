@@ -5,3 +5,4 @@
 **/result
 **/*.output.css
 **/.tsbuildinfo
+**/*.html

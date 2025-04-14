@@ -3,15 +3,6 @@
 
 <br>
 <div align="center">
-    <a href="https://nixos.org">
-        <img src="https://img.shields.io/badge/Built_With-Nix-5277C3.svg?style=flat&logo=nixos" alt="Built with Nix"/>
-    </a>
-    <a href="https://www.docker.com">
-        <img src="https://img.shields.io/badge/Built_With-Docker-0290E6.svg?logo=docker&labelColor=#0290E6" alt="Built with Docker"/>
-    </a>
-    <a href="https://containers.dev/">
-        <img src="https://img.shields.io/badge/devcontainer-provided-green?style=flat" alt="devcontainer provided"/>
-    </a>
     <!--~ Repository CI/CD ~-->
     <a href="https://github.com/homelab-Tygo-van-den-Hurk/personal-websites/actions/workflows/deploy-github-pages.yml">
         <img src="https://github.com/homelab-Tygo-van-den-Hurk/personal-websites/workflows/Deploy%20GitHub%20Pages/badge.svg?style=flat" alt="GitHub deployment status" />
@@ -65,12 +56,7 @@
 
 ## Overview 
 
-I own the [`hurk.dev`](https://hurk.dev) domain, and this repository holds the source code for my personal websites, such as [`tygo.van.den.hurk.dev`](https://tygo.van.den.hurk.dev/). The repository consists of 4 submodules:
-
-- [the asset server](./assets/README.md) hosted at [`assets.tygo.van.den.hurk.dev`](https://assets.tygo.van.den.hurk.dev/);
-- [the frontend server](./frontend/README.md) hosted at [`tygo.van.den.hurk.dev`](https://tygo.van.den.hurk.dev/);
-- [the backend server](./backend/README.md) hosted at [`api.tygo.van.den.hurk.dev`](https://api.tygo.van.den.hurk.dev/);
-- [the redirection server](./redirection/README.md) hosted at [`redirects.tygo.van.den.hurk.dev`](https://redirects.tygo.van.den.hurk.dev/).
+I wanted something simple that when filling in a YAML form would auto deploy my website filled with my experience and name. I wanted that same thing to also generate a CV based on that same information. That is what this is. After filling in [your curriculum vitae](./curriculum-vitae.yaml) and pushing to Github, automations will run that will build the webpage, and CV for you and deploy it on GitHub pages, all for free.
 
 ## How do Develop
 

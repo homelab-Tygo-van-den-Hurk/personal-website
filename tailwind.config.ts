@@ -1,10 +1,10 @@
 const extensions = ["html", "ts", "tsx", ];
-const sourceDirectories = ["assets/public", "backend/src", "frontend/src", "redirects/src" ];
+const sourceDirectories = ["src" ];
 let result = sourceDirectories.map(directory => `./${directory}/**/*.{${extensions.join(',')}}`)
 
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: result, //.push("./tailwind.*"),
+  content: result,
   theme: { 
     extend: { 
       fontFamily: {
