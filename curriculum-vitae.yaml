@@ -1,24 +1,30 @@
 version: 1.0
 
-personal_information:
+settings:
+  # repo_url: https://github.com/homelab-Tygo-van-den-Hurk/personal-website
+  # amount_of_repos: 3 # max 6
+  image_url: https://github.com/Tygo-van-den-Hurk.png
+links:
+  github: https://redirects.tygo.van.den.hurk.dev/github/personal
+  linkedin: https://redirects.tygo.van.den.hurk.dev/linkedin
 
-  # Used where ever your name is used.
-  name:
+personal_information:
+  
+  name: # Used where ever your name is used.
     first: Tygo
     middle: van den
     last: Hurk
-
-  # the job title 
-  job_title: Studying Computer Science and Software Engineering at TU/e
   
-  # Used to calculate your age. Must be of the form: "YYYY-MM-DDTHH:mm:ss.xyzZ".
-  date_of_birth: 2003-02-25T00:00:00.000Z
-
-  # A piece of text that describes you.
-  about: | 
+  job_title: Software Engineer # the job title 
+  
+  date_of_birth: 2003-02-25T00:00:00.000Z # Used to calculate your age. Must be of the form: "YYYY-MM-DDTHH:mm:ss.xyzZ".
+  
+  about: | # A piece of text that describes you.
     When I was six years old, I bought my own iPod, I had saved all my money from my allowance and my birthday. That is when my love, passion, and interest in tech was born. Ever since, it has only grown. Today I’m a student at the TU/e, studying Computer Science and Engineering, learning about and handling what I love most: technology.
-  # The location you reside at. `Optional<City>, Country`
-  location: Eindhoven, The Netherlands
+  
+  location: # The location you reside at. city is optional
+    city: Eindhoven
+    country: The Netherlands 
 
 
 career:
@@ -70,10 +76,33 @@ career:
       location: Eindhoven, the Netherlands
 
 skills:
-  - name: String
-    description: Text
 
-settings:
-
-links:
-
+  - name: Programming
+    description: I love to programm, my intrests lay at working with GUI’s, but for now my strengs lay with terminal based text aplications.
+    image_url: https://storyset.com/illustration/code-typing/bro#FF0F06FF&amp;hide=&amp;hide=simple
+    image_alt: quick learner icon
+  
+  - name: Problem Solving
+    description: Solving any kind of puzzle is something I enjoy. programming problems or any other kind of problem to me is just another puzzle to take a crack at.
+    image_url: 
+    image_alt: 
+  
+  - name: Quick learner
+    description: I am a really quick learner. When something peaks my intrests I am able to absorb the material like no other.
+    image_url: 
+    image_alt: 
+  
+  - name: Team-work
+    description: I love working and talking to others, and do most of my learning by seeing what others do. So it is no suprise that this is a skill I am good at!
+    image_url: 
+    image_alt: 
+  
+  - name: Creative
+    description: I have always been a creative kid, drawing comics and writting stories, now I write creative code, no fiction.
+    image_url: 
+    image_alt: 
+  
+  - name: Determined
+    description: I take this quality from my father, once I set my mind to something, there is no going back, only forward.
+    image_url: 
+    image_alt: 

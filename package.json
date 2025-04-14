@@ -9,12 +9,13 @@
     "#source/*": "./dist/*"
   },
   "scripts": {
+    "dev": "nodemon",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build:ts": "env tsc",
-    "build:css": "env tailwindcss --config tailwind.config.ts --input tailwind.input.css --output tailwind.output.css ----minify",
-    "build:pages": "env node ./dist/pages/index.js",
+    "build:ts": "tsc",
+    "build:css": "tailwindcss --config ./tailwind.config.ts --input ./tailwind.input.css --output ./tailwind.output.css ----minify",
+    "build:pages": "node ./dist/pages/index.js",
     "build:documents": "echo \"Error: not yet implemented\" && exit 1",
-    "build": "npm run build:pages && npm run build:documents"
+    "build": "npm run build:ts && npm run build:css && npm run build:pages"
   },
   "repository": {
     "type": "git",
@@ -22,6 +23,9 @@
   },
   "dependencies": {
     "date-fns": "^4.1.0",
+    "nodemon": "^3.1.9",
+    "tailwindcss": "^4.1.4",
+    "typescript": "^5.8.3",
     "yaml": "^2.7.1"
   },
   "devDependencies": {

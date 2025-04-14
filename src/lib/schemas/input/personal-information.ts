@@ -45,7 +45,7 @@ export default class Personal_Information {
     this.name = arg.name;
   }
 
-  public static from(element: any): Personal_Information {
+  public static from(element: unknown): Personal_Information {
 
     /* Type checking element */ {
       const foundType = typeof element;
@@ -81,17 +81,6 @@ export default class Personal_Information {
     
     const job_title = object?.job_title;
 
-    /* Type checking the object.first property */ {
-      const foundType = typeof object.location;
-      const expectedType = "string";
-      if (foundType !== expectedType) throw new Error(
-        `object.location is of type ${foundType} while ${expectedType} was expected.`
-      );
-    }
-    
-    const location = object?.location;
-
-
     /* Type checking the object.about property */ {
       const foundType = typeof object.about;
       const expectedType = "string";
@@ -102,6 +91,7 @@ export default class Personal_Information {
     
     const about = object?.about;
     
+    const location = Location.from(object?.location);
     const name = Name.from(object?.name);
 
     return new Personal_Information({

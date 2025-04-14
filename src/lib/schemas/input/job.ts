@@ -67,8 +67,9 @@ export default class Job {
     );
 
     return (/*html*/`
-      <li>
-        <h4 class="uppercase font-semibold text-base mt-6">${this.name}</h4>
+      <li class="relative">
+        <div class="absolute left-[-5px] top-1 w-2 h-2 bg-neutral-700 rounded-full"></div>
+        <h4 class="ml-2 uppercase font-semibold text-base mt-6">${this.name}</h4>
         <p class="m-2"><span class="uppercase">${fromStr}&nbsp;-&nbsp;${tillStr}</span> ${totalTimeStr}</p>
         <p class="m-2">${this.description}</p>
         <p class="m-2">${this.location}</p>

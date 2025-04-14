@@ -59,12 +59,14 @@ export default class Repository {
 
   public toHTML(): string {
     return ( /*html*/`
-      <li class="list-none bg-slate-600 p-6">
+      <li class="list-none bg-slate-600 p-6 rounded-md mx-o my-6">
         <h3 class="mt-0">
-          <a href="https://github.com/${this.owner.login}/">${this.owner.login}</a> / 
-          <a href="https://github.com/${this.owner.login}/${this.name}/">${this.name}</a>
+          <a class="no-underline hover:underline" href="https://github.com/${this.owner.login}/">${this.owner.login}</a> / 
+          <a class="no-underline hover:underline" href="https://github.com/${this.owner.login}/${this.name}/">${this.name}</a>
         </h3>
-        <b>description</b>: <i>${this.description}</i><br>
+        <p class="box-border">
+          ${this.description}
+        </p>
         <a href="${this.url}">
           <button>
             Visit project
