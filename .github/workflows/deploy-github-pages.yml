@@ -31,6 +31,8 @@ jobs:
       - name: Build using Nix
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPOSITORY_NAME: ${{ github.event.repository.name }}
+          REPOSITORY_OWNER: ${{ github.repository_owner }}
         run: nix build
   
   # Deployment job
