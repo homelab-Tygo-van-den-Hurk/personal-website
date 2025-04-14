@@ -1,5 +1,4 @@
-> This repository is used to construct my personal websites. This includes the frontend, backend, assets and redirect server.
-
+> This repository is used to construct [my personal website](https://tygo.van.den.hurk.dev).
 
 <br>
 <div align="center">
