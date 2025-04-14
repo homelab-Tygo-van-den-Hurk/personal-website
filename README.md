@@ -10,9 +10,6 @@
     <a href="https://github.com/homelab-Tygo-van-den-Hurk/personal-website/actions/workflows/dependabot-automerge.yml">
         <img src="https://github.com/homelab-Tygo-van-den-Hurk/personal-website/workflows/Dependabot%20Automerge/badge.svg?style=flat" alt="GitHub dependabot automerge status" />
     </a>
-    <a href="https://github.com/homelab-Tygo-van-den-Hurk/personal-website/actions/workflows/nix-flake-checks.yml">
-        <img src="https://github.com/homelab-Tygo-van-den-Hurk/personal-website/workflows/Nix%20Flake%20Checks/badge.svg?style=flat" alt="Nix flake Check status" />
-    </a>
     <!--~ Repository Statistics ~-->
     <a href="https://github.com/homelab-Tygo-van-den-Hurk/personal-website/graphs/contributors">
         <img src="https://img.shields.io/github/contributors/homelab-Tygo-van-den-Hurk/personal-website?style=flat" alt="Contributors"/>

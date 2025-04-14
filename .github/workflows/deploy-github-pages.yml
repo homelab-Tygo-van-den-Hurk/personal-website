@@ -22,9 +22,13 @@ concurrency:
 
 jobs:
 
-  # Build job
-  build:
+  # Build and deploy
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -40,18 +44,17 @@ jobs:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             REPOSITORY_NAME: ${{ github.event.repository.name }}
             REPOSITORY_OWNER: ${{ github.repository_owner }}
-
-  # Deployment job
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
       - name: Copy output to deploy folder
         run: |
           mkdir --parents ./public/
           cp ./index.html ./public/
           cp ./tailwind.output.css ./public/
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./public/
+          path: './public/'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

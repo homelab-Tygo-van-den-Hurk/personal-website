@@ -6,7 +6,7 @@ let result = sourceDirectories.map(directory => `./${directory}/**/*.{${extensio
 export default {
   content: result,
   theme: { 
-    extend: { 
+    extend: {
       fontFamily: {
         oswald: ['"Oswald"', 'sans-serif'],
         serif4: ['"Source Serif 4"', 'serif'],

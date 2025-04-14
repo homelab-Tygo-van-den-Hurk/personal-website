@@ -12,7 +12,7 @@
     "dev": "nodemon",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:ts": "tsc",
-    "build:css": "tailwindcss --config ./tailwind.config.ts --input ./tailwind.input.css --output ./tailwind.output.css ----minify",
+    "build:css": "tailwindcss --config ./tailwind.config.js --input ./tailwind.input.css --output ./tailwind.output.css --minify",
     "build:pages": "node ./dist/pages/index.js",
     "build:documents": "echo \"Error: not yet implemented\" && exit 1",
     "build": "npm run build:ts && npm run build:css && npm run build:pages"
@@ -22,13 +22,14 @@
     "url": "github.com:homelab-Tygo-van-den-Hurk/personal-website"
   },
   "dependencies": {
+    "@tailwindcss/cli": "^4.1.4",
     "date-fns": "^4.1.0",
     "nodemon": "^3.1.9",
-    "tailwindcss": "^4.1.4",
     "typescript": "^5.8.3",
     "yaml": "^2.7.1"
   },
   "devDependencies": {
-    "@types/node": "^22.14.1"
+    "@types/node": "^22.14.1",
+    "tailwindcss": "^4.1.4"
   }
 }
