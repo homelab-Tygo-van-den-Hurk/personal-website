@@ -2,6 +2,8 @@ const extensions = ["html", "ts", "tsx", ];
 const sourceDirectories = ["src" ];
 let result = sourceDirectories.map(directory => `./${directory}/**/*.{${extensions.join(',')}}`)
 
+console.log(result);
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: result,
