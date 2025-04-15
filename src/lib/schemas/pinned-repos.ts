@@ -59,10 +59,10 @@ export default class Repository {
 
   public toHTML(): string {
     return ( /*html*/`
-      <li class="list-none bg-slate-600 p-6 rounded-md mx-o my-6">
+      <li class="list-none bg-layer-2 p-6 rounded-md mx-o my-6 border-text-primary">
         <h3 class="mt-0">
-          <a class="no-underline hover:underline" href="https://github.com/${this.owner.login}/">${this.owner.login}</a> / 
-          <a class="no-underline hover:underline" href="https://github.com/${this.owner.login}/${this.name}/">${this.name}</a>
+          <a class="text-text-header no-underline hover:underline" href="https://github.com/${this.owner.login}/">${this.owner.login}</a> / 
+          <a class="text-text-header no-underline hover:underline" href="https://github.com/${this.owner.login}/${this.name}/">${this.name}</a>
         </h3>
         <p class="box-border">
           ${this.description}

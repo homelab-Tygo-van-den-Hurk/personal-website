@@ -28,28 +28,55 @@ const document = await (/*html*/`
   <!DOCTYPE html>
   <html lang="en">
     <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>${context.personal_information.name.toString()}</title>
-        <link rel="stylesheet" href="./tailwind.output.css">
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>${context.personal_information.name.toString()}</title>
+      <link rel="stylesheet" href="./tailwind.output.css">
     </head>
-    <body class="min-h-screen flex flex-col bg-slate-500 p-0">
-      <header class="bg-slate-700 p-0"> 
+    <body class="min-h-screen flex flex-col bg-layer-0 p-0">
+      <header class="bg-layer-1 p-0 relative"> 
         <div class="${constrainWidth} p-6">
-          <img class="rounded-md" 
+          <div id="header-text">
+            <div class="h-[20vh] max-h-32"><!-- Spacer --></div>
+            <h1 class="mt-0">${context.personal_information.name.toString()}</h1>
+            <p class="text-4xl text-text-header">${context.personal_information.job_title}</p>
+            <div class="grid grid-cols-[fit-content(100%)_1fr] grid-rows-2 gap-x-6 gap-y-1">
+              <p class="text-text-header uppercase m-0">Location</p> 
+              <p class="text-text-header m-0">${context.personal_information.location}</p>
+              <p class="text-text-header uppercase m-0">Age</p> 
+              <p class="text-text-header m-0">${differenceInYears(new Date(Date.now()), context.personal_information.date_of_birth)}</p>
+            </div>
+          </div>
+          <div>
+          <img class="rounded-md hidden" 
             src="${input?.settings?.image_url || `https://github.com/${process.env.REPOSITORY_OWNER}.png`}" 
             alt="A photo of ${context.personal_information.name.toString()}">
-          <h1>${context.personal_information.name.toString()}</h1>
-          <p class="text-4xl">${context.personal_information.job_title}</p>
-          <div class="grid grid-cols-[fit-content(100%)_1fr] grid-rows-2 gap-x-6 gap-y-1">
-            <p class="uppercase m-0">Location</p> 
-            <p class="m-0">${context.personal_information.location}</p>
-            <p class="uppercase m-0">Age</p> 
-            <p class="m-0">${differenceInYears(new Date(Date.now()), context.personal_information.date_of_birth)}</p>
           </div>
         </div>  
       </header>
       <main class="flex-1 ${constrainWidth}">
+        <section id="dev" class="hidden">
+          <p class="hidden dark:block">In dark mode.</p>
+          <p class="block dark:hidden">In light mode.</p>
+          <div class="bg-test w-52 aspect-square"></div>
+          <div class="grid grid-cols-3 w-fit mx-auto">
+            <div class="bg-accent-light w-52 aspect-square"></div>
+            <div class="bg-accent       w-52 aspect-square"></div>
+            <div class="bg-accent-dark  w-52 aspect-square"></div>
+            <div class="bg-color1-light w-52 aspect-square"></div>
+            <div class="bg-color1       w-52 aspect-square"></div>
+            <div class="bg-color1-dark  w-52 aspect-square"></div>
+            <div class="bg-color2-light w-52 aspect-square"></div>
+            <div class="bg-color2       w-52 aspect-square"></div>
+            <div class="bg-color2-dark  w-52 aspect-square"></div>
+            <div class="bg-color3-light w-52 aspect-square"></div>
+            <div class="bg-color3       w-52 aspect-square"></div>
+            <div class="bg-color3-dark  w-52 aspect-square"></div>
+            <div class="bg-color4-light w-52 aspect-square"></div>
+            <div class="bg-color4       w-52 aspect-square"></div>
+            <div class="bg-color4-dark  w-52 aspect-square"></div>
+          </div>
+        </section>
         <section id="about">
           <h2>About me</h2>
           <p class="break-words w-full box-border text-justify">
@@ -63,7 +90,7 @@ const document = await (/*html*/`
               else return ( /*html*/`
                 <h3 class="" id="experience">Experience</h3>
                 <p>Here are the jobs I've worked at:</p>
-                <ol>
+                <ol class="marker:text-text-header">
                   ${context.career.jobs.map(item => item.toHTML()).join("\n")}
                 </ol>`
               );
@@ -73,7 +100,7 @@ const document = await (/*html*/`
               else return ( /*html*/`
                 <h3 class="mt-12" id="education">Education</h3>
                 <p>Here is the education I've followed:</p>
-                <ol>
+                <ol class="marker:text-text-header">
                   ${context.career.education.map(item => item.toHTML()).join("\n")}
                 </ol>`
               );
@@ -83,7 +110,7 @@ const document = await (/*html*/`
               else return ( /*html*/`
                 <h3 class="mt-12" id="charity">Charity</h3>
                 <p>Here is some charity I've done:</p>
-                <ol>
+                <ol class="marker:text-text-header">
                   ${context.career.charity.map(item => item.toHTML()).join("\n")}
                 </ol>`
               );
@@ -104,7 +131,7 @@ const document = await (/*html*/`
           </ol>
         </section>
       </main>
-      <footer class="bg-slate-700 p-0">
+      <footer class="bg-layer-1 p-0">
         <div class="${constrainWidth} p-6">
           ${(():string => {
             const links = Object.keys(input?.links);

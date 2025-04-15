@@ -6,58 +6,72 @@
 @tailwind utilities;
 
 
-/* .oswald { @apply font-oswald not-italic; }
-  
-.source-serif-4 { @apply font-serif4 not-italic; } */
-  
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Colors ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+:root { 
+  --color-accent: #A155B5 !important;
+  --color-text-primary: #808080 !important;
+  --color-text-header: #fcf7fe !important;
+  --color-layer-0: #14181B !important;
+  --color-layer-1: #343C3F !important;
+  --color-layer-2: #111517 !important;
+}
+
+@media (prefers-color-scheme: light) { 
+  :root {
+    --color-accent: #A155B5 !important;
+    --color-text-primary: #808080 !important;
+    --color-text-header: #14181B !important;
+    --color-layer-0: #fcf7fe !important;
+    --color-layer-1: #eaeaea !important;
+    
+    --color-color1: #fbf8fc !important;
+    --color-color2: #eaeaea !important;
+    --color-color3: #808080 !important;
+  }
+}
+
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Pre-Styling certain Tags ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 @layer base {
-    * { @apply text-black dark:text-white; }
 
-    body { @apply 
-        text-black bg-white
-        dark:text-white dark:bg-black;
-    }
+  * { @apply text-text-primary; }
 
-    body { @apply min-h-screen flex flex-col }
-    main { @apply flex-1 p-6; }
-    header, footer { @apply p-6; }
+  body { @apply min-h-screen flex flex-col }
+  main { @apply flex-1 p-6; }
+  header, footer { @apply p-6; }
 
-    /*           font family        font size   font weight     top margin   bottom margin        */
-    h1 { @apply  /* font-serif4 */  text-5xl    font-bold       mt-12        mb-4;                 }
-    h2 { @apply  /* font-serif4 */  text-4xl    font-semibold   mt-8         mb-3;                 }
-    h3 { @apply  /* font-serif4 */  text-2xl    font-semibold   mt-4         mb-2;                 }
-    h4 { @apply  /* font-serif4 */  text-xl     font-medium     mt-3         mb-2;                 }
-    h5 { @apply  /* font-serif4 */  text-lg     font-medium     mt-2         mb-1;                 }
-    h6 { @apply  /* font-serif4 */  text-base   font-normal     mt-1         mb-1;                 }
-    p { @apply   /* font-oswald */  text-base                   mt-2         mb-4 leading-relaxed; }
+  /*           font family        text-color         font size   font weight     top margin   bottom margin        */
+  h1 { @apply  /* font-serif4 */  text-text-header  text-5xl    font-bold       mt-12        mb-4;                 }
+  h2 { @apply  /* font-serif4 */  text-text-header  text-4xl    font-semibold   mt-8         mb-3;                 }
+  h3 { @apply  /* font-serif4 */  text-text-header  text-2xl    font-semibold   mt-4         mb-2;                 }
+  h4 { @apply  /* font-serif4 */  text-text-header  text-xl     font-medium     mt-3         mb-2;                 }
+  h5 { @apply  /* font-serif4 */  text-text-header  text-lg     font-medium     mt-2         mb-1;                 }
+  h6 { @apply  /* font-serif4 */  text-text-header  text-base   font-normal     mt-1         mb-1;                 }
+  p { @apply   /* font-oswald */                    text-base                   mt-2         mb-4 leading-relaxed; }
 
-    a { @apply underline cursor-pointer; }
-    ul, ol { @apply pl-6 mb-4 list-disc; }
-    li { @apply mb-1; }
+  a { @apply underline cursor-pointer text-accent; }
+  ul, ol { @apply pl-6 mb-4 list-disc; }
+  li { @apply mb-1; }
 
-    /* ul { @apply list-disc pl-6; }
-    ul ul { @apply list-circle pl-6; }
-    ul ul ul { @apply list-square pl-6; }
-    
-    ol { @apply list-decimal pl-6; }
-    ol ol { @apply list-[lower-alpha] pl-6; }
-    ol ol ol { @apply list-[lower-roman] pl-6; } */
+  /* ul { @apply list-disc pl-6; }
+  ul ul { @apply list-circle pl-6; }
+  ul ul ul { @apply list-square pl-6; }
+  
+  ol { @apply list-decimal pl-6; }
+  ol ol { @apply list-[lower-alpha] pl-6; }
+  ol ol ol { @apply list-[lower-roman] pl-6; } */
       
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Hiding the Scroll Bar ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    overflow: -moz-scrollbars-none;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+  overflow: -moz-scrollbars-none !important;
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
 } *::-webkit-scrollbar { 
-    display: none; 
+  display: none !important;
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */

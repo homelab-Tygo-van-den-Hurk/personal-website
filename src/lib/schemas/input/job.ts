@@ -46,6 +46,7 @@ export default class Job {
     this.name = arg.name;
   }
 
+  /** Converts this job to a HTML <li> as string. */
   public toHTML(): string {
     
     const years = differenceInYears(this.end_date, this.start_date);
@@ -68,7 +69,6 @@ export default class Job {
 
     return (/*html*/`
       <li class="relative">
-        <div class="absolute left-[-5px] top-1 w-2 h-2 bg-neutral-700 rounded-full"></div>
         <h4 class="ml-2 uppercase font-semibold text-base mt-6">${this.name}</h4>
         <p class="m-2"><span class="uppercase">${fromStr}&nbsp;-&nbsp;${tillStr}</span> ${totalTimeStr}</p>
         <p class="m-2">${this.description}</p>
