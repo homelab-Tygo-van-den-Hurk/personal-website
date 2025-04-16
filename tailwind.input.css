@@ -35,20 +35,28 @@
 
 @layer base {
 
-  * { @apply text-text-primary; }
+  * { @apply text-text-primary /* font-oswald */; }
 
   body { @apply min-h-screen flex flex-col }
   main { @apply flex-1 p-6; }
   header, footer { @apply p-6; }
 
-  /*           font family        text-color         font size   font weight     top margin   bottom margin        */
-  h1 { @apply  /* font-serif4 */  text-text-header  text-5xl    font-bold       mt-12        mb-4;                 }
-  h2 { @apply  /* font-serif4 */  text-text-header  text-4xl    font-semibold   mt-8         mb-3;                 }
-  h3 { @apply  /* font-serif4 */  text-text-header  text-2xl    font-semibold   mt-4         mb-2;                 }
-  h4 { @apply  /* font-serif4 */  text-text-header  text-xl     font-medium     mt-3         mb-2;                 }
-  h5 { @apply  /* font-serif4 */  text-text-header  text-lg     font-medium     mt-2         mb-1;                 }
-  h6 { @apply  /* font-serif4 */  text-text-header  text-base   font-normal     mt-1         mb-1;                 }
-  p { @apply   /* font-oswald */                    text-base                   mt-2         mb-4 leading-relaxed; }
+  h1, h2, h3, h4, h5, h6 { 
+    @apply /* font-serif4 */ text-text-header w-fit;
+
+    &.line {
+        @apply mx-auto relative after:rounded-full after:block after:h-1 after:bg-accent after:mt-2 after:w-16 after:mx-auto;
+    }
+  }
+  
+  /*           font size   font weight     top margin   bottom margin         */
+  h1 { @apply  text-5xl    font-bold       mt-12        mb-4                  ;}
+  h2 { @apply  text-4xl    font-semibold   mt-8         mb-3                  ;}
+  h3 { @apply  text-2xl    font-semibold   mt-4         mb-2                  ;}
+  h4 { @apply  text-xl     font-medium     mt-3         mb-2                  ;}
+  h5 { @apply  text-lg     font-medium     mt-2         mb-1                  ;}
+  h6 { @apply  text-base   font-normal     mt-1         mb-1                  ;}
+  p  { @apply  text-base   font-light      mt-2         mb-4 leading-relaxed  ;}
 
   a { @apply underline cursor-pointer text-accent; }
   ul, ol { @apply pl-6 mb-4 list-disc; }

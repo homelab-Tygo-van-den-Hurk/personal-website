@@ -1,6 +1,0 @@
-{
-    "ignore": "**/dist,**/node_modules,**/*.html",
-    "watch": "src/**/*.*",
-    "verbose": true,
-    "exec": "npm run build:ts && npm run build:css && npm run build:pages || exit 1"
-}

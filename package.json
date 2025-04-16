@@ -25,10 +25,18 @@
     "date-fns": "^4.1.0",
     "nodemon": "^3.1.9",
     "typescript": "^5.8.3",
-    "yaml": "^2.7.1"
+    "yaml": "^2.7.1",
+    "zod": "^3.24.2",
+    "zod-to-json-schema": "^3.24.5"
   },
   "devDependencies": {
     "@types/node": "^22.14.1",
     "tailwindcss": "^3.4.17"
+  },
+  "nodemonConfig": {
+    "verbose": true,
+    "ignore": "**/dist,**/node_modules,**/*.html",
+    "watch": "src/**/*.*",
+    "exec": "npm run build:ts && npm run build:css && npm run build:pages || exit 1"
   }
 }

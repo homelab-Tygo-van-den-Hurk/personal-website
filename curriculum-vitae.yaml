@@ -1,108 +1,151 @@
-version: 1.0
+$schema: http://localhost:5500/schema/v1.json
+version: "1.0.0"
 
-settings:
-  # repo_url: https://github.com/homelab-Tygo-van-den-Hurk/personal-website
-  # amount_of_repos: 3 # max 6
-  image_url: https://github.com/Tygo-van-den-Hurk.png
-links:
-  github: https://redirects.tygo.van.den.hurk.dev/github/personal
-  linkedin: https://redirects.tygo.van.den.hurk.dev/linkedin
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Personal Information ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+
 
 personal_information:
-  
-  name: # Used where ever your name is used.
+  image_url: https://github.com/Tygo-van-den-Hurk.png
+  name:
     first: Tygo
     middle: van den
     last: Hurk
-  
-  job_title: Software Engineer # the job title 
-  
-  date_of_birth: 2003-02-25T00:00:00.000Z # Used to calculate your age. Must be of the form: "YYYY-MM-DDTHH:mm:ss.xyzZ".
-  
-  about: | # A piece of text that describes you.
+  job_title: Software Engineer
+  date_of_birth: 2003-02-25
+  about: |
     When I was six years old, I bought my own iPod, I had saved all my money from my allowance and my birthday. That is when my love, passion, and interest in tech was born. Ever since, it has only grown. Today I’m a student at the TU/e, studying Computer Science and Engineering, learning about and handling what I love most: technology.
-  
-  location: # The location you reside at. city is optional
-    city: Eindhoven
-    country: The Netherlands 
+  location: Eindhoven, The Netherlands 
+
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Career ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
 
 career:
 
-  jobs: # work jobs you've done.
-    
-    - name: Areo Team Eindhoven
-      description: Student Team, External Affairs
-      start_date:  2023-04-01T00:00:00.000Z
-      end_date:    2024-06-31T00:00:00.000Z
-      location:    Eindhoven, the Netherlands
+  jobs:
 
-    - name: Amac
-      description: Junior Sales Associate
-      start_date:  2022-06-01T00:00:00.000Z
-      end_date:    2023-04-30T00:00:00.000Z
-      location:    Oss, the Netherlands
-
-    - name: Jumbo
-      description: Casier
-      start_date:  2020-02-01T00:00:00.000Z
-      end_date:    2022-05-30T00:00:00.000Z
-      location:    Heesch, the Netherlands
-
-  education: # education you've followed.
+  - name: Deity (e-commerce)
+    description: Study Case, Internship
+    start_date:  2023-02-24
+    location:    Eindhoven, the Netherlands
+  
+  - name: Areo Team Eindhoven
+    description: Student Team, External Affairs
+    start_date:  2023-04-01
+    end_date:    2024-06-30
+    location:    Eindhoven, the Netherlands
+  
+  - name: Amac
+    description: Junior Sales Associate
+    start_date:  2022-06-01
+    end_date:    2023-04-30
+    location:    Oss, the Netherlands
+  
+  - name: Jumbo
+    description: Cashier, restrocker
+    start_date:  2020-02-01
+    end_date:    2022-05-30
+    location:    Heesch, the Netherlands
+    show_on:
+      resume: false
+  
+  education:
     
     - name: Technical University Eindhoven
       description: Bachelor in Computer Science
-      start_date:  2021-09-01T00:00:00.000Z
+      start_date:  2021-09-01
       location:    Eindhoven, the Netherlands
-
+    
     - name: Titus Brandsma Lyceum
       description: High School
-      start_date:  2015-09-01T00:00:00.000Z
-      end_date:    2021-06-30T00:00:00.000Z
+      start_date:  2015-09-01
+      end_date:    2021-06-30
       location:    Oss, the Netherlands
-
+    
     - name: Emmaus
       description: Primary School
-      start_date:  2007-02-14T00:00:00.000Z
-      end_date:    2015-06-30T00:00:00.000Z
+      start_date:  2007-02-14
+      end_date:    2015-06-30
       location:    Heesch, the Netherlands
       
-  charity: # Any charity work you've done.
-    
-    - name: Queerhoven
-      description: Story Telling Facilitator
-      start_date: 2024-02-25T00:00:00.000Z
-      location: Eindhoven, the Netherlands
 
-skills:
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Skills ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
-  - name: Programming
-    description: I love to programm, my intrests lay at working with GUI’s, but for now my strengs lay with terminal based text aplications.
-    image_url: https://storyset.com/illustration/code-typing/bro#FF0F06FF&amp;hide=&amp;hide=simple
-    image_alt: quick learner icon
+
+# skills:
+
+#   - name: Programming
+#     description: I love to program, my interests lay at working with GUI's, but for now my strengs lay with terminal based text aplications.
+#     image_url: https://storyset.com/illustration/code-typing/bro#FF0F06FF&amp;hide=&amp;hide=simple
+#     image_alt: quick learner icon
   
-  - name: Problem Solving
-    description: Solving any kind of puzzle is something I enjoy. programming problems or any other kind of problem to me is just another puzzle to take a crack at.
-    image_url: 
-    image_alt: 
+#   - name: Problem Solving
+#     description: Solving any kind of puzzle is something I enjoy. programming problems or any other kind of problem to me is just another puzzle to take a crack at.
+#     image_url: 
+#     image_alt: 
   
-  - name: Quick learner
-    description: I am a really quick learner. When something peaks my intrests I am able to absorb the material like no other.
-    image_url: 
-    image_alt: 
+#   - name: Quick learner
+#     description: I am a really quick learner. When something peaks my interests I am able to absorb the material like no other.
+#     image_url: 
+#     image_alt: 
   
-  - name: Team-work
-    description: I love working and talking to others, and do most of my learning by seeing what others do. So it is no suprise that this is a skill I am good at!
-    image_url: 
-    image_alt: 
+#   - name: Team-work
+#     description: I love working and talking to others, and do most of my learning by seeing what others do. So it is no suprise that this is a skill I am good at!
+#     image_url: 
+#     image_alt: 
   
-  - name: Creative
-    description: I have always been a creative kid, drawing comics and writting stories, now I write creative code, no fiction.
-    image_url: 
-    image_alt: 
+#   - name: Creative
+#     description: I have always been a creative kid, drawing comics and writing stories, now I write creative code, no fiction.
+#     image_url: 
+#     image_alt: 
   
-  - name: Determined
-    description: I take this quality from my father, once I set my mind to something, there is no going back, only forward.
-    image_url: 
-    image_alt: 
+#   - name: Determined
+#     description: I take this quality from my father, once I set my mind to something, there is no going back, only forward.
+#     image_url: 
+#     image_alt: 
+
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Links ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+
+
+links:
+  #| Professional
+  - name: GitHub
+    url: https://redirects.tygo.van.den.hurk.dev/github/personal
+  - name: Linkedin
+    url: https://redirects.tygo.van.den.hurk.dev/linkedin
+  - name: LeetCode
+    url: https://redirects.tygo.van.den.hurk.dev/leetcode
+  #| Socials
+  - name: Instagram
+    url: https://redirects.tygo.van.den.hurk.dev/instagram
+  - name: Snapchat
+    url: https://redirects.tygo.van.den.hurk.dev/snapchat
+  - name: Facebook
+    url: https://redirects.tygo.van.den.hurk.dev/facebook
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Settings ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+
+
+settings:
+  website:
+    title: "Tygo van den Hurk - Portfolio"
+    repositories:
+      fetch: true
+      owner: Tygo-van-den-Hurk
+      amount: 3
+    form:
+      url: https://formspree.io/f/xayggqaq
+      fields:
+        email:
+          placeholder: obi-wan.kenobi@the-jedi-temple.com
+        subject:
+          placeholder: I have the high ground
+        message:
+          placeholder: |
+            Hello there...
+        
+            It's over, Anakin... I have the high ground!
+
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #

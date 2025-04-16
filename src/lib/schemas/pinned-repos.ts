@@ -1,3 +1,6 @@
+import { Version1Config } from "./v1/config.v1"
+import { z } from "zod";
+
 interface RepositoryArg {
   readonly name: String,
   readonly description: String,
@@ -15,7 +18,7 @@ interface RepositoryArg {
 }
 
 /** A GitHub Repository. */
-export default class Repository {
+export default class Repository implements RepositoryArg {
 
   /** The name of the repository. */
   readonly name: String;
@@ -47,6 +50,7 @@ export default class Repository {
     avatarUrl: URL
   };
 
+  /** Constructs a new repository object. */
   constructor(arg:RepositoryArg) {
     this.name = arg.name;
     this.description = arg.description;
@@ -59,162 +63,75 @@ export default class Repository {
 
   public toHTML(): string {
     return ( /*html*/`
-      <li class="list-none bg-layer-2 p-6 rounded-md mx-o my-6 border-text-primary">
-        <h3 class="mt-0">
-          <a class="text-text-header no-underline hover:underline" href="https://github.com/${this.owner.login}/">${this.owner.login}</a> / 
-          <a class="text-text-header no-underline hover:underline" href="https://github.com/${this.owner.login}/${this.name}/">${this.name}</a>
-        </h3>
-        <p class="box-border">
-          ${this.description}
-        </p>
-        <a href="${this.url}">
-          <button>
-            Visit project
-          </button>  
-        </a>
+      <li class="w-60 h-fit m-auto list-none bg-layer-2 rounded-xl mx-o my-6 border-text-primary border-solid border-2">
+        <div class="">
+          <img class="rounded-tl-xl rounded-tr-xl border-text-primary border-solid border-b-2" 
+            src="${this.owner.avatarUrl}" 
+            alt="The profile or organisation picture of ${this.owner.login}">
+        </div>
+        <div class="p-6">
+          <h3 class="mt-0">
+            <span class="group">
+              <a class="mx-0 px-0 hover:underline group-hover:underline no-underline" 
+                href="https://github.com/${this.owner.login}/${this.name}/">
+                ${(():string => {
+                  if (this.owner.login.toLowerCase() === "homelab-tygo-van-den-hurk") return "Homelab";
+                  if (this.owner.login.toLowerCase() === "school-tygo-van-den-hurk") return "School";
+                  if (this.owner.login.toLowerCase() === "legacy-tygo-van-den-hurk") return "Legacy";
+                  if (this.owner.login.toLowerCase() === "safe-and-fast-software") return "SAFS";
+                  if (this.owner.login.toLowerCase() === "tygo-van-den-hurk") return "Tygo";
+                  return this.owner.login.replace("-", " ");
+                })()}
+              </a>
+              <span class="mx-0 px-0 group-hover:underline">/</span>
+              <a class="mx-0 px-0 hover:!underline group-hover:no-underline no-underline" 
+                href="https://github.com/${this.owner.login}/">${this.name}</a>
+            </span>
+          </h3>
+          <p class="box-border">
+            ${this.description}
+          </p>
+          <div class="w-full mt-6">
+            <div class="w-fit mx-auto">
+              <a href="${this.url}">
+                <button class="bg-accent text-text-header font-bold p-2 rounded-md w-fit">
+                  Visit project
+                </button>  
+              </a>
+            </div>
+          </div>
+        </div>
       </li>`
     );
   }
 
+  public static readonly schema = z.object({
+    name: z.string(),
+    description: z.string(),
+    url: z.coerce.string().url(),
+    stargazerCount: z.number(),
+    forkCount: z.number(),
+    primaryLanguage: z.object({
+      name: z.string(),
+      color: z.string(),
+    }),
+    owner: z.object({
+      login: z.string(),
+      avatarUrl: z.coerce.string().url(),
+    }),
+  });
+
   /** Converts an object to a Repository */
   public static from(element: any): Repository {
     
-    /* Type checking element */ {
-      const foundType = typeof element;
-      const expectedType = "object";
-      if (foundType !== expectedType) throw new Error(
-        `element is of type ${foundType} while ${expectedType} was expected.`
-      );
-    }
+    const parsed = Repository.schema.parse(element);
 
-    const object = element as { [key:string]: any };
-
-    /* Type checking name property */ {
-      const foundType = typeof object?.name;
-      const expectedType = "string";
-      if (foundType !== expectedType) throw new Error(
-        `object.name is of type ${foundType} while ${expectedType} was expected. object = ${object}`
-      );
-    }
-
-    const name = object.name;
-
-    /* Type checking description property */ {
-      const foundType = typeof object?.description;
-      const expectedType = "string";
-      if (foundType !== expectedType) throw new Error(
-        `object.description is of type ${foundType} while ${expectedType} was expected. object = ${object}`
-      );
-    }
-
-    const description = object.description;
-
-    /* Type checking url property */ {
-      const foundType = typeof object?.url;
-      const expectedType = "string";
-      if (foundType !== expectedType) throw new Error(
-        `object.url is of type ${foundType} while ${expectedType} was expected. object = ${object}`
-      );
-    }
-
-    const url = new URL(object.url);
-
-    /* Type checking stargazerCount property */ {
-      const foundType = typeof object?.stargazerCount;
-      const expectedType = "number";
-      if (foundType !== expectedType) throw new Error(
-        `object.stargazerCount is of type ${foundType} while ${expectedType} was expected. object = ${object}`
-      );
-    }
-
-    const stargazerCount = object.stargazerCount as number;
-
-    /* Type checking forkCount property */ {
-      const foundType = typeof object?.forkCount;
-      const expectedType = "number";
-      if (foundType !== expectedType) throw new Error(
-        `object.forkCount is of type ${foundType} while ${expectedType} was expected. object = ${object}`
-      );
-    }
-
-    const forkCount = object.forkCount as number;
-
-    /* Type checking primaryLanguage property */ {
-      const foundType = typeof object?.primaryLanguage;
-      const expectedType = "object";
-      if (foundType !== expectedType) throw new Error(
-        `object.primaryLanguage is of type ${foundType} while ${expectedType} was expected. object = ${object}`
-      );
-    }
-
-    const primaryLanguage = object?.primaryLanguage as { [key:string]: any };
-
-    /* Type checking primaryLanguage.name property */ {
-      const foundType = typeof primaryLanguage?.name;
-      const expectedType = "string";
-      if (foundType !== expectedType) throw new Error(
-        `object.primaryLanguage.name is of type ${foundType} while ${expectedType} was expected. object = ${object}`
-      );
-    }
-
-    const primaryLanguageName = primaryLanguage?.name;
-
-
-    /* Type checking primaryLanguage.color property */ {
-      const foundType = typeof primaryLanguage?.color;
-      const expectedType = "string";
-      if (foundType !== expectedType) throw new Error(
-        `object.primaryLanguage.color is of type ${foundType} while ${expectedType} was expected. object = ${object}`
-      );
-    }
-
-    const primaryLanguageColor = primaryLanguage?.color;
-    
-    /* Type checking owner property */ {
-      const foundType = typeof object?.owner;
-      const expectedType = "object";
-      if (foundType !== expectedType) throw new Error(
-        `object.owner is of type ${foundType} while ${expectedType} was expected. object = ${object}`
-      );
-    }
-
-    const owner = object?.owner as { [key:string]: any };
-
-    /* Type checking owner.login property */ {
-      const foundType = typeof owner?.login;
-      const expectedType = "string";
-      if (foundType !== expectedType) throw new Error(
-        `object.owner.login is of type ${foundType} while ${expectedType} was expected. object = ${object}`
-      );
-    }
-
-    const ownerLogin = owner?.login;
-
-
-    /* Type checking owner.avatarUrl property */ {
-      const foundType = typeof owner?.avatarUrl;
-      const expectedType = "string";
-      if (foundType !== expectedType) throw new Error(
-        `object.owner.avatarUrl is of type ${foundType} while ${expectedType} was expected. object = ${object}`
-      );
-    }
-
-    const ownerAvatarUrl = new URL(owner?.avatarUrl);
-
-    return new Repository({
-      name,
-      description,
-      url,
-      stargazerCount,
-      forkCount,
-      primaryLanguage: {
-        name: primaryLanguageName,
-        color: primaryLanguageColor,
-      },
+    return new Repository({ ...parsed,
+      url: new URL(parsed.url),
       owner: {
-        login: ownerLogin,
-        avatarUrl: ownerAvatarUrl,
-      }
+        login: parsed.owner.login,
+        avatarUrl: new URL(parsed.owner.avatarUrl),
+      },
     });
   }
 
@@ -222,20 +139,18 @@ export default class Repository {
   * Gets the 6 pinned repositories and the information regarding it.
   * @returns { Promise<List<Object>> } the list of repositories.
   */
-  public static async getPinnedRepositories(amount?: number): Promise<Repository[]> {    
-     
-    if (amount === undefined) amount = 6;
+  public static async getPinnedRepositories(context: Version1Config): Promise<Repository[]>{    
+    
+    if (! context.settings.website.repositories.fetch) return [];
     
     if (! process.env.GITHUB_TOKEN) throw new Error(
       `Required environment variable: "GITHUB_TOKEN" is not set.`
     );
     
-    const USERNAME = "Tygo-van-den-Hurk";
-
     const GRAPHQL_QUERY = `query {
-      user(login: "${USERNAME}") {
+      user(login: "${context.settings.website.repositories.owner}") {
         avatarUrl
-        pinnedItems(first: ${amount}, types: [REPOSITORY]) {
+        pinnedItems(first: ${context.settings.website.repositories.amount}, types: [REPOSITORY]) {
           nodes {
             ... on Repository {
               name
@@ -272,13 +187,12 @@ export default class Repository {
   
     const result = data?.data?.user?.pinnedItems?.nodes;
   
-    if (! Array.isArray(result)) throw new Error("nodes is not an array.");
-  
-    const nodes = data?.data?.user?.pinnedItems?.nodes as any[];
-    
-    const repositories = nodes.map( element => Repository.from(element) );
+    if (! Array.isArray(result)) throw new Error(
+      "Expected responds from github to be an array, but got something else."
+    );
 
-    console.log(repositories);
+    const nodes = result as any[];
+    const repositories = nodes.map( element => Repository.from(element) );
 
     return repositories;
   }

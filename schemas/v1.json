@@ -1,0 +1,441 @@
+{
+  "$ref": "#/definitions/Version1Config",
+  "definitions": {
+    "Version1Config": {
+      "type": "object",
+      "properties": {
+        "version": {
+          "type": "string",
+          "description": "The version of config file"
+        },
+        "settings": {
+          "type": "object",
+          "properties": {
+            "website": {
+              "type": "object",
+              "properties": {
+                "prefer_break_after_first_name": {
+                  "type": "boolean",
+                  "description": "Wether or not to nudge the browser to put the first name and the rest on a different line on the header.",
+                  "default": true
+                },
+                "title": {
+                  "type": "string",
+                  "description": "The title of the web page in the tab.",
+                  "default": "homelab-Tygo-van-den-Hurk - Portfolio"
+                },
+                "repositories": {
+                  "type": "object",
+                  "properties": {
+                    "fetch": {
+                      "type": "boolean",
+                      "description": "Wether to fetch and display them at all.",
+                      "default": true
+                    },
+                    "owner": {
+                      "type": "string",
+                      "description": "Who to fetch from, must be a GitHub user name.",
+                      "default": "homelab-Tygo-van-den-Hurk"
+                    },
+                    "amount": {
+                      "type": "number",
+                      "description": "How many to fetch.",
+                      "default": 3
+                    }
+                  },
+                  "additionalProperties": false,
+                  "description": "Settings related to your github repositories.",
+                  "default": {
+                    "fetch": true,
+                    "owner": "homelab-Tygo-van-den-Hurk",
+                    "amount": 3
+                  }
+                },
+                "form": {
+                  "type": "object",
+                  "properties": {
+                    "url": {
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ],
+                      "default": null
+                    },
+                    "fields": {
+                      "type": "object",
+                      "properties": {
+                        "email": {
+                          "type": "object",
+                          "properties": {
+                            "placeholder": {
+                              "type": "string",
+                              "description": "The placeholder on this field",
+                              "default": "you@example.com"
+                            }
+                          },
+                          "additionalProperties": false,
+                          "description": "The first field is an email field"
+                        },
+                        "subject": {
+                          "type": "object",
+                          "properties": {
+                            "placeholder": {
+                              "type": "string",
+                              "description": "The placeholder on this field",
+                              "default": "I'm reaching out because..."
+                            }
+                          },
+                          "additionalProperties": false,
+                          "description": "The second field is the subject field"
+                        },
+                        "message": {
+                          "type": "object",
+                          "properties": {
+                            "placeholder": {
+                              "type": "string",
+                              "description": "The placeholder on this field",
+                              "default": "hey there!\n\nI'm reaching out because..."
+                            }
+                          },
+                          "additionalProperties": false,
+                          "description": "The last field is the message field"
+                        }
+                      },
+                      "required": [
+                        "email",
+                        "subject",
+                        "message"
+                      ],
+                      "additionalProperties": false,
+                      "description": "A form field on the website",
+                      "default": {
+                        "email": {
+                          "placeholder": "you@example.com"
+                        },
+                        "subject": {
+                          "placeholder": "I'm reaching out because..."
+                        },
+                        "message": {
+                          "placeholder": "hey there!\n\nI'm reaching out because..."
+                        }
+                      }
+                    }
+                  },
+                  "additionalProperties": false,
+                  "description": "Settings to the form onto the website",
+                  "default": {
+                    "url": null,
+                    "fields": {
+                      "email": {
+                        "placeholder": "you@example.com"
+                      },
+                      "subject": {
+                        "placeholder": "I'm reaching out because..."
+                      },
+                      "message": {
+                        "placeholder": "hey there!\n\nI'm reaching out because..."
+                      }
+                    }
+                  }
+                }
+              },
+              "additionalProperties": false,
+              "description": "Settings related to the website only.",
+              "default": {
+                "repositories": {
+                  "fetch": true,
+                  "owner": "homelab-Tygo-van-den-Hurk",
+                  "amount": 3
+                },
+                "form": {
+                  "url": null,
+                  "fields": {
+                    "email": {
+                      "placeholder": "you@example.com"
+                    },
+                    "subject": {
+                      "placeholder": "I'm reaching out because..."
+                    },
+                    "message": {
+                      "placeholder": "hey there!\n\nI'm reaching out because..."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "additionalProperties": false,
+          "description": "All the settings you can change.",
+          "default": {
+            "website": {
+              "repositories": {
+                "fetch": true,
+                "owner": "homelab-Tygo-van-den-Hurk",
+                "amount": 3
+              },
+              "form": {
+                "url": null,
+                "fields": {
+                  "email": {
+                    "placeholder": "you@example.com"
+                  },
+                  "subject": {
+                    "placeholder": "I'm reaching out because..."
+                  },
+                  "message": {
+                    "placeholder": "hey there!\n\nI'm reaching out because..."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "career": {
+          "type": "object",
+          "properties": {
+            "jobs": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "The name of the place, school or company."
+                  },
+                  "description": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "A short description of what you did there."
+                  },
+                  "start_date": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "When you started there"
+                  },
+                  "end_date": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "When you left. If not supplied assumed to still be there.",
+                    "default": "2025-04-16"
+                  },
+                  "location": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "The location of the place"
+                  },
+                  "show_on": {
+                    "type": "object",
+                    "properties": {
+                      "website": {
+                        "type": "boolean",
+                        "description": "Wether or not to show this on the website",
+                        "default": true
+                      },
+                      "resume": {
+                        "type": "boolean",
+                        "description": "Wether or not to show this on your resume",
+                        "default": true
+                      }
+                    },
+                    "additionalProperties": false,
+                    "description": "Options on where to show this onto.",
+                    "default": {
+                      "website": true,
+                      "resume": true
+                    }
+                  }
+                },
+                "required": [
+                  "name",
+                  "description",
+                  "start_date",
+                  "location"
+                ],
+                "additionalProperties": false
+              },
+              "description": "The jobs you've taken so far."
+            },
+            "education": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Version1Config/properties/career/properties/jobs/items"
+              },
+              "description": "The education you've followed so far."
+            }
+          },
+          "required": [
+            "jobs",
+            "education"
+          ],
+          "additionalProperties": false,
+          "description": "This section describes your career, and will be on both the website as your CV."
+        },
+        "links": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "minLength": 1,
+                "description": "The name of the URL, this is how its rendered on the web page."
+              },
+              "url": {
+                "type": "string",
+                "format": "uri",
+                "description": "The URL where the link redirects."
+              },
+              "icon": {
+                "type": "object",
+                "properties": {
+                  "url": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "The URL at which the picture can be fetched."
+                  },
+                  "alt": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "The description of the picture."
+                  }
+                },
+                "required": [
+                  "url",
+                  "alt"
+                ],
+                "additionalProperties": false,
+                "description": "The icon to add next to the link"
+              }
+            },
+            "required": [
+              "name",
+              "url"
+            ],
+            "additionalProperties": false,
+            "description": "The links the different places."
+          }
+        },
+        "personal_information": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "object",
+              "properties": {
+                "first": {
+                  "type": "string",
+                  "minLength": 1,
+                  "description": "Your first name"
+                },
+                "middle": {
+                  "type": "string",
+                  "description": "Your middel names."
+                },
+                "last": {
+                  "type": "string",
+                  "minLength": 1,
+                  "description": "Your last name"
+                }
+              },
+              "required": [
+                "first",
+                "last"
+              ],
+              "additionalProperties": false,
+              "description": "Your personal name."
+            },
+            "image_url": {
+              "type": "string",
+              "format": "uri",
+              "default": "https://github.com/homelab-Tygo-van-den-Hurk.png"
+            },
+            "job_title": {
+              "type": "string",
+              "minLength": 1,
+              "description": "The title you'd like to be addressed as, for example 'software engineer'."
+            },
+            "date_of_birth": {
+              "type": "string",
+              "format": "date",
+              "description": "The date on which you were born, used to calculate your age."
+            },
+            "about": {
+              "type": "string",
+              "minLength": 1,
+              "description": "This is the text that will on your about me section. This can be quite long."
+            },
+            "location": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Where you live"
+            }
+          },
+          "required": [
+            "name",
+            "job_title",
+            "date_of_birth",
+            "about",
+            "location"
+          ],
+          "additionalProperties": false
+        },
+        "skills": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "minLength": 1,
+                "description": "The name of the skill"
+              },
+              "description": {
+                "type": "string",
+                "minLength": 1,
+                "description": "A short description of the skill"
+              },
+              "icon": {
+                "type": "object",
+                "properties": {
+                  "url": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "The URL at which the picture can be fetched."
+                  },
+                  "alt": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "The description of the picture."
+                  }
+                },
+                "required": [
+                  "url",
+                  "alt"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "name",
+              "description"
+            ],
+            "additionalProperties": false,
+            "description": "The skills you've acquired so far."
+          }
+        }
+      },
+      "required": [
+        "career",
+        "personal_information"
+      ],
+      "additionalProperties": false,
+      "description": "This is the context in which the application works."
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}
