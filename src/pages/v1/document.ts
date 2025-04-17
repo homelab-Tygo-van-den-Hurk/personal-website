@@ -4,8 +4,6 @@ import Repository from "../../lib/schemas/pinned-repos.js";
 import resumeSection from "./components/resume.section.js";
 import contactSection from "./components/contact.section.js";
 
-const constrainWidth="max-w-[60rem] mx-auto";
-
 export default async function constructDocument(context: Version1Config) { return /*html*/`
   <!DOCTYPE html>
   <html lang="en">
@@ -16,17 +14,24 @@ export default async function constructDocument(context: Version1Config) { retur
       <title>${context.settings.website.title}</title>
       <link rel="stylesheet" href="./tailwind.output.css">
     </head>
-    <body class="min-h-screen flex flex-col bg-layer-0 p-0">
+    <body class="min-h-screen flex flex-col bg-layer-0 p-0 *:!w-full *:*:!max-w-[60rem] *:*:mx-auto">
       <header class="bg-layer-1 p-0"> 
-        <div class="${constrainWidth} lg:grid lg:grid-cols-2">
-          <div class="hidden relative lg:block">
-            <img class="rounded-md relative top-10 w-full" 
+        <div class="p-6 md:grid grid-cols-[fit-content(100%)_1fr] gap-x-6">
+          <div class="hidden md:flex flex-col max-w-44 lg:max-w-sm">
+            <div class="flex-1"><!-- Spacer --></div>
+            <img class="rounded-md aspect-square relative lg:bottom-[-4em]" 
               src="${context.personal_information.image_url}" 
               alt="A photo of ${context.personal_information.name.toString()}">
-          </div>  
-          <div id="header-text" class="p-6">
+          </div>
+          <div>
             <div class="h-[20vh] max-h-32"><!-- Spacer --></div>
-            <h1 class="mt-0">${context.personal_information.name.toString()}</h1>
+            <h1 class="mt-0">${context.settings.website.prefer_break_after_first_name
+              ? ( context.personal_information.name.middle
+                ? `${context.personal_information.name.first} ${context.personal_information.name.middle?.replace(" ", "&nbsp;")}&nbsp;${context.personal_information.name.last.replace(" ", "&nbsp;")}`
+                : `${context.personal_information.name.first} ${context.personal_information.name.last.replace(" ", "&nbsp;")}`
+              )
+              : context.personal_information.name.toString()
+            }</h1>
             <p class="text-4xl text-text-header">${context.personal_information.job_title}</p>
             <div class="grid grid-cols-[fit-content(100%)_1fr] grid-rows-2 gap-x-6 gap-y-1">
               <p class="text-text-header uppercase m-0">Location</p> 
@@ -36,21 +41,21 @@ export default async function constructDocument(context: Version1Config) { retur
                 differenceInYears( new Date(Date.now()), context.personal_information.date_of_birth )
               }</p>
             </div>
+            ${context.links.filter( link => link.icon ).length === 0 ? "" : ( /*html*/`
+              <div class="flex flex-wrap justify-start w-full mt-3">
+                ${context.links.filter( link => link.show.on_header && link.icon ).map( link => /*html*/`
+                  <a href="${link.url}" class="mr-6 *:w-8 *:aspect-square">${link.icon?.svg 
+                    ? `${link.icon.svg}` 
+                    : /*html*/`<img class="inline-block text-text-header" src="${link.icon?.image?.url!}" alt="${link.icon?.image?.alt!}">`
+                  }</a>`
+                ).join("\n")}
+              </div>`
+            )}
+            </div>
           </div>
-        </div>  
+        </div>
       </header>
-      <main class="flex-1 ${constrainWidth} lg:pt-16">
-        <section id="about">
-          <div class="max-w-md mx-auto">
-            <img class="lg:hidden w-full rounded-md" 
-              src="${context.personal_information.image_url}" 
-              alt="A photo of ${context.personal_information.name.toString()}">
-          </div>  
-          <h2 class="line">About me</h2>
-          <p class="break-words w-full box-border text-justify">
-            ${context.personal_information.about}
-          </p>
-        </section>
+      <main class="flex-1 lg:pt-16">
         ${resumeSection(context)}
         ${await (async ():Promise<string> => {
           const repositories: Repository[] = await Repository.getPinnedRepositories(context);
@@ -59,7 +64,8 @@ export default async function constructDocument(context: Version1Config) { retur
             <section id="projects">
               <h2 class="line mt-16">Projects</h2>
               <p class="text-center">
-                Here I've collected my pinned repositories straight from GitHub, updated weekly!
+                Here I've collected my pinned repositories straight from GitHub, updated weekly! To see more of my 
+                work you click <a href="https://github.com/${context.settings.website.repositories.owner}/">here</a>!
               </p>
               <ol class="mx-auto p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                 ${repositories.map( item => item.toHTML() ).join("\n")}
@@ -69,7 +75,7 @@ export default async function constructDocument(context: Version1Config) { retur
         })()}
       </main>
       <footer class="bg-layer-1 p-0">
-        <div class="${constrainWidth} p-6">
+        <div class="p-6">
           ${contactSection(context)}
           <p class="break-words text-justify">
             This page is open source, and you can improve it or host it yourself! All you need to do is fork it and 

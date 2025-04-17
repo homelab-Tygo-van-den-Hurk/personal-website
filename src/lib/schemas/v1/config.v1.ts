@@ -1,5 +1,5 @@
 import { zodToJsonSchema } from "zod-to-json-schema";
-import { array, z } from "zod";
+import { array, tuple, z } from "zod";
 
 import settings from "./settings-zod-schema.js";
 import career from "./career-zod-schema.js";
@@ -24,23 +24,45 @@ export const Version1ConfigSchema = z.object({
       .describe("The URL where the link redirects.")
       .url(),
 
-    icon: z.object({
+    show: z.object({
       
-      url: z.string()
-        .describe("The URL at which the picture can be fetched.")
-        .url(), 
+      on_header: z.boolean()
+        .describe("Wether or not to show this link on the header")
+        .default(true),
 
-      alt: z.string()
-        .describe("The description of the picture.")
-        .trim()
-        .nonempty(), 
+      on_footer: z.boolean()
+        .describe("Wether or not to show this link on the footer")
+        .default(true)
+
+    }).default({ on_header:true, on_footer:true})
+      .describe(""),
+      
+    icon: z.object({
+
+      svg: z.string()
+        .describe("An SVG that will be injected AS IS into the web page. Beware for XSS!")
+        .optional(),
     
-    }).describe("The icon to add next to the link")
-      .optional(),
-  
+      image: z.object({
+        
+        url: z.string()
+          .describe("The URL at which the picture can be fetched.")
+          .url(), 
+
+        alt: z.string()
+          .describe("The description of the picture.")
+          .trim()
+          .nonempty(), 
+      
+      }).describe("The icon to add next to the link")
+        .optional(),
+        
+    }).optional(),
+      
   }).describe("The links the different places.")
     .array()
-    .optional(),
+    .describe("This will be used to render links on your page.")
+    .default([]),
 
 
   personal_information: z.object({
@@ -97,9 +119,10 @@ export const Version1ConfigSchema = z.object({
 
     }).optional(),
 
-  }).describe("The skills you've acquired so far.")
+  }).describe("Describe a skill you've acquired so far.")
     .array()
-    .optional(),
+    .describe("The skills you've acquired so far.")
+    .default([]),
 
 }).describe("This is the context in which the application works.")
   .readonly();

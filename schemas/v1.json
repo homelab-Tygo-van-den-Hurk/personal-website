@@ -76,10 +76,32 @@
                               "type": "string",
                               "description": "The placeholder on this field",
                               "default": "you@example.com"
+                            },
+                            "show": {
+                              "type": "boolean",
+                              "description": "Wether or not to show the field",
+                              "default": true
                             }
                           },
                           "additionalProperties": false,
                           "description": "The first field is an email field"
+                        },
+                        "phone": {
+                          "type": "object",
+                          "properties": {
+                            "placeholder": {
+                              "type": "string",
+                              "description": "The placeholder on this field",
+                              "default": "+31 6 1234567890"
+                            },
+                            "show": {
+                              "type": "boolean",
+                              "description": "Wether or not to show the field",
+                              "default": true
+                            }
+                          },
+                          "additionalProperties": false,
+                          "description": "The second field is the subject field"
                         },
                         "subject": {
                           "type": "object",
@@ -88,6 +110,11 @@
                               "type": "string",
                               "description": "The placeholder on this field",
                               "default": "I'm reaching out because..."
+                            },
+                            "show": {
+                              "type": "boolean",
+                              "description": "Wether or not to show the field",
+                              "default": true
                             }
                           },
                           "additionalProperties": false,
@@ -100,6 +127,11 @@
                               "type": "string",
                               "description": "The placeholder on this field",
                               "default": "hey there!\n\nI'm reaching out because..."
+                            },
+                            "show": {
+                              "type": "boolean",
+                              "description": "Wether or not to show the field",
+                              "default": true
                             }
                           },
                           "additionalProperties": false,
@@ -108,6 +140,7 @@
                       },
                       "required": [
                         "email",
+                        "phone",
                         "subject",
                         "message"
                       ],
@@ -115,13 +148,20 @@
                       "description": "A form field on the website",
                       "default": {
                         "email": {
-                          "placeholder": "you@example.com"
+                          "placeholder": "you@example.com",
+                          "show": true
+                        },
+                        "phone": {
+                          "placeholder": "+31 6 1234567890",
+                          "show": true
                         },
                         "subject": {
-                          "placeholder": "I'm reaching out because..."
+                          "placeholder": "I'm reaching out because...",
+                          "show": true
                         },
                         "message": {
-                          "placeholder": "hey there!\n\nI'm reaching out because..."
+                          "placeholder": "hey there!\n\nI'm reaching out because...",
+                          "show": true
                         }
                       }
                     }
@@ -132,13 +172,20 @@
                     "url": null,
                     "fields": {
                       "email": {
-                        "placeholder": "you@example.com"
+                        "placeholder": "you@example.com",
+                        "show": true
+                      },
+                      "phone": {
+                        "placeholder": "+31 6 1234567890",
+                        "show": true
                       },
                       "subject": {
-                        "placeholder": "I'm reaching out because..."
+                        "placeholder": "I'm reaching out because...",
+                        "show": true
                       },
                       "message": {
-                        "placeholder": "hey there!\n\nI'm reaching out because..."
+                        "placeholder": "hey there!\n\nI'm reaching out because...",
+                        "show": true
                       }
                     }
                   }
@@ -156,13 +203,20 @@
                   "url": null,
                   "fields": {
                     "email": {
-                      "placeholder": "you@example.com"
+                      "placeholder": "you@example.com",
+                      "show": true
+                    },
+                    "phone": {
+                      "placeholder": "+31 6 1234567890",
+                      "show": true
                     },
                     "subject": {
-                      "placeholder": "I'm reaching out because..."
+                      "placeholder": "I'm reaching out because...",
+                      "show": true
                     },
                     "message": {
-                      "placeholder": "hey there!\n\nI'm reaching out because..."
+                      "placeholder": "hey there!\n\nI'm reaching out because...",
+                      "show": true
                     }
                   }
                 }
@@ -182,13 +236,20 @@
                 "url": null,
                 "fields": {
                   "email": {
-                    "placeholder": "you@example.com"
+                    "placeholder": "you@example.com",
+                    "show": true
+                  },
+                  "phone": {
+                    "placeholder": "+31 6 1234567890",
+                    "show": true
                   },
                   "subject": {
-                    "placeholder": "I'm reaching out because..."
+                    "placeholder": "I'm reaching out because...",
+                    "show": true
                   },
                   "message": {
-                    "placeholder": "hey there!\n\nI'm reaching out because..."
+                    "placeholder": "hey there!\n\nI'm reaching out because...",
+                    "show": true
                   }
                 }
               }
@@ -222,7 +283,7 @@
                     "type": "string",
                     "format": "date",
                     "description": "When you left. If not supplied assumed to still be there.",
-                    "default": "2025-04-16"
+                    "default": "2025-04-17"
                   },
                   "location": {
                     "type": "string",
@@ -291,26 +352,56 @@
                 "format": "uri",
                 "description": "The URL where the link redirects."
               },
+              "show": {
+                "type": "object",
+                "properties": {
+                  "on_header": {
+                    "type": "boolean",
+                    "description": "Wether or not to show this link on the header",
+                    "default": true
+                  },
+                  "on_footer": {
+                    "type": "boolean",
+                    "description": "Wether or not to show this link on the footer",
+                    "default": true
+                  }
+                },
+                "additionalProperties": false,
+                "default": {
+                  "on_header": true,
+                  "on_footer": true
+                }
+              },
               "icon": {
                 "type": "object",
                 "properties": {
-                  "url": {
+                  "svg": {
                     "type": "string",
-                    "format": "uri",
-                    "description": "The URL at which the picture can be fetched."
+                    "description": "An SVG that will be injected AS IS into the web page. Beware for XSS!"
                   },
-                  "alt": {
-                    "type": "string",
-                    "minLength": 1,
-                    "description": "The description of the picture."
+                  "image": {
+                    "type": "object",
+                    "properties": {
+                      "url": {
+                        "type": "string",
+                        "format": "uri",
+                        "description": "The URL at which the picture can be fetched."
+                      },
+                      "alt": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "The description of the picture."
+                      }
+                    },
+                    "required": [
+                      "url",
+                      "alt"
+                    ],
+                    "additionalProperties": false,
+                    "description": "The icon to add next to the link"
                   }
                 },
-                "required": [
-                  "url",
-                  "alt"
-                ],
-                "additionalProperties": false,
-                "description": "The icon to add next to the link"
+                "additionalProperties": false
               }
             },
             "required": [
@@ -319,7 +410,9 @@
             ],
             "additionalProperties": false,
             "description": "The links the different places."
-          }
+          },
+          "description": "This will be used to render links on your page.",
+          "default": []
         },
         "personal_information": {
           "type": "object",
@@ -425,8 +518,10 @@
               "description"
             ],
             "additionalProperties": false,
-            "description": "The skills you've acquired so far."
-          }
+            "description": "Describe a skill you've acquired so far."
+          },
+          "description": "The skills you've acquired so far.",
+          "default": []
         }
       },
       "required": [

@@ -11,13 +11,20 @@ const DEFAULTS = Object.freeze({
       url: null,
       fields: {
         email: {
-          placeholder: "you@example.com"
+          placeholder: "you@example.com",
+          show: true
+        },
+        phone: {
+          placeholder: "+31 6 1234567890",
+          show: true
         },
         subject: {
-          placeholder: "I'm reaching out because..."
+          placeholder: "I'm reaching out because...",
+          show: true
         },
         message: {
-          placeholder: "hey there!\n\nI'm reaching out because..."
+          placeholder: "hey there!\n\nI'm reaching out because...",
+          show: true
         },
       },
     },
@@ -68,21 +75,51 @@ const settings = z.object({
       fields: z.object({
         
         email: z.object({
+          
           placeholder: z.string()
             .describe("The placeholder on this field")
             .default(DEFAULTS.website.form.fields.email.placeholder),
+        
+          show: z.boolean()
+            .describe("Wether or not to show the field")
+            .default(DEFAULTS.website.form.fields.email.show)
+
         }).describe("The first field is an email field"),
 
+        phone: z.object({
+          
+          placeholder: z.string()
+            .describe("The placeholder on this field")
+            .default(DEFAULTS.website.form.fields.phone.placeholder),
+
+          show: z.boolean()
+            .describe("Wether or not to show the field")
+            .default(DEFAULTS.website.form.fields.phone.show)
+
+        }).describe("The second field is the subject field"),
+          
         subject: z.object({
+          
           placeholder: z.string()
             .describe("The placeholder on this field")
             .default(DEFAULTS.website.form.fields.subject.placeholder),
+
+          show: z.boolean()
+            .describe("Wether or not to show the field")
+            .default(DEFAULTS.website.form.fields.subject.show)
+
         }).describe("The second field is the subject field"),
           
         message: z.object({
+
           placeholder: z.string()
             .describe("The placeholder on this field")
             .default(DEFAULTS.website.form.fields.message.placeholder),
+
+          show: z.boolean()
+            .describe("Wether or not to show the field")
+            .default(DEFAULTS.website.form.fields.message.show)
+
         }).describe("The last field is the message field"),
       
       }).describe("A form field on the website")
@@ -102,6 +139,4 @@ const settings = z.object({
   .default(DEFAULTS);
 
 
-type Test = z.infer<typeof settings>;
-
-export default settings;
+  export default settings;

@@ -12,6 +12,7 @@
   --color-accent: #A155B5 !important;
   --color-text-primary: #808080 !important;
   --color-text-header: #fcf7fe !important;
+  --color-layer: #FFFFFF18 !important;
   --color-layer-0: #14181B !important;
   --color-layer-1: #343C3F !important;
   --color-layer-2: #111517 !important;
@@ -22,12 +23,10 @@
     --color-accent: #A155B5 !important;
     --color-text-primary: #808080 !important;
     --color-text-header: #14181B !important;
-    --color-layer-0: #fcf7fe !important;
-    --color-layer-1: #eaeaea !important;
-    
-    --color-color1: #fbf8fc !important;
-    --color-color2: #eaeaea !important;
-    --color-color3: #808080 !important;
+    --color-layer: #00000018 !important;
+    --color-layer-0: #ffffff !important;
+    --color-layer-1: #1402160a !important;
+    --color-layer-2: #1402161a !important;
   }
 }
 
@@ -71,6 +70,10 @@
   ol ol ol { @apply list-[lower-roman] pl-6; } */
       
 }
+
+*::before, *, *::after { box-sizing: border-box !important; /* setting border box for everything*/ }
+
+img { font-size: 0 !important; /* Hiding the alt text when the image doesn't load */ }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Hiding the Scroll Bar ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 

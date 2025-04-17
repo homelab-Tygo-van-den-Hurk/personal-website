@@ -57,15 +57,14 @@ export function createForm(context: Version1Config): string {
 /** Creates the links in the contact section */
 export function createLinks(context: Version1Config): string {
   
-  if (! context.links) return "";
+  if (context.links.filter( link => link.show.on_footer ).length === 0) return "";
   
-  if (context.links.length === 0) return "";
-  
-  return ( /*html*/`
+  else return ( /*html*/`
     <ul class="p-2 mt-10 flex flex-wrap justify-center w-full ">
-      ${context.links.map( item => {
+      ${context.links.filter( link => link.show.on_footer ).map( item => {
         
-        const image = (item.icon ? /*html*/`<img src="${item.icon.url}" alt="${item.icon.alt}">` : "" );
+        // TODO fix: add image
+        const image = ""; // (item.icon ? /*html*/`<img src="${item.icon.url}" alt="${item.icon.alt}">` : "" );
 
         return /*html*/ `
         <li class="list-none inline-block m-3">
