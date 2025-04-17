@@ -30,8 +30,13 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - name: print environment
-        run: env # just to see if the URL env var is readable.
+      - name: Get GitHub Pages URL
+        id: get_pages_url
+        run: |
+          response=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github+json" \
+            https://api.github.com/repos/${{ github.repository }}/pages)
+          echo "url=$(echo $response | jq -r .html_url)" >> $GITHUB_OUTPUT
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Setup Node.js
@@ -46,6 +51,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REPOSITORY_NAME: ${{ github.event.repository.name }}
           REPOSITORY_OWNER: ${{ github.repository_owner }}
+          GITHUB_PAGES_URL: ${{ steps.get_pages_url.outputs.url }}
       - name: Copy output to deploy folder
         run: |
           mkdir --parents ./public/
