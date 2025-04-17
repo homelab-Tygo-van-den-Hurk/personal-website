@@ -18,7 +18,7 @@ export function createForm(context: Version1Config): string {
 
   const style = {
     label: "block mt-3 w-fit mx-auto text-text-header",
-    input: "w-full block rounded-md text-text-header bg-layer-2 p-3 text-center",
+    input: "w-full block rounded-md text-text-header bg-layer-2 p-3 text-center text-text-header placeholder:text-text-primary",
   };
 
   const submitButton = (extraClasses:string) => ( /*html*/`

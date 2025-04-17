@@ -14,6 +14,27 @@
             "website": {
               "type": "object",
               "properties": {
+                "meta": {
+                  "type": "object",
+                  "properties": {
+                    "description": {
+                      "type": "string",
+                      "description": "This is the description of the website. It's what will show up in search results.",
+                      "default": "This is homelab-Tygo-van-den-Hurks portfolio. In here I'll tell you a little about myself and show of my works!"
+                    },
+                    "keywords": {
+                      "type": "string",
+                      "description": "These are the keywords of the website. It will help with showing up in search results.",
+                      "default": "This is homelab-Tygo-van-den-Hurks portfolio. In here I'll tell you a little about myself and show of my works!"
+                    }
+                  },
+                  "additionalProperties": false,
+                  "description": "This settings allows you to change the meta data of the website.",
+                  "default": {
+                    "description": "This is homelab-Tygo-van-den-Hurks portfolio. In here I'll tell you a little about myself and show of my works!",
+                    "keywords": "homelab-Tygo-van-den-Hurk, portfolio"
+                  }
+                },
                 "prefer_break_after_first_name": {
                   "type": "boolean",
                   "description": "Wether or not to nudge the browser to put the first name and the rest on a different line on the header.",
@@ -194,6 +215,10 @@
               "additionalProperties": false,
               "description": "Settings related to the website only.",
               "default": {
+                "meta": {
+                  "description": "This is homelab-Tygo-van-den-Hurks portfolio. In here I'll tell you a little about myself and show of my works!",
+                  "keywords": "homelab-Tygo-van-den-Hurk, portfolio"
+                },
                 "repositories": {
                   "fetch": true,
                   "owner": "homelab-Tygo-van-den-Hurk",
@@ -227,6 +252,10 @@
           "description": "All the settings you can change.",
           "default": {
             "website": {
+              "meta": {
+                "description": "This is homelab-Tygo-van-den-Hurks portfolio. In here I'll tell you a little about myself and show of my works!",
+                "keywords": "homelab-Tygo-van-den-Hurk, portfolio"
+              },
               "repositories": {
                 "fetch": true,
                 "owner": "homelab-Tygo-van-den-Hurk",

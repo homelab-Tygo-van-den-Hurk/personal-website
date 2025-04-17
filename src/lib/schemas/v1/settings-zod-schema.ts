@@ -2,6 +2,10 @@ import { z } from "zod";
 
 const DEFAULTS = Object.freeze({
   website: {
+    meta: {
+      description: `This is ${process.env.REPOSITORY_OWNER}s portfolio. In here I'll tell you a little about myself and show of my works!`,
+      keywords: `${process.env.REPOSITORY_OWNER}, portfolio`
+    },    
     repositories: {
       fetch: true,
       owner: process.env.REPOSITORY_OWNER!,
@@ -38,6 +42,19 @@ const settings = z.object({
     
   website: z.object({
 
+    meta: z.object({
+
+      description: z.string()
+        .describe("This is the description of the website. It's what will show up in search results.")
+        .default(DEFAULTS.website.meta.description),
+
+      keywords: z.string()
+        .describe("These are the keywords of the website. It will help with showing up in search results.")
+        .default(DEFAULTS.website.meta.description),
+
+    }).describe("This settings allows you to change the meta data of the website.")
+      .default(DEFAULTS.website.meta),
+    
     prefer_break_after_first_name: z.boolean()
       .describe("Wether or not to nudge the browser to put the first name and the rest on a different line on the header.")
       .default(true),

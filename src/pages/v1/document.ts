@@ -8,12 +8,15 @@ export default async function constructDocument(context: Version1Config) { retur
   <!DOCTYPE html>
   <html lang="en">
     <head>
+      <title>${context.settings.website.title}</title>
       <meta charset="UTF-8">
       <meta name="darkreader-lock">
+      <meta name="keywords" content="${context.settings.website.meta.keywords}">
+      <meta name="description" content="${context.settings.website.meta.description}">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>${context.settings.website.title}</title>
       <link rel="stylesheet" href="./tailwind.output.css">
-    </head>
+      <link rel="canonical" href="${process.env.GITHUB_PAGES_URL}">
+      </head>
     <body class="min-h-screen flex flex-col bg-layer-0 p-0 *:!w-full *:*:!max-w-[60rem] *:*:mx-auto">
       <header class="bg-layer-1 p-0"> 
         <div class="p-6 md:grid grid-cols-[fit-content(100%)_1fr] gap-x-6">
@@ -79,8 +82,9 @@ export default async function constructDocument(context: Version1Config) { retur
           ${contactSection(context)}
           <p class="break-words text-justify">
             This page is open source, and you can improve it or host it yourself! All you need to do is fork it and 
-            fill in a yaml template. Check it 
-            out <a href="https://github.com/homelab-tygo-van-den-Hurk/personal-website">here</a>.
+            fill in a yaml template. you 
+            can <a href="https://github.com/homelab-tygo-van-den-Hurk/personal-website">check out the source code</a> on 
+            GitHub.
           </p>
           <p class="text-center">
             Copyright &copy; 2023 - ${new Date(Date.now()).getFullYear()}

@@ -221,7 +221,10 @@ links:
 
 settings:
   website:
-    title: "Tygo van den Hurk - Portfolio"
+    title: Tygo van den Hurk - Portfolio
+    meta:
+      description: Hi! I'm Tygo van den Hurk, I am a student at the TU/e with a passion for computer science, and this is my portfolio! Please take a look around or take a look at the source code, and don't be afraid to contact me!
+      keywords: Tygo van den Hurk, software developer, NixOS, web development, portfolio, backend, frontend, fullstack, home lab, coding projects
     repositories:
       fetch: true
       owner: Tygo-van-den-Hurk
