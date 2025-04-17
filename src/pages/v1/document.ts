@@ -4,6 +4,8 @@ import Repository from "../../lib/schemas/pinned-repos.js";
 import resumeSection from "./components/resume.section.js";
 import contactSection from "./components/contact.section.js";
 
+if (! process.env.GITHUB_PAGES_URL) throw new Error("env var GITHUB_PAGES_URL is not set");
+
 export default async function constructDocument(context: Version1Config) { return /*html*/`
   <!DOCTYPE html>
   <html lang="en">
@@ -14,6 +16,11 @@ export default async function constructDocument(context: Version1Config) { retur
       <meta name="keywords" content="${context.settings.website.meta.keywords}">
       <meta name="description" content="${context.settings.website.meta.description}">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta property="og:title" content="${context.settings.website.title}">
+      <meta property="og:description" content="${context.settings.website.meta.description}">
+      <meta property="og:url" content="${process.env.GITHUB_PAGES_URL}">
+      <meta property="og:image" content="${context.personal_information.image_url}">
+      <meta property="og:type" content="website">
       <link rel="stylesheet" href="./tailwind.output.css">
       <link rel="canonical" href="${process.env.GITHUB_PAGES_URL}">
       </head>
@@ -68,7 +75,7 @@ export default async function constructDocument(context: Version1Config) { retur
               <h2 class="line mt-16">Projects</h2>
               <p class="text-center">
                 Here I've collected my pinned repositories straight from GitHub, updated weekly! To see more of my 
-                work you click <a href="https://github.com/${context.settings.website.repositories.owner}/">here</a>!
+                work you can <a href="https://github.com/${context.settings.website.repositories.owner}/">visit my github profile</a>!
               </p>
               <ol class="mx-auto p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                 ${repositories.map( item => item.toHTML() ).join("\n")}

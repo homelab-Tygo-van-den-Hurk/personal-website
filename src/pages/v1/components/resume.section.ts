@@ -13,8 +13,8 @@ export default function resumeSection(context: Version1Config): string {
     <section id="resume">
     <h2 class="mt-16">Resume</h2>
       <p>
-        My resume is also available as a pdf document. You can download my 
-        cv <a href="./curriculum-vitae.pdf" target="_blank">here</a> as freshly compiled for you.
+        My resume is also available as a pdf document. You can <a href="./curriculum-vitae.pdf" target="_blank">download my 
+        cv</a> also freshly compiled for you.
       </p>
       ${innerHTML}
     </section>
