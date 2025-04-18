@@ -18,7 +18,7 @@ export function createForm(context: Version1Config): string {
 
   const style = {
     label: "block mt-3 w-fit mx-auto text-text-header",
-    input: "w-full block rounded-md text-text-header bg-layer-2 p-3 text-center text-text-header placeholder:text-text-primary",
+    input: "w-full block rounded-md text-text-header bg-layer-2 p-3 placeholder:text-text-primary",
   };
 
   const submitButton = (extraClasses:string) => ( /*html*/`
@@ -36,16 +36,16 @@ export function createForm(context: Version1Config): string {
       <div class="lg:grid grid-cols-2 gap-x-4">
         <div>
           <label for="email" class="${style.label}">Email-address</label>
-          <input class="${style.input}" placeholder="${context.settings.website.form.fields.email.placeholder}"
+          <input class="text-center ${style.input}" placeholder="${context.settings.website.form.fields.email.placeholder}"
             name="email" autocomplete="email" type="email" required>
-          <label class="${style.label}" for="subject">Subject</label>
+          <label class="text-center ${style.label}" for="subject">Subject</label>
           <input class="${style.input}" name="subject" type="text" 
             placeholder="${context.settings.website.form.fields.subject.placeholder}" required>
           ${submitButton("hidden")}
         </div>  
         <div class="flex flex-col">
           <label class="${style.label}" for="message">Message</label>
-          <textarea class="${style.input} !text-left min-h-32 flex-1" 
+          <textarea class="text-left ${style.input} min-h-32 flex-1" 
             placeholder="${context.settings.website.form.fields.message.placeholder}" name="message" required></textarea>
         </div>  
       </div>
