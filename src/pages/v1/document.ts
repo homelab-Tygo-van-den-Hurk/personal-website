@@ -23,6 +23,7 @@ export default async function constructDocument(context: Version1Config) { retur
       <meta property="og:type" content="website">
       <link rel="stylesheet" href="./tailwind.output.css">
       <link rel="canonical" href="${process.env.GITHUB_PAGES_URL}">
+      <link rel="preload" href="${context.personal_information.image_url}" as="image">
       </head>
     <body class="min-h-screen flex flex-col bg-layer-0 p-0 *:!w-full *:*:!max-w-[60rem] *:*:mx-auto">
       <header class="bg-layer-1 p-0"> 
@@ -78,7 +79,7 @@ export default async function constructDocument(context: Version1Config) { retur
                 work you can <a href="https://github.com/${context.settings.website.repositories.owner}/">visit my github profile</a>!
               </p>
               <ol class="mx-auto p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-                ${repositories.map( item => item.toHTML() ).join("\n")}
+                ${repositories.map( item => item.toHTML(context) ).join("\n")}
               </ol>
             </section>`
           );

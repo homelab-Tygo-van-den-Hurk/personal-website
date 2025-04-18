@@ -62,6 +62,37 @@
                       "type": "number",
                       "description": "How many to fetch.",
                       "default": 3
+                    },
+                    "map": {
+                      "type": "object",
+                      "properties": {
+                        "match_case": {
+                          "type": "boolean",
+                          "description": "Wether case matters for a map.",
+                          "default": true
+                        },
+                        "username": {
+                          "type": "object",
+                          "properties": {},
+                          "additionalProperties": true,
+                          "description": "Allows for mapping one username or organisation name to a string for example to remove spaces or shorten.",
+                          "default": {}
+                        },
+                        "repository_name": {
+                          "type": "object",
+                          "properties": {},
+                          "additionalProperties": true,
+                          "description": "Allows for mapping one repository name to a string for example to remove spaces or shorten.",
+                          "default": {}
+                        }
+                      },
+                      "additionalProperties": false,
+                      "description": "Allows you to rename repositories, organisations, or usernames in here.",
+                      "default": {
+                        "match_case": true,
+                        "username": {},
+                        "repository_name": {}
+                      }
                     }
                   },
                   "additionalProperties": false,
@@ -69,7 +100,12 @@
                   "default": {
                     "fetch": true,
                     "owner": "homelab-Tygo-van-den-Hurk",
-                    "amount": 3
+                    "amount": 3,
+                    "map": {
+                      "match_case": true,
+                      "username": {},
+                      "repository_name": {}
+                    }
                   }
                 },
                 "form": {
@@ -222,7 +258,12 @@
                 "repositories": {
                   "fetch": true,
                   "owner": "homelab-Tygo-van-den-Hurk",
-                  "amount": 3
+                  "amount": 3,
+                  "map": {
+                    "match_case": true,
+                    "username": {},
+                    "repository_name": {}
+                  }
                 },
                 "form": {
                   "url": null,
@@ -259,7 +300,12 @@
               "repositories": {
                 "fetch": true,
                 "owner": "homelab-Tygo-van-den-Hurk",
-                "amount": 3
+                "amount": 3,
+                "map": {
+                  "match_case": true,
+                  "username": {},
+                  "repository_name": {}
+                }
               },
               "form": {
                 "url": null,
@@ -312,7 +358,7 @@
                     "type": "string",
                     "format": "date",
                     "description": "When you left. If not supplied assumed to still be there.",
-                    "default": "2025-04-17"
+                    "default": "2025-04-18"
                   },
                   "location": {
                     "type": "string",

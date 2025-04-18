@@ -10,6 +10,11 @@ const DEFAULTS = Object.freeze({
       fetch: true,
       owner: process.env.REPOSITORY_OWNER!,
       amount: 3,
+      map: {
+        match_case: true,
+        username: {},
+        repository_name: {}
+      },
     },
     form: {
       url: null,
@@ -65,7 +70,7 @@ const settings = z.object({
 
     repositories: z.object({
   
-      fetch:  z.boolean()
+      fetch: z.boolean()
         .describe("Wether to fetch and display them at all.")
         .default(DEFAULTS.website.repositories.fetch),
     
@@ -76,7 +81,29 @@ const settings = z.object({
       amount: z.number()
         .describe("How many to fetch.")
         .default(DEFAULTS.website.repositories.amount),
-    
+      
+      map: z.object({
+
+        match_case: z.boolean()
+        .describe("Wether case matters for a map.")
+        .default(DEFAULTS.website.repositories.map.match_case),
+
+        username: z.object({})
+          .describe("Allows for mapping one username or organisation name to a string for example to remove spaces or shorten.")
+          .passthrough()
+          .default(DEFAULTS.website.repositories.map.username),
+
+        repository_name: z.object({})
+          .describe("Allows for mapping one repository name to a string for example to remove spaces or shorten.")
+          .passthrough()
+          .default(DEFAULTS.website.repositories.map.repository_name),
+      
+      }).describe("Allows you to rename repositories, organisations, or usernames in here.")
+        .strict()  
+        .default(DEFAULTS.website.repositories.map),
+
+      
+
     }).describe("Settings related to your github repositories.")
       .strict()  
       .default(DEFAULTS.website.repositories),

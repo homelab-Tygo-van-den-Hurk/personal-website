@@ -229,6 +229,17 @@ settings:
       fetch: true
       owner: Tygo-van-den-Hurk
       amount: 3
+      map:
+        match_case: false
+        username: 
+          homelab-Tygo-van-den-Hurk: Homelab
+          school-Tygo-van-den-Hurk: School
+          legacy-Tygo-van-den-Hurk: Legacy
+          Safe-and-Fast-Software: SAFS
+          Tygo-van-den-Hurk: Personal
+        repository_name:
+          TUe-2IS70-DBL-App-development-2023-2024: App Development
+          PDF-Automator: PDF Automator
     form:
       url: https://formspree.io/f/xayggqaq
       fields:

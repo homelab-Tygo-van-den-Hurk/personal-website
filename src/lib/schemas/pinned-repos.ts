@@ -2,7 +2,7 @@ import { Version1Config } from "./v1/config.v1"
 import { z } from "zod";
 
 interface RepositoryArg {
-  readonly name: String,
+  readonly name: string,
   readonly description: String,
   readonly url: URL,
   readonly stargazerCount: number,
@@ -21,7 +21,7 @@ interface RepositoryArg {
 export default class Repository implements RepositoryArg {
 
   /** The name of the repository. */
-  readonly name: String;
+  readonly name: string;
 
   /** The description of the repository. */
   readonly description: String;
@@ -61,7 +61,28 @@ export default class Repository implements RepositoryArg {
     this.owner = arg.owner;
   }
 
-  public toHTML(): string {
+  public toHTML(context: Version1Config): string {
+
+    const ownerName = (): string => {
+      const match_case = context.settings.website.repositories.map.match_case;
+      const map = context.settings.website.repositories.map.username;
+      for (const key of Object.keys(map))  {
+        if (  match_case &&  key               === this.owner.login               ) return map[key] as string;
+        if (! match_case &&  key.toLowerCase() === this.owner.login.toLowerCase() ) return map[key] as string;
+      }
+      return this.owner.login;
+    }
+
+    const repoName = (): string => {
+      const match_case = context.settings.website.repositories.map.match_case;
+      const map = context.settings.website.repositories.map.repository_name;
+      for (const key of Object.keys(map))  {
+        if (  match_case &&  key               === this.name               ) return map[key] as string; 
+        if (! match_case &&  key.toLowerCase() === this.name.toLowerCase() ) return map[key] as string;
+      }
+      return this.name;
+    }
+
     return ( /*html*/`
       <li class="w-60 h-fit m-auto list-none bg-layer-2 rounded-xl mx-o my-6 border-text-primary border-solid border-2">
         <div class="">
@@ -74,18 +95,13 @@ export default class Repository implements RepositoryArg {
             <span class="group">
               <a class="mx-0 px-0 hover:underline group-hover:underline no-underline" 
                 href="https://github.com/${this.owner.login}/${this.name}/">
-                ${(():string => {
-                  if (this.owner.login.toLowerCase() === "homelab-tygo-van-den-hurk") return "Homelab";
-                  if (this.owner.login.toLowerCase() === "school-tygo-van-den-hurk") return "School";
-                  if (this.owner.login.toLowerCase() === "legacy-tygo-van-den-hurk") return "Legacy";
-                  if (this.owner.login.toLowerCase() === "safe-and-fast-software") return "SAFS";
-                  if (this.owner.login.toLowerCase() === "tygo-van-den-hurk") return "Tygo";
-                  return this.owner.login.replace("-", " ");
-                })()}
+                ${ownerName()}
               </a>
               <span class="mx-0 px-0 group-hover:underline">/</span>
               <a class="mx-0 px-0 hover:!underline group-hover:no-underline no-underline" 
-                href="https://github.com/${this.owner.login}/">${this.name}</a>
+                href="https://github.com/${this.owner.login}/">
+                ${repoName()}
+              </a>
             </span>
           </h3>
           <p class="box-border">
