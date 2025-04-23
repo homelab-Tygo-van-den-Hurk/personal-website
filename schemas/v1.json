@@ -64,35 +64,98 @@
                       "default": 3
                     },
                     "map": {
-                      "type": "object",
-                      "properties": {
-                        "match_case": {
-                          "type": "boolean",
-                          "description": "Wether case matters for a map.",
-                          "default": true
-                        },
-                        "username": {
-                          "type": "object",
-                          "properties": {},
-                          "additionalProperties": true,
-                          "description": "Allows for mapping one username or organisation name to a string for example to remove spaces or shorten.",
-                          "default": {}
-                        },
-                        "repository_name": {
-                          "type": "object",
-                          "properties": {},
-                          "additionalProperties": true,
-                          "description": "Allows for mapping one repository name to a string for example to remove spaces or shorten.",
-                          "default": {}
-                        }
+                      "type": "array",
+                      "items": {
+                        "anyOf": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "const": "regex"
+                              },
+                              "matches": {
+                                "anyOf": [
+                                  {},
+                                  {
+                                    "type": "string"
+                                  }
+                                ],
+                                "description": "The regex or exact string the string must match."
+                              },
+                              "capture": {
+                                "$ref": "#/definitions/Version1Config/properties/settings/properties/website/properties/repositories/properties/map/items/anyOf/0/properties/matches/anyOf/0",
+                                "description": "The regExp to find the parts you want, if there are multiple joins the strings using the 'join_with' parameter"
+                              },
+                              "replace": {
+                                "anyOf": [
+                                  {
+                                    "$ref": "#/definitions/Version1Config/properties/settings/properties/website/properties/repositories/properties/map/items/anyOf/0/properties/matches/anyOf/0"
+                                  },
+                                  {
+                                    "type": "string"
+                                  }
+                                ],
+                                "description": "The substring you'd like to replace."
+                              },
+                              "with": {
+                                "type": "string",
+                                "description": "The substring you'd like to replace it with."
+                              },
+                              "join_with": {
+                                "type": "string",
+                                "description": "the thing to put in between the captured groups.",
+                                "default": ""
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "matches",
+                              "capture",
+                              "replace",
+                              "with"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "const": "simple"
+                              },
+                              "matches": {
+                                "anyOf": [
+                                  {
+                                    "$ref": "#/definitions/Version1Config/properties/settings/properties/website/properties/repositories/properties/map/items/anyOf/0/properties/matches/anyOf/0"
+                                  },
+                                  {
+                                    "type": "string"
+                                  }
+                                ],
+                                "description": "The regex or exact string the string must match."
+                              },
+                              "replace": {
+                                "type": "string",
+                                "description": "The substring you'd like to replace."
+                              },
+                              "with": {
+                                "type": "string",
+                                "description": "The substring you'd like to replace it with."
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "matches"
+                            ],
+                            "additionalProperties": false,
+                            "description": "A simple matching algorithm that replaces 'replace' with 'with'."
+                          }
+                        ],
+                        "description": "Allows you to rename repositories, organisations, or usernames in here."
                       },
-                      "additionalProperties": false,
-                      "description": "Allows you to rename repositories, organisations, or usernames in here.",
-                      "default": {
-                        "match_case": true,
-                        "username": {},
-                        "repository_name": {}
-                      }
+                      "description": "The mappings you wanna perform onto the owner name or the repository name for your pinned repos.",
+                      "default": []
                     }
                   },
                   "additionalProperties": false,
@@ -101,11 +164,7 @@
                     "fetch": true,
                     "owner": "homelab-Tygo-van-den-Hurk",
                     "amount": 3,
-                    "map": {
-                      "match_case": true,
-                      "username": {},
-                      "repository_name": {}
-                    }
+                    "map": []
                   }
                 },
                 "form": {
@@ -259,11 +318,7 @@
                   "fetch": true,
                   "owner": "homelab-Tygo-van-den-Hurk",
                   "amount": 3,
-                  "map": {
-                    "match_case": true,
-                    "username": {},
-                    "repository_name": {}
-                  }
+                  "map": []
                 },
                 "form": {
                   "url": null,
@@ -287,6 +342,37 @@
                   }
                 }
               }
+            },
+            "document": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string",
+                  "description": "The title of the document",
+                  "default": "The curriculum vitae of homelab-Tygo-van-den-Hurk"
+                },
+                "keywords": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "An array of keywords",
+                  "default": [
+                    "homelab-Tygo-van-den-Hurk",
+                    "curriculum vitae",
+                    "portfolio"
+                  ]
+                }
+              },
+              "additionalProperties": false,
+              "default": {
+                "title": "The curriculum vitae of homelab-Tygo-van-den-Hurk",
+                "keywords": [
+                  "homelab-Tygo-van-den-Hurk",
+                  "curriculum vitae",
+                  "portfolio"
+                ]
+              }
             }
           },
           "additionalProperties": false,
@@ -301,11 +387,7 @@
                 "fetch": true,
                 "owner": "homelab-Tygo-van-den-Hurk",
                 "amount": 3,
-                "map": {
-                  "match_case": true,
-                  "username": {},
-                  "repository_name": {}
-                }
+                "map": []
               },
               "form": {
                 "url": null,
@@ -328,6 +410,14 @@
                   }
                 }
               }
+            },
+            "document": {
+              "title": "The curriculum vitae of homelab-Tygo-van-den-Hurk",
+              "keywords": [
+                "homelab-Tygo-van-den-Hurk",
+                "curriculum vitae",
+                "portfolio"
+              ]
             }
           }
         },
@@ -358,7 +448,7 @@
                     "type": "string",
                     "format": "date",
                     "description": "When you left. If not supplied assumed to still be there.",
-                    "default": "2025-04-18"
+                    "default": "2025-04-23"
                   },
                   "location": {
                     "type": "string",
@@ -420,7 +510,12 @@
               "name": {
                 "type": "string",
                 "minLength": 1,
-                "description": "The name of the URL, this is how its rendered on the web page."
+                "description": "The name of the URL, this is how its rendered on the web page and CV."
+              },
+              "raw_link_appearance": {
+                "type": "string",
+                "minLength": 1,
+                "description": "How the link will be rendered on the resume. If omitted then the raw URL will be used."
               },
               "url": {
                 "type": "string",
@@ -439,12 +534,18 @@
                     "type": "boolean",
                     "description": "Wether or not to show this link on the footer",
                     "default": true
+                  },
+                  "on_resume": {
+                    "type": "boolean",
+                    "description": "Wether or not to show this link on your resume",
+                    "default": true
                   }
                 },
                 "additionalProperties": false,
                 "default": {
                   "on_header": true,
-                  "on_footer": true
+                  "on_footer": true,
+                  "on_resume": true
                 }
               },
               "icon": {
@@ -541,6 +642,46 @@
               "type": "string",
               "minLength": 1,
               "description": "Where you live"
+            },
+            "phone": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "description": "Your phone number. Can also be set as an environment variable (PHONE_NUMBER) at run time."
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Your phone number. Can also be set as an environment variable (PHONE_NUMBER) at run time.",
+              "default": null
+            },
+            "email": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "description": "Your email. Can also be set as an environment variable (EMAIL) at run time."
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Your email. Can also be set as an environment variable (EMAIL) at run time.",
+              "default": null
+            },
+            "form": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uri",
+                  "description": "A Form to contact you with. Can also be set as an environment variable (EMAIL) at run time."
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "A Form to contact you with. Can also be set as an environment variable (EMAIL) at run time.",
+              "default": null
             }
           },
           "required": [

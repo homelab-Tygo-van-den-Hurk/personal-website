@@ -16,9 +16,15 @@ export const Version1ConfigSchema = z.object({
   links: z.object({
 
     name: z.string()
-      .describe("The name of the URL, this is how its rendered on the web page.")
+      .describe("The name of the URL, this is how its rendered on the web page and CV.")
       .trim()
       .nonempty(),
+    
+    raw_link_appearance: z.string()
+      .describe("How the link will be rendered on the resume. If omitted then the raw URL will be used.")
+      .trim()
+      .nonempty()
+      .optional(),
 
     url: z.string()
       .describe("The URL where the link redirects.")
@@ -32,9 +38,13 @@ export const Version1ConfigSchema = z.object({
 
       on_footer: z.boolean()
         .describe("Wether or not to show this link on the footer")
-        .default(true)
+        .default(true),
+      
+        on_resume: z.boolean()
+        .describe("Wether or not to show this link on your resume")
+        .default(true),
 
-    }).default({ on_header:true, on_footer:true})
+    }).default({ on_header:true, on_footer:true, on_resume: true })
       .describe(""),
       
     icon: z.object({
@@ -91,7 +101,26 @@ export const Version1ConfigSchema = z.object({
       .describe("Where you live")
       .trim()
       .nonempty(),
-   
+
+    phone: z.string()
+      .describe("Your phone number. Can also be set as an environment variable (PHONE_NUMBER) at run time.")
+      .trim()
+      .nullable()
+      .default(process.env.PHONE_NUMBER || null),
+
+    email: z.string()
+      .describe("Your email. Can also be set as an environment variable (EMAIL) at run time.")
+      .trim()
+      .nullable()
+      .default(process.env.EMAIL || null),
+
+    form: z.string()
+      .url()
+      .describe("A Form to contact you with. Can also be set as an environment variable (EMAIL) at run time.")
+      .trim()
+      .nullable()
+      .default(null),
+    
   }),
 
   skills: z.object({

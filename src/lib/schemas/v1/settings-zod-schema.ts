@@ -1,4 +1,16 @@
+import { title } from "process";
 import { z } from "zod";
+
+
+const regularExpression = z.custom<`${string}`>(val => /^\/(.+)\/([a-z]*)$/i.test(`${val}`)).transform(val => {
+  const match = val.match(/^\/(.+)\/([a-z]*)$/i)!;
+  const [, pattern, flags] = match;
+  return new RegExp(pattern, flags);
+});
+
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Form Setting Defaults ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
+
 
 const DEFAULTS = Object.freeze({
   website: {
@@ -10,11 +22,7 @@ const DEFAULTS = Object.freeze({
       fetch: true,
       owner: process.env.REPOSITORY_OWNER!,
       amount: 3,
-      map: {
-        match_case: true,
-        username: {},
-        repository_name: {}
-      },
+      map: [],
     },
     form: {
       url: null,
@@ -37,7 +45,11 @@ const DEFAULTS = Object.freeze({
         },
       },
     },
-  }
+  },
+  document: {
+    title: `The curriculum vitae of ${process.env.REPOSITORY_OWNER}`,
+    keywords: [ `${process.env.REPOSITORY_OWNER}`, "curriculum vitae", "portfolio" ]
+  },
 });
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Form Settings ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
@@ -74,35 +86,58 @@ const settings = z.object({
         .describe("Wether to fetch and display them at all.")
         .default(DEFAULTS.website.repositories.fetch),
     
-      owner:  z.string()
+      owner: z.string()
         .describe("Who to fetch from, must be a GitHub user name.")
+        .trim()
         .default(DEFAULTS.website.repositories.owner),
     
       amount: z.number()
         .describe("How many to fetch.")
         .default(DEFAULTS.website.repositories.amount),
       
-      map: z.object({
+      map: z.discriminatedUnion("type", [
+        
+        z.object({ 
+          
+          type: z.literal("regex"), 
+          
+          matches: z.union([ regularExpression,  z.string(), ])
+            .describe("The regex or exact string the string must match."),
 
-        match_case: z.boolean()
-        .describe("Wether case matters for a map.")
-        .default(DEFAULTS.website.repositories.map.match_case),
+          capture: regularExpression
+            .describe("The regExp to find the parts you want, if there are multiple joins the strings using the 'join_with' parameter"),
 
-        username: z.object({})
-          .describe("Allows for mapping one username or organisation name to a string for example to remove spaces or shorten.")
-          .passthrough()
-          .default(DEFAULTS.website.repositories.map.username),
+          replace: z.union([ regularExpression,  z.string(), ])
+            .describe("The substring you'd like to replace."),
 
-        repository_name: z.object({})
-          .describe("Allows for mapping one repository name to a string for example to remove spaces or shorten.")
-          .passthrough()
-          .default(DEFAULTS.website.repositories.map.repository_name),
+          with: z.string()
+            .describe("The substring you'd like to replace it with."),
+            
+          join_with: z.coerce.string()
+            .describe("the thing to put in between the captured groups.")
+            .default(""),
+        
+        }),
+        
+        z.object({ 
+
+          type: z.literal("simple"), 
+          
+          matches: z.union([ regularExpression, z.string(), ])
+            .describe("The regex or exact string the string must match."),
+
+          replace: z.coerce.string()
+            .describe("The substring you'd like to replace."),
+
+          with: z.coerce.string()
+            .describe("The substring you'd like to replace it with."),
+
+        }).describe("A simple matching algorithm that replaces 'replace' with 'with'."),
       
-      }).describe("Allows you to rename repositories, organisations, or usernames in here.")
-        .strict()  
+      ]).describe("Allows you to rename repositories, organisations, or usernames in here.")
+        .array()
+        .describe("The mappings you wanna perform onto the owner name or the repository name for your pinned repos.")
         .default(DEFAULTS.website.repositories.map),
-
-      
 
     }).describe("Settings related to your github repositories.")
       .strict()  
@@ -177,6 +212,21 @@ const settings = z.object({
   }).describe("Settings related to the website only.")
     .strict()
     .default(DEFAULTS.website),
+
+  document: z.object({
+
+    title: z.string()
+      .describe("The title of the document")
+      .default(DEFAULTS.document.title),
+
+    keywords: z.string()
+      .array()
+      .describe("An array of keywords")
+      .default(DEFAULTS.document.keywords)
+
+  }).describe("")
+    .strict()
+    .default(DEFAULTS.document)
 
 }).describe("All the settings you can change.")
   .strict()

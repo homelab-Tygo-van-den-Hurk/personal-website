@@ -63,28 +63,28 @@ export default class Repository implements RepositoryArg {
 
   public toHTML(context: Version1Config): string {
 
-    const ownerName = (): string => {
-      const match_case = context.settings.website.repositories.map.match_case;
-      const map = context.settings.website.repositories.map.username;
-      for (const key of Object.keys(map))  {
-        if (  match_case &&  key               === this.owner.login               ) return map[key] as string;
-        if (! match_case &&  key.toLowerCase() === this.owner.login.toLowerCase() ) return map[key] as string;
-      }
-      return this.owner.login;
-    }
+    const mapBasedOnSettings = (input: string): string => {
+      
+      const map = context.settings.website.repositories.map;
+      for (let index = 0; index < map.length; index += 1)  {
+        
+        const item = map[index];
+        if (! input.match(item.matches)) continue; 
 
-    const repoName = (): string => {
-      const match_case = context.settings.website.repositories.map.match_case;
-      const map = context.settings.website.repositories.map.repository_name;
-      for (const key of Object.keys(map))  {
-        if (  match_case &&  key               === this.name               ) return map[key] as string; 
-        if (! match_case &&  key.toLowerCase() === this.name.toLowerCase() ) return map[key] as string;
+        if (item.type === "simple") return input.replace(item.replace, item.with);
+
+        if (item.type === "regex") {
+          
+        }
+        
+        throw new Error(`Unhandled case in Repository.toHTML(): type ${item.type} is not known.`);
       }
-      return this.name;
+
+      return input;
     }
 
     return ( /*html*/`
-      <li class="w-60 h-fit m-auto list-none bg-layer-2 rounded-xl mx-o my-6 border-text-primary border-solid border-2">
+      <li class="list-none m-0 p-0 w-full h-fit bg-layer-2 rounded-xl border-text-primary border-solid border-2">
         <div class="">
           <img class="rounded-tl-xl rounded-tr-xl border-text-primary border-solid border-b-2" 
             src="${this.owner.avatarUrl}" 
@@ -95,12 +95,12 @@ export default class Repository implements RepositoryArg {
             <span class="group">
               <a class="mx-0 px-0 hover:underline group-hover:underline no-underline" 
                 href="https://github.com/${this.owner.login}/${this.name}/">
-                ${ownerName()}
+                ${mapBasedOnSettings(this.owner.login)}
               </a>
               <span class="mx-0 px-0 group-hover:underline">/</span>
               <a class="mx-0 px-0 hover:!underline group-hover:no-underline no-underline" 
                 href="https://github.com/${this.owner.login}/">
-                ${repoName()}
+                ${mapBasedOnSettings(this.name)}
               </a>
             </span>
           </h3>
