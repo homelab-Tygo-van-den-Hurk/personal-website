@@ -75,7 +75,7 @@ ${""/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Styling ~~~~~~~~~~~~~~~
 )
 
 #show link: it => [
-  #text(rgb(161, 85, 181), underline(stroke: rgb(161, 85, 181) + 1.5pt, offset: 1.75pt)[#it] )
+  #text(rgb(161, 85, 181), underline(stroke: rgb(161, 85, 181) + 0.1pt, offset: 1.75pt)[#it] )
 ]
 
 #set table(
