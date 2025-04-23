@@ -32,7 +32,7 @@
   },
   "devDependencies": {
     "@types/node": "^22.14.1",
-    "tailwindcss": "^3.4.17"
+    "tailwindcss": "^4.1.4"
   },
   "nodemonConfig": {
     "verbose": true,
