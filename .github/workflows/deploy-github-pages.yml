@@ -37,10 +37,8 @@ jobs:
             -H "Accept: application/vnd.github+json" \
             https://api.github.com/repos/${{ github.repository }}/pages)
           echo "url=$(echo $response | jq -r .html_url)" >> $GITHUB_OUTPUT
-      - name: Updating APT
-        run: sudo apt update
-      - name: Install Typst using APT
-        run: sudo apt install -y typst
+      - name: Install Typst using Snap
+        run: sudo snap install typst
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Setup Node.js
@@ -61,13 +59,11 @@ jobs:
       - name: Copy output to deploy folder
         run: |
           mkdir --parents ./public/
-          
           cp ./index.html ./public/
           cp ./tailwind.output.css ./public/
           cp ./curriculum-vitae.pdf ./public/
-
-          # The 'favicon.ico' is optional 
-          [ -f favicon.ico ] && cp favicon.ico ./public/
+        # The 'favicon.ico' is optional 
+        # [ -f favicon.ico ] && cp favicon.ico ./public/
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact

@@ -1,9 +1,9 @@
 import { differenceInYears } from "date-fns";
-import { Version1Config } from "src/lib/schemas/v1/config.v1";
+import { Version1Config } from "../../lib/schemas/v1/config.v1.js";
 import Repository from "../../lib/schemas/pinned-repos.js";
 import resumeSection from "./components/resume.section.js";
 import contactSection from "./components/contact.section.js";
-import { TODAY } from "src/lib/schemas/v1/career-zod-schema.js";
+import { TODAY } from "../../lib/schemas/v1/career-zod-schema.js";
 
 if (! process.env.GITHUB_PAGES_URL) throw new Error("env var GITHUB_PAGES_URL is not set");
 

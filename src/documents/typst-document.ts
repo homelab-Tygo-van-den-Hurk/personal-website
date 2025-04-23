@@ -1,6 +1,6 @@
 import { differenceInMonths, differenceInYears } from "date-fns";
 import { TODAY } from "../lib/schemas/v1/career-zod-schema.js";
-import { Version1Config } from "src/lib/schemas/v1/config.v1.js";
+import { Version1Config } from "../lib/schemas/v1/config.v1.js";
 import Repository from "../lib/schemas/pinned-repos.js";
 import hideFromBots from "./random-chars.js";
 
