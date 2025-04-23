@@ -1,4 +1,6 @@
-$schema: http://localhost:5500/schema/v1.json
+# yaml-language-server: $schema=http://127.0.0.1:5500/schemas/v1.json
+# or https://raw.githubusercontent.com/homelab-Tygo-van-den-Hurk/personal-website/refs/heads/main/schemas/v1.json
+
 version: "1.0.0"
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Personal Information ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
@@ -15,7 +17,7 @@ personal_information:
   about: |
     When I was six years old, I bought my own iPod, I had saved all my money from my allowance and my birthday. That is when my love, passion, and interest in tech was born. Ever since, it has only grown. Today I’m a student at the TU/e, studying Computer Science and Engineering, learning about and handling what I love most: technology.
   location: Eindhoven, The Netherlands 
-
+  form: https://redirects.tygo.van.den.hurk.dev/contact
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Career ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
@@ -46,8 +48,8 @@ career:
     start_date:  2020-02-01
     end_date:    2022-05-30
     location:    Heesch, the Netherlands
-    show_on:
-      resume: false
+    # show_on:
+      # resume: false
   
   education:
     
@@ -112,8 +114,50 @@ links:
   
   #| Professional
   
+  - name: Personal Projects
+    url: https://redirects.tygo.van.den.hurk.dev/github/school
+    raw_link_appearance: github.com / Tygo-van-den-Hurk
+    show:
+      on_header: false
+      on_footer: false
+      on_resume: true
+
+  - name: School Projects
+    url: https://redirects.tygo.van.den.hurk.dev/github/school
+    raw_link_appearance: github.com / school - Tygo-van-den-Hurk
+    show:
+      on_header: false
+      on_footer: false
+      on_resume: true
+  
+  - name: HomeLab Projects
+    url: https://redirects.tygo.van.den.hurk.dev/github/homelab
+    raw_link_appearance: github.com / homelab - Tygo-van-den-Hurk
+    show:
+      on_header: false
+      on_footer: false
+      on_resume: true
+   
+  - name: Legacy Projects
+    url: https://redirects.tygo.van.den.hurk.dev/github/legacy
+    raw_link_appearance: github.com / legacy - Tygo-van-den-Hurk
+    show:
+      on_header: false
+      on_footer: false
+      on_resume: true
+
+  - name: Startup Projects
+    url: https://redirects.tygo.van.den.hurk.dev/github/safs
+    raw_link_appearance: github.com / Safe-and-Fast-Software
+    show:
+      on_header: false
+      on_footer: false
+      on_resume: true
+
   - name: GitHub
     url: https://redirects.tygo.van.den.hurk.dev/github/personal
+    show:
+      on_resume: false
     icon:
       svg: |
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
@@ -130,6 +174,8 @@ links:
 
   - name: Linkedin
     url: https://redirects.tygo.van.den.hurk.dev/linkedin
+    show:
+      on_resume: false
     icon:
       svg: |
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
@@ -147,9 +193,8 @@ links:
 
   - name: LeetCode
     url: https://redirects.tygo.van.den.hurk.dev/leetcode
-    show: 
-      on_header: false
-      on_footer: false
+    show:
+      on_resume: false
     icon:
       svg: |
         <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -168,6 +213,8 @@ links:
 
   - name: Instagram
     url: https://redirects.tygo.van.den.hurk.dev/instagram
+    show:
+      on_resume: false
     icon:
       svg: | 
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
@@ -185,6 +232,8 @@ links:
 
   - name: Snapchat
     url: https://redirects.tygo.van.den.hurk.dev/snapchat
+    show:
+      on_resume: false
     icon: 
       svg: | 
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
@@ -201,6 +250,8 @@ links:
 
   - name: Facebook
     url: https://redirects.tygo.van.den.hurk.dev/facebook
+    show:
+      on_resume: false
     icon: 
       svg: |
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
@@ -228,18 +279,34 @@ settings:
     repositories:
       fetch: true
       owner: Tygo-van-den-Hurk
-      amount: 3
+      amount: 6
       map:
-        match_case: false
-        username: 
-          homelab-Tygo-van-den-Hurk: Homelab
-          school-Tygo-van-den-Hurk: School
-          legacy-Tygo-van-den-Hurk: Legacy
-          Safe-and-Fast-Software: SAFS
-          Tygo-van-den-Hurk: Personal
-        repository_name:
-          TUe-2IS70-DBL-App-development-2023-2024: App Development
-          PDF-Automator: PDF Automator
+        # - type: simple
+        #   replace: homelab-Tygo-van-den-Hurk
+        #   with: Homelab
+        # - type: simple
+        #   replace: school-Tygo-van-den-Hurk
+        #   with: School
+        # - type: simple
+        #   replace: legacy-Tygo-van-den-Hurk
+        #   with: Legacy
+        # - type: simple
+        #   replace: Safe-and-Fast-Software
+        #   with: SAFS
+        # - type: simple
+        #   match_case: true,
+        #   replace: Tygo-van-den-Hurk
+        #   with: Personal
+        - type: simple
+          matches: /.*/g
+          replace: "-"
+          with: " "
+        - type: regex
+          matches: /.*/g
+          capture: /.*/g
+          replace: ".-_"
+          with: "*"
+        
     form:
       url: https://formspree.io/f/xayggqaq
       fields:

@@ -17,6 +17,13 @@
         "stackoverflow",
         "tailwindcss",
         "tvdh",
-        "tygo"
-    ]
+        "tygo",
+        "typst",
+        "Typst"
+    ],
+    "yaml.schemas": {
+        "http://localhost:5500/schemas/v1.json": [
+            "curriculum-vitae.yaml",
+        ]
+    }
 }

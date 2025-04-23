@@ -1,8 +1,19 @@
+# NPM 
 **/node_modules
+
+# Compiling TS
 **/dist
-**/appdata
-**/.env
-**/result
-**/*.output.css
 **/.tsbuildinfo
+
+# Curriculum Website Building
+**/*.output.css
 **/*.html
+
+# Curriculum PDF building
+**/*.pdf
+**/*.typ
+
+# Misc
+**/appdata
+**/result
+**/.env

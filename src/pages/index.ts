@@ -1,5 +1,5 @@
 import constructDocument from "./v1/document.js";
-import createContext from "./context.js";
+import createContext from "../lib/context.js";
 import * as FileSystem from "fs";
 import path from "path";
 import yaml from "yaml";

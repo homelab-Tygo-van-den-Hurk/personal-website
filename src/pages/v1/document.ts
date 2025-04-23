@@ -3,6 +3,7 @@ import { Version1Config } from "src/lib/schemas/v1/config.v1";
 import Repository from "../../lib/schemas/pinned-repos.js";
 import resumeSection from "./components/resume.section.js";
 import contactSection from "./components/contact.section.js";
+import { TODAY } from "src/lib/schemas/v1/career-zod-schema.js";
 
 if (! process.env.GITHUB_PAGES_URL) throw new Error("env var GITHUB_PAGES_URL is not set");
 
@@ -10,17 +11,21 @@ export default async function constructDocument(context: Version1Config) { retur
   <!DOCTYPE html>
   <html lang="en">
     <head>
-      <title>${context.settings.website.title}</title>
       <meta charset="UTF-8">
+      <title>${context.settings.website.title}</title>
+      <meta property="tvdh:date" content="${TODAY}">
+      <!-- General Meta Data -->
       <meta name="darkreader-lock">
       <meta name="keywords" content="${context.settings.website.meta.keywords}">
       <meta name="description" content="${context.settings.website.meta.description}">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <!-- Open Graph (Social Media) -->
       <meta property="og:title" content="${context.settings.website.title}">
       <meta property="og:description" content="${context.settings.website.meta.description}">
       <meta property="og:url" content="${process.env.GITHUB_PAGES_URL}">
       <meta property="og:image" content="${context.personal_information.image_url}">
       <meta property="og:type" content="website">
+      <!-- links -->
       <link rel="stylesheet" href="./tailwind.output.css">
       <link rel="canonical" href="${process.env.GITHUB_PAGES_URL}">
       <link rel="preload" href="${context.personal_information.image_url}" as="image">
@@ -36,14 +41,14 @@ export default async function constructDocument(context: Version1Config) { retur
           </div>
           <div>
             <div class="h-[20vh] max-h-32"><!-- Spacer --></div>
-            <h1 class="mt-0">${context.settings.website.prefer_break_after_first_name
+            <h1 class="mt-0 text-4xl sm:text-5xl">${context.settings.website.prefer_break_after_first_name
               ? ( context.personal_information.name.middle
                 ? `${context.personal_information.name.first} ${context.personal_information.name.middle?.replace(" ", "&nbsp;")}&nbsp;${context.personal_information.name.last.replace(" ", "&nbsp;")}`
                 : `${context.personal_information.name.first} ${context.personal_information.name.last.replace(" ", "&nbsp;")}`
               )
               : context.personal_information.name.toString()
             }</h1>
-            <p class="text-4xl text-text-header">${context.personal_information.job_title}</p>
+            <p class="text-3xl sm:text-4xl font-medium text-text-header">${context.personal_information.job_title}</p>
             <div class="grid grid-cols-[fit-content(100%)_1fr] grid-rows-2 gap-x-6 gap-y-1">
               <p class="text-text-header uppercase m-0">Location</p> 
               <p class="text-text-header m-0">${context.personal_information.location}</p>
@@ -78,7 +83,7 @@ export default async function constructDocument(context: Version1Config) { retur
                 Here I've collected my pinned repositories straight from GitHub, updated weekly! To see more of my 
                 work you can <a href="https://github.com/${context.settings.website.repositories.owner}/">visit my github profile</a>!
               </p>
-              <ol class="mx-auto p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+              <ol class="mx-auto p-6 grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                 ${repositories.map( item => item.toHTML(context) ).join("\n")}
               </ol>
             </section>`

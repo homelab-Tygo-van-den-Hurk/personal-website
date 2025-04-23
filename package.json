@@ -14,8 +14,9 @@
     "build:ts": "tsc",
     "build:css": "npx tailwindcss --config ./tailwind.config.ts --input ./tailwind.input.css --output ./tailwind.output.css",
     "build:pages": "node ./dist/pages/index.js",
-    "build:documents": "echo \"Error: not yet implemented\" && exit 1",
-    "build": "npm run build:ts && npm run build:css && npm run build:pages"
+    "build:documents": "node ./dist/documents/index.js",
+    "build:typst": "typst compile main.typ curriculum-vitae.pdf",
+    "build": "npm run build:ts && npm run build:css && npm run build:pages && npm run build:documents && npm run build:typst"
   },
   "repository": {
     "type": "git",
@@ -37,6 +38,6 @@
     "verbose": true,
     "ignore": "**/dist,**/node_modules,**/*.html",
     "watch": "src/**/*.*",
-    "exec": "npm run build:ts && npm run build:css && npm run build:pages || exit 1"
+    "exec": "npm run build || exit 1"
   }
 }
