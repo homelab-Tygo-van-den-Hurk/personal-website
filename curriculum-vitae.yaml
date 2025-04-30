@@ -15,7 +15,7 @@ personal_information:
   job_title: Software Engineer
   date_of_birth: 2003-02-25
   about: |
-    When I was six years old, I bought my own iPod, I had saved all my money from my allowance and my birthday. That is when my love, passion, and interest in tech was born. Ever since, it has only grown. Today I’m a student at the TU/e, studying Computer Science and Engineering, learning about and handling what I love most: technology.
+    When I was six years old, I bought my own iPod, I had saved all my money from my allowance and my birthday. That is when my love, passion, and interest in tech was born. Ever since, it has only grown. Today I'm a student at the TU/e, studying Computer Science and Engineering, learning about and handling what I love most: technology.
   location: Eindhoven, The Netherlands 
   form: https://redirects.tygo.van.den.hurk.dev/contact
 
@@ -286,16 +286,12 @@ settings:
       owner: Tygo-van-den-Hurk
       amount: 3
       map:
-        # - type: regex
-        #   matches: /^TUe-[a-zA-Z0-9]+[?:DBL-|CBL-]?-([a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*)-\d{4}-\d{4}(?:-([a-zA-Z0-9]+))?$/
-        #   capture: /^TUe-[a-zA-Z0-9]+[?:DBL-|CBL-]?-([a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*)-\d{4}-\d{4}(?:-([a-zA-Z0-9]+))?$/
-        #   join_with: " "
-        #   replace: /-/g
-        #   with: ' '
-        - type: simple
-          matches: /^TUe-[a-z0-9]+-.*-\d{4}-\d{4}.*/gmi
-          replace: /(-|^TUe-[a-z0-9]+-|-\d{4}-\d{4})/i
-          with: " "
+        - type: regex
+          matches: /^TUe-[a-zA-Z0-9]+-(?:DBL-|CBL-)?([a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*)-\d{4}-\d{4}(?:-([a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*))?$/
+          capture: /^TUe-[a-zA-Z0-9]+-(?:DBL-|CBL-)?([a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*)-\d{4}-\d{4}(?:-([a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*))?$/
+          join_with: " "
+          replace: /-/g
+          with: ' '
         - type: simple
           matches: /^.*-Tygo-van-den-Hurk$/i
           replace: /-Tygo-van-den-Hurk/i

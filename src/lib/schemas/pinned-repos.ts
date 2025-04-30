@@ -66,21 +66,34 @@ export default class Repository implements RepositoryArg {
     const mapBasedOnSettings = (input: string): string => {
       
       const map = context.settings.website.repositories.map;
-      for (let index = 0; index < map.length; index += 1)  {
-        
-        const item = map[index];
-        if (! input.match(item.matches)) continue; 
 
-        if (item.type === "simple") return input.replace(item.replace, item.with);
+      console.log(`input : ${input}`);
 
-        if (item.type === "regex") {
+      const wrapper = (): string => {
+
+        for (const item of map)  {
           
+          const match = input.match(item.matches)
+          
+          if (! match) continue; 
+
+          if (item.type === "simple") return input.replace(new RegExp(item.replace, 'g'), item.with)
+            .trim();
+
+          if (item.type === "regex") return match.slice(1)
+            .join(item.join_with)
+            .replace(item.replace, item.with)
+            .trim();
+          
+          throw new Error(`Unhandled case in Repository.toHTML(): type ${(item as {[key:string]:any}).type} is not known.`);
         }
-        
-        throw new Error(`Unhandled case in Repository.toHTML(): type ${item.type} is not known.`);
+
+        return input;
       }
 
-      return input;
+      const result = wrapper();
+      console.log(`result: ${result}`);
+      return result;
     }
 
     return ( /*html*/`

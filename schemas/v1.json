@@ -110,9 +110,7 @@
                             },
                             "required": [
                               "type",
-                              "matches",
                               "capture",
-                              "replace",
                               "with"
                             ],
                             "additionalProperties": false
@@ -136,7 +134,14 @@
                                 "description": "The regex or exact string the string must match."
                               },
                               "replace": {
-                                "type": "string",
+                                "anyOf": [
+                                  {
+                                    "$ref": "#/definitions/Version1Config/properties/settings/properties/website/properties/repositories/properties/map/items/anyOf/0/properties/matches/anyOf/0"
+                                  },
+                                  {
+                                    "type": "string"
+                                  }
+                                ],
                                 "description": "The substring you'd like to replace."
                               },
                               "with": {
@@ -373,6 +378,36 @@
                   "portfolio"
                 ]
               }
+            },
+            "accent_color": {
+              "anyOf": [
+                {
+                  "description": "The accent color in both light and dark mode."
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "dark_mode": {
+                      "$ref": "#/definitions/Version1Config/properties/settings/properties/accent_color/anyOf/0",
+                      "description": "The accent color in dark mode."
+                    },
+                    "light_mode": {
+                      "$ref": "#/definitions/Version1Config/properties/settings/properties/accent_color/anyOf/0",
+                      "description": "The accent color in light mode."
+                    }
+                  },
+                  "required": [
+                    "dark_mode",
+                    "light_mode"
+                  ],
+                  "additionalProperties": false
+                }
+              ],
+              "description": "The accent color on the PDF and PDF document.",
+              "default": {
+                "dark_mode": "#f00",
+                "light_mode": "#f00"
+              }
             }
           },
           "additionalProperties": false,
@@ -418,6 +453,10 @@
                 "curriculum vitae",
                 "portfolio"
               ]
+            },
+            "accent_color": {
+              "dark_mode": "#f00",
+              "light_mode": "#f00"
             }
           }
         },
@@ -448,7 +487,7 @@
                     "type": "string",
                     "format": "date",
                     "description": "When you left. If not supplied assumed to still be there.",
-                    "default": "2025-04-23"
+                    "default": "2025-04-30"
                   },
                   "location": {
                     "type": "string",
