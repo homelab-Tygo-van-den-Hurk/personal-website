@@ -273,6 +273,9 @@ links:
 
 
 settings:
+  accent_color: 
+    dark_mode: "#A155B5"
+    light_mode: "#A155B5"
   website:
     title: Tygo van den Hurk - Portfolio
     meta:
@@ -283,31 +286,37 @@ settings:
       owner: Tygo-van-den-Hurk
       amount: 3
       map:
-        # - type: simple
-        #   replace: homelab-Tygo-van-den-Hurk
-        #   with: Homelab
-        # - type: simple
-        #   replace: school-Tygo-van-den-Hurk
-        #   with: School
-        # - type: simple
-        #   replace: legacy-Tygo-van-den-Hurk
-        #   with: Legacy
-        # - type: simple
-        #   replace: Safe-and-Fast-Software
-        #   with: SAFS
-        # - type: simple
-        #   match_case: true,
-        #   replace: Tygo-van-den-Hurk
-        #   with: Personal
+        # - type: regex
+        #   matches: /^TUe-[a-zA-Z0-9]+[?:DBL-|CBL-]?-([a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*)-\d{4}-\d{4}(?:-([a-zA-Z0-9]+))?$/
+        #   capture: /^TUe-[a-zA-Z0-9]+[?:DBL-|CBL-]?-([a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*)-\d{4}-\d{4}(?:-([a-zA-Z0-9]+))?$/
+        #   join_with: " "
+        #   replace: /-/g
+        #   with: ' '
+        - type: simple
+          matches: /^TUe-[a-z0-9]+-.*-\d{4}-\d{4}.*/gmi
+          replace: /(-|^TUe-[a-z0-9]+-|-\d{4}-\d{4})/i
+          with: " "
+        - type: simple
+          matches: /^.*-Tygo-van-den-Hurk$/i
+          replace: /-Tygo-van-den-Hurk/i
+          with: ""
+        - type: simple
+          matches: /^Tygo-van-den-Hurk$/i
+          replace: /Tygo-van-den-Hurk/i
+          with: "Tygo"
+        - type: simple
+          matches: /^Safe-and-Fast-Software$/i
+          replace: /Safe-and-Fast-Software/i
+          with: "SAFS"
         - type: simple
           matches: /.*/g
           replace: "-"
           with: " "
-        - type: regex
-          matches: /.*/g
-          capture: /.*/g
-          replace: ".-_"
-          with: "*"
+        # - type: regex
+        #   matches: /.*/g
+        #   capture: /.*/g
+        #   replace: ".-_"
+        #   with: "*"
         
     form:
       url: https://formspree.io/f/xanoylwn

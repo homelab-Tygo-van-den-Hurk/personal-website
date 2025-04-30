@@ -2,12 +2,31 @@ import { title } from "process";
 import { z } from "zod";
 
 
-const regularExpression = z.custom<`${string}`>(val => /^\/(.+)\/([a-z]*)$/i.test(`${val}`)).transform(val => {
+/** A Regular expression */
+const regularExpression = z.custom<string>(val => /^\/(.+)\/([a-z]*)$/i.test(`${val}`)).transform(val => {
   const match = val.match(/^\/(.+)\/([a-z]*)$/i)!;
   const [, pattern, flags] = match;
   return new RegExp(pattern, flags);
 });
 
+
+/** A CSS color */
+const color = z.custom<string>((val) => {
+  
+  if (typeof val !== "string") return false;
+
+  const colors_literals = [ 
+    "red", "blue", "green", "black", "white", "gray", "grey", 
+    "yellow", "purple", "orange", "pink", "lime", "teal", "navy",
+    "maroon", "olive", "aqua", "cyan", "magenta"
+  ];
+
+  if (colors_literals.includes(val)) return true;
+
+  return /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/.test(val);
+}).transform(val => `${val}`);
+
+type Color = z.infer<typeof color>
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Form Setting Defaults ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 
@@ -50,6 +69,10 @@ const DEFAULTS = Object.freeze({
     title: `The curriculum vitae of ${process.env.REPOSITORY_OWNER}`,
     keywords: [ `${process.env.REPOSITORY_OWNER}`, "curriculum vitae", "portfolio" ]
   },
+  accent_color: { 
+    dark_mode: "#f00", 
+    light_mode: "#f00", 
+  }
 });
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Form Settings ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
@@ -81,7 +104,7 @@ const settings = z.object({
         .default(`${process.env.REPOSITORY_OWNER} - Portfolio`),
 
     repositories: z.object({
-  
+
       fetch: z.boolean()
         .describe("Wether to fetch and display them at all.")
         .default(DEFAULTS.website.repositories.fetch),
@@ -101,13 +124,13 @@ const settings = z.object({
           
           type: z.literal("regex"), 
           
-          matches: z.union([ regularExpression,  z.string(), ])
+          matches: z.union([ regularExpression,  z.coerce.string(), ])
             .describe("The regex or exact string the string must match."),
 
           capture: regularExpression
             .describe("The regExp to find the parts you want, if there are multiple joins the strings using the 'join_with' parameter"),
 
-          replace: z.union([ regularExpression,  z.string(), ])
+          replace: z.union([ regularExpression,  z.coerce.string(), ])
             .describe("The substring you'd like to replace."),
 
           with: z.string()
@@ -126,7 +149,7 @@ const settings = z.object({
           matches: z.union([ regularExpression, z.string(), ])
             .describe("The regex or exact string the string must match."),
 
-          replace: z.coerce.string()
+          replace: z.union([ regularExpression,  z.coerce.string(), ])
             .describe("The substring you'd like to replace."),
 
           with: z.coerce.string()
@@ -222,15 +245,40 @@ const settings = z.object({
     keywords: z.string()
       .array()
       .describe("An array of keywords")
-      .default(DEFAULTS.document.keywords)
+      .default(DEFAULTS.document.keywords),
 
   }).describe("")
     .strict()
-    .default(DEFAULTS.document)
+    .default(DEFAULTS.document),
+
+  accent_color: z.union([ 
+    
+    color.describe("The accent color in both light and dark mode."),
+    
+    z.object({
+      dark_mode: color
+        .describe("The accent color in dark mode."),
+
+      light_mode: color
+        .describe("The accent color in light mode."),
+
+    }).strict()
+
+  ]).describe("The accent color on the PDF and PDF document.")
+    .transform(val => {
+
+      if (typeof val === "string") return {
+        light_mode: val,
+        dark_mode: val,
+      };
+
+      else return val;
+    }).default(DEFAULTS.accent_color),
 
 }).describe("All the settings you can change.")
   .strict()
   .default(DEFAULTS);
 
+export default settings;
 
-  export default settings;
+// const s = settings.parse({}) as z.infer<typeof settings>;

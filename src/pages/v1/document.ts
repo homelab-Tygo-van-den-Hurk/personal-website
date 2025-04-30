@@ -29,7 +29,13 @@ export default async function constructDocument(context: Version1Config) { retur
       <link rel="stylesheet" href="./tailwind.output.css">
       <link rel="canonical" href="${process.env.GITHUB_PAGES_URL}">
       <link rel="preload" href="${context.personal_information.image_url}" as="image">
-      </head>
+      <!-- Style -->
+       <style>
+          :root{ --color-accent: ${context.settings.accent_color.dark_mode} !important; }
+          @media (prefers-color-scheme:dark) { :root{ --color-accent: ${context.settings.accent_color.dark_mode} !important; } }   
+          @media (prefers-color-scheme:light){ :root{ --color-accent: ${context.settings.accent_color.light_mode} !important; } }   
+       </style>
+    </head>
     <body class="min-h-screen flex flex-col bg-layer-0 p-0 *:!w-full *:*:!max-w-[60rem] *:*:mx-auto">
       <header class="bg-layer-1 p-0"> 
         <div class="p-6 md:grid grid-cols-[fit-content(100%)_1fr] gap-x-6">
