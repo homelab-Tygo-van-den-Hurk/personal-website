@@ -9,14 +9,17 @@
     "#source/*": "./dist/*"
   },
   "scripts": {
-    "dev": "nodemon",
+    "dev": "npm run watch",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:ts": "tsc",
     "build:css": "npx tailwindcss --config ./tailwind.config.ts --input ./tailwind.input.css --output ./tailwind.output.css",
     "build:pages": "node ./dist/pages/index.js",
     "build:documents": "node ./dist/documents/index.js",
     "build:typst": "typst compile main.typ curriculum-vitae.pdf",
-    "build": "npm run build:ts && npm run build:css && npm run build:pages && npm run build:documents && npm run build:typst"
+    "build": "npm run build:ts && npm run build:css && npm run build:pages && npm run build:documents && npm run build:typst",
+    "watch:pages": "nodemon --exec 'npm run build:ts && npm run build:css && npm run build:pages'",
+    "watch:documents": "nodemon --exec 'npm run build:ts && npm run build:css && npm run build:pages'",
+    "watch": "nodemon --exec 'npm run build'"
   },
   "repository": {
     "type": "git",
