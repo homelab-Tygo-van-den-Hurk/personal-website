@@ -32,7 +32,7 @@
     "zod-to-json-schema": "^3.24.5"
   },
   "devDependencies": {
-    "@types/node": "^24.0.7",
+    "@types/node": "^24.2.1",
     "nodemon": "^3.1.10",
     "typescript": "^5.8.3",
     "tailwindcss": "^3.4.17"
