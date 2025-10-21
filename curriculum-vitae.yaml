@@ -25,8 +25,9 @@ personal_information:
 career:
 
   jobs:
+  
   - name: Deity (ultra commerce)
-    description: Full stack developer
+    description: Full-Stack Developer
     start_date:  2025-08-24
     location:    Eindhoven, the Netherlands
   
