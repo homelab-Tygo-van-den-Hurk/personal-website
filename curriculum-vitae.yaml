@@ -25,10 +25,15 @@ personal_information:
 career:
 
   jobs:
-
+  - name: Deity (ultra commerce)
+    description: Full stack developer
+    start_date:  2025-08-24
+    location:    Eindhoven, the Netherlands
+  
   - name: Deity (ultra commerce)
     description: Study Case and Internship
     start_date:  2025-02-24
+    end_date:    2025-08-24
     location:    Eindhoven, the Netherlands
   
   - name: Areo Team Eindhoven
@@ -48,8 +53,8 @@ career:
     start_date:  2020-02-01
     end_date:    2022-05-30
     location:    Heesch, the Netherlands
-    # show_on:
-      # resume: false
+    show_on:
+      resume: false
   
   education:
     
