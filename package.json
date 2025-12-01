@@ -27,7 +27,7 @@
   },
   "dependencies": {
     "date-fns": "^4.1.0",    
-    "yaml": "^2.8.1",
+    "yaml": "^2.8.2",
     "zod": "^3.25.65",
     "zod-to-json-schema": "^3.24.6"
   },
