@@ -2,11 +2,10 @@ name: Deploy GitHub Pages
 
 # Deploy on push to main, every week, or manually
 on:
-  push:
-    branches: [ "main" ]
-  schedule:
-    - cron: '0 12 * * 1'
   workflow_dispatch:
+  push: { branches: [ "main" ] }
+  pull_request: { branches: [ "main" ] }
+  schedule: [cron: '0 12 * * 1']
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
@@ -66,8 +65,10 @@ jobs:
         # [ -f favicon.ico ] && cp favicon.ico ./public/
       - name: Setup Pages
         uses: actions/configure-pages@v5
+        if: github.event_name != 'pull_request'
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
+        if: github.event_name != 'pull_request'
         with:
           path: './public/'
 
