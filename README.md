@@ -7,9 +7,6 @@
     <a href="https://github.com/homelab-Tygo-van-den-Hurk/personal-website/actions/workflows/deploy-github-pages.yml">
         <img src="https://github.com/homelab-Tygo-van-den-Hurk/personal-website/workflows/Deploy%20GitHub%20Pages/badge.svg?style=flat" alt="GitHub deployment status" />
     </a>
-    <a href="https://github.com/homelab-Tygo-van-den-Hurk/personal-website/actions/workflows/dependabot-automerge.yml">
-        <img src="https://github.com/homelab-Tygo-van-den-Hurk/personal-website/workflows/Dependabot%20Automerge/badge.svg?style=flat" alt="GitHub dependabot automerge status" />
-    </a>
     <!--~ Repository Statistics ~-->
     <a href="https://github.com/homelab-Tygo-van-den-Hurk/personal-website/graphs/contributors">
         <img src="https://img.shields.io/github/contributors/homelab-Tygo-van-den-Hurk/personal-website?style=flat" alt="Contributors"/>
