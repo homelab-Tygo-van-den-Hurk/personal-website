@@ -21,7 +21,7 @@
   "dependencies": {
     "@myriaddreamin/typst-ts-node-compiler": "^0.7.0",
     "@tailwindcss/vite": "^4.3.3",
-    "astro": "^7.3.5",
+    "astro": "^7.3.8",
     "date-fns": "^4.4.0",
     "pdf-lib": "^1.17.1",
     "tailwindcss": "^4.3.3",
